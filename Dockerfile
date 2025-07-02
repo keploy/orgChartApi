@@ -7,6 +7,9 @@ WORKDIR /app
 COPY . .
 
 # Build Drogon app
+RUN apt-get update && apt-get install -y cmake g++ git
+
+RUN git submodule update --init --recursive
 RUN mkdir -p build && cd build && cmake .. && make -j$(nproc)
 
 # Expose port for the Drogon server
