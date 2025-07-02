@@ -46,6 +46,8 @@ services:
       - DB_USER=postgres
       - DB_PASSWORD=password
       - DB_NAME=org_chart
+    volumes:
+      - .:/app
     command: ["./build/org_chart"]
 
 volumes:
