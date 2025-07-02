@@ -14,5 +14,7 @@ RUN git submodule update --init --recursive
 # Build the project
 RUN mkdir -p build && cd build && cmake .. && make -j$(nproc)
 
+RUN ls -lh build/org_chart && file build/org_chart && ldd build/org_chart
+
 # Set CMD to the actual binary
 CMD ["./build/org_chart"]
