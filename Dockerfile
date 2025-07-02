@@ -16,4 +16,4 @@ RUN mkdir -p build && cd build && cmake .. && make -j$(nproc)
 EXPOSE 3000
 
 # Start the app
-CMD ["./build/org_chart"]
+CMD ["bash", "-c", "ls -l ./build && ./build/org_chart"]
