@@ -1,189 +1,267 @@
-# Org Chart Api
+# 🧩 Org Chart API
 
-Restful API built using
-[Drogon](https://github.com/drogonframework/drogon).</br>
-Routes are protected using JWT for token-based authorization.
+A **RESTful API** built with [Drogon](https://github.com/drogonframework/drogon) — a high-performance C++ framework.
+This project is designed to manage organizational structures including persons, departments, and job roles.
+🔐 **All routes are protected using JWT for token-based authorization.**
 
-Endpoints
----------
+## Note: Please try this repository on Linux. If you're on Windows, use WSL, and on macOS, use Lima.
 
-### Persons
-| Method     | URI                                   | Action                                    |
-|------------|---------------------------------------|-------------------------------------------|
-| `GET`      | `/persons?limit={}&offset={}&sort_field={}&sort_order={}` | `Retrieve all persons`    |
-| `GET`      | `/persons/{id}`                       | `Retrieve person`                         |
-| `GET`      | `/persons/{id}/reports`               | `Retrieve person direct reports`          |
-| `POST`     | `/persons`                            | `Create person`                           |
-| `PUT`      | `/persons/{id}`                       | `Update person`                           |
-| `DELETE`   | `/persons/{id}          `             | `Delete person`                           |
-
-### Departments
-| Method     | URI                                   | Action                                    |
-|------------|---------------------------------------|-------------------------------------------|
-| `GET`      | `/departments?limit={}&offset={}&sort_field={}&sort_order={}`   | `Retrieve all departments`     |
-| `GET`      | `/departments/{id}`                   | `Retrieve department`                     |
-| `GET`      | `/departments/{id}/persons`           | `Retrieve department persons`             |
-| `POST`     | `/departments`                        | `Create department`                       |
-| `PUT`      | `/departments/{id}`                   | `Update department`                       |
-| `DELETE`   | `/departments/{id}`                   | `Delete department`                       |
-
-### Jobs
-| Method     | URI                                   | Action                                    |
-|------------|---------------------------------------|-------------------------------------------|
-| `GET`      | `/jobs?limit={}&offset={}&sort_fields={}&sort_order={}` | `Retrieve all jobs`     |
-| `GET`      | `/jobs/{id}`                          | `Retrieve job`                            |
-| `GET`      | `/jobs/{id}/persons`                  | `Retrieve job persons`                    |
-| `POST`     | `/jobs`                               | `Create job`                              |
-| `PUT`      | `/jobs/{id}`                          | `Update job`                              |
-| `DELETE`   | `/jobs/{id}`                          | `Delete job`                              |
-
-### Auth
-| Method     | URI                                   | Action                                    |
-|------------|---------------------------------------|-------------------------------------------|
-| `POST`     | `/auth/register`                      | `Register user and obtain JWT token`      |
-| `POST`     | `/auth/login`                         | `Login User `                             |
-
-How to build the project
 ---
-### Installation
-See drogon documentation [here](https://github.com/an-tao/drogon/wiki/ENG-02-Installation#System-Requirements)! 
 
-### Verify Installation
-Confirm the database development environment using `drogon_ctl -v`:
+## 📚 Endpoints
+
+### 👤 Persons
+
+| Method   | URI                                                       | Action                    |
+| -------- | --------------------------------------------------------- | ------------------------- |
+| `GET`    | `/persons?limit={}&offset={}&sort_field={}&sort_order={}` | Retrieve all persons      |
+| `GET`    | `/persons/{id}`                                           | Retrieve a single person  |
+| `GET`    | `/persons/{id}/reports`                                   | Retrieve direct reports   |
+| `POST`   | `/persons`                                                | Create a new person       |
+| `PUT`    | `/persons/{id}`                                           | Update a person's details |
+| `DELETE` | `/persons/{id}`                                           | Delete a person           |
+
+---
+
+### 🏢 Departments
+
+| Method   | URI                                                           | Action                      |
+| -------- | ------------------------------------------------------------- | --------------------------- |
+| `GET`    | `/departments?limit={}&offset={}&sort_field={}&sort_order={}` | Retrieve all departments    |
+| `GET`    | `/departments/{id}`                                           | Retrieve a department       |
+| `GET`    | `/departments/{id}/persons`                                   | Retrieve department members |
+| `POST`   | `/departments`                                                | Create a department         |
+| `PUT`    | `/departments/{id}`                                           | Update department info      |
+| `DELETE` | `/departments/{id}`                                           | Delete a department         |
+
+---
+
+### 💼 Jobs
+
+| Method   | URI                                                     | Action                        |
+| -------- | ------------------------------------------------------- | ----------------------------- |
+| `GET`    | `/jobs?limit={}&offset={}&sort_fields={}&sort_order={}` | Retrieve all job roles        |
+| `GET`    | `/jobs/{id}`                                            | Retrieve a job role           |
+| `GET`    | `/jobs/{id}/persons`                                    | Retrieve people in a job role |
+| `POST`   | `/jobs`                                                 | Create a job role             |
+| `PUT`    | `/jobs/{id}`                                            | Update job role               |
+| `DELETE` | `/jobs/{id}`                                            | Delete a job role             |
+
+---
+
+### 🔐 Auth
+
+| Method | URI              | Action                              |
+| ------ | ---------------- | ----------------------------------- |
+| `POST` | `/auth/register` | Register a user and get a JWT token |
+| `POST` | `/auth/login`    | Login and receive a JWT token       |
+
+---
+
+## 🏗️ How to Build the Project
+
+### 📦 Installation
+
+#### System Requirements (Ubuntu 24.04)
+
+Install required tools and dependencies:
+
+```bash
+sudo apt install git gcc g++ cmake
+sudo apt install libjsoncpp-dev     # jsoncpp
+sudo apt install uuid-dev           # uuid
+sudo apt install zlib1g-dev         # zlib
+sudo apt install openssl libssl-dev # OpenSSL 
+sudo apt-get install postgresql-all # PostgreSQL (for DB support)
 ```
-     _                                                                                                                                                                                                       [0/365]
+
+> ⚠️ **Note:** Install database libraries *before* installing Drogon, or you might get `NO DATABASE FOUND` errors.
+
+---
+
+### 🐉 Drogon Installation
+
+```bash
+cd $WORK_PATH
+git clone https://github.com/drogonframework/drogon
+cd drogon
+git submodule update --init
+mkdir build && cd build
+cmake ..
+make && sudo make install
+```
+
+### ✅ Verify Drogon Installation
+
+```bash
+drogon_ctl -v
+```
+
+You should see something like:
+
+```
+     _
   __| |_ __ ___   __ _  ___  _ __
  / _` | '__/ _ \ / _` |/ _ \| '_ \
 | (_| | | | (_) | (_| | (_) | | | |
  \__,_|_|  \___/ \__, |\___/|_| |_|
                  |___/
 
-A utility for drogon
 Version: 1.7.5
-Git commit: fc68b8c92c8c202d8cc58d83629d6e8c8701fc47
-Compilation:
-  Compiler: /Library/Developer/CommandLineTools/usr/bin/c++
-  Compiler ID: AppleClang
-  Compilation flags: -std=c++17 -I/usr/local/include
 Libraries:
-  postgresql: yes  (batch mode: no)
+  postgresql: yes
   mariadb: yes
   sqlite3: yes
   openssl: yes
-  brotli: yes
-  boost: no
-  hiredis: no
-  c-ares: yes
+  ...
 ```
 
-### Setup Database
-Start a postgres server. <br />
-`docker run --name pg -e POSTGRES_PASSWORD=password -d -p 5433:5432 postgres`
+---
 
+## 🗃️ Setup Database
 
-Log into postgres using `psql` to create a `org_chart` database. <br />
-`psql 'postgresql://postgres:password@127.0.0.1:5433/org_chart'`
+### 🐘 Start PostgreSQL
 
-Create and seed the tables. <br />
-`psql 'postgresql://postgres:password@127.0.0.1:5433/org_chart' -f scripts/create_db.sql` <br />
-`psql 'postgresql://postgres:password@127.0.0.1:5433/org_chart' -f scripts/seed_db.sql`
-
-### Build
+```bash
+docker run --name pg -e POSTGRES_PASSWORD=password -d -p 5433:5432 postgres
 ```
+
+Install Postgres client:
+
+```bash
+sudo apt install postgresql-client
+```
+
+Login and create database:
+
+```bash
+psql 'postgresql://postgres:password@127.0.0.1:5433/'
+CREATE DATABASE org_chart;
+```
+
+Now seed the database:
+
+```bash
+psql 'postgresql://postgres:password@127.0.0.1:5433/org_chart' -f scripts/create_db.sql
+psql 'postgresql://postgres:password@127.0.0.1:5433/org_chart' -f scripts/seed_db.sql
+```
+
+---
+
+## 🔨 Build the Project
+
+```bash
 git clone https://github.com/maikeulb/orgChartApi
 git submodule update --init
-mkdir build
-cd build
+mkdir build && cd build
 cmake ..
 make
 ```
-### Run
-Make the necessary database changes to `config.json` and run the project `./org_chart`
 
-Usage
----------------
-1. register user</br>
-`http post localhost:3000/auth/register username="admin" password="password"`
+---
+
+## ▶️ Run the App
+
+Make sure `config.json` has the correct DB settings.
+
+Then run the server:
+
+```bash
+./org_chart
 ```
+
+---
+
+## 💡 Usage Guide
+
+### 1. Register a user
+
+Install [HTTPie](https://httpie.io/) if you haven’t already:
+
+```bash
+sudo apt install httpie
+```
+
+Register:
+
+```bash
+http post localhost:3000/auth/register username="admin1" password="password"
+```
+
+Response:
+
+```json
 {
-    "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXUyJ9.eyJleHAiOjE2NDU4MzE2MDcsImlhdCI6MTY0NTgzMTYwNywiaXNzIjoiYXV0aDAiLCJ1c2VyX2lkIjoiMCJ9.8PyNKVTlY6Qy81kXrCXTSD2XRxSKHLxmIELqEmOyFoU",
-    "username": "admin"
+  "token": "jwt_token_here",
+  "username": "admin1"
 }
 ```
 
-2. login user and obtain token (can also obtain token after registering)</br>
-`http post localhost:3000/auth/login username="admin" password="password"`
+---
+
+### 2. Login
+
+```bash
+http post localhost:3000/auth/login username="admin1" password="password"
 ```
+
+Response:
+
+```json
 {
-    "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXUyJ9.eyJleHAiOjE2NDU4MzE2MDcsImlhdCI6MTY0NTgzMTYwNywiaXNzIjoiYXV0aDAiLCJ1c2VyX2lkIjoiMCJ9.8PyNKVTlY6Qy81kXrCXTSD2XRxSKHLxmIELqEmOyFoU",
-    "username": "admin"
+  "token": "jwt_token_here",
+  "username": "admin"
 }
 ```
 
-3. access resource using token</br>
-`http --auth-type=bearer --auth="eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXUyJ9.eyJleHAiOjE2NDU4MzE2MzYsImlhdCI6MTY0NTgzMTYzNiwiaXNzIjoiYXV0aDAiLCJ1c2VyX2lkIjoiMyJ9.x84yaRyC8sxjfRqeBC9AJW4NUAA2nhDexFUh3lImF50" get localhost:3000/persons offset=1 limit=25 sort_field=id sort_order=asc`
+---
+
+### 3. Access Protected Resources
+
+```bash
+http --auth-type=bearer --auth="your_jwt_token" get localhost:3000/persons offset==1 limit==25 sort_field==id sort_order==asc
 ```
+
+Sample Response:
+
+```json
 [
-   {
-        "department": {
-            "id": 1,
-            "name": "Product"
-        },
-        "first_name": "Gary",
-        "hire_date": "2018-04-07 01:00:00",
-        "id": 2,
-        "job": {
-            "id": 2,
-            "title": "M1"
-        },
-        "last_name": "Reed",
-        "manager": {
-            "id": 1,
-            "full_name": "Sabryna Peers",
-        }
+  {
+    "id": 2,
+    "first_name": "Gary",
+    "last_name": "Reed",
+    "hire_date": "2018-04-07 01:00:00",
+    "job": {
+      "id": 2,
+      "title": "M1"
     },
-    {
-        "department": {
-            "id": 1,
-            "name": "Product"
-        },
-        "first_name": "Madonna",
-        "hire_date": "2018-03-08",
-        "id": 3,
-        "job": {
-            "id": 2,
-            "title": "M1"
-        },
-        "last_name": "Axl",
-        "manager": {
-            "id": 1,
-            "full_name": "Sabryna Peers",
-        }
+    "department": {
+      "id": 1,
+      "name": "Product"
     },
-    {
-        "department": {
-            "id": 1,
-            "name": "Product"
-        },
-        "first_name": "Marcia",
-        "hire_date": "2020-01-11",
-        "id": 4,
-        "job": {
-            "id": 4,
-            "title": "E5"
-        },
-        "last_name": "Stuart",
-        "manager": {
-            "id": 2,
-            "full_name": "Gary Reed",
-        }
-    },
-...
+    "manager": {
+      "id": 1,
+      "full_name": "Sabryna Peers"
+    }
+  },
+  ...
 ]
 ```
 
-### Troubleshooting
-* Ensure that openssl is installed correctly (check `drogon_ctl -v`) and point cmake to the correct directory. </br>
-  `cmake -DOPENSSL_ROOT_DIR=/usr/local/opt/openssl`
-* If you're using a LSP, export `compile_commands.json` </br>
-  `cmake -DOPENSSL_ROOT_DIR=/usr/local/opt/openssl -DCMAKE_EXPORT_COMPILE_COMMANDS=`
+---
+
+## 🧯 Troubleshooting
+
+* **OpenSSL not found?**
+  Point CMake manually:
+
+  ```bash
+  cmake -DOPENSSL_ROOT_DIR=/usr/local/opt/openssl ..
+  ```
+
+* **LSP / IntelliSense not working?**
+  Enable compile commands:
+
+  ```bash
+  cmake -DCMAKE_EXPORT_COMPILE_COMMANDS=ON ..
+  ```
