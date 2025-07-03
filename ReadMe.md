@@ -117,6 +117,7 @@ Make sure you have the following tools installed on your system:
 * libjsoncpp-dev
 * Other dependencies (listed below)
 
+
 ### 📥 Install Dependencies
 
 **For Ubuntu 24.04**, run the following commands to install necessary tools:
@@ -158,6 +159,14 @@ drogon_ctl -v
 You should see the Drogon version and other relevant information.
 
 ---
+
+**Important:**  
+
+There are **two changes in the Application** you need to make when setting it up manually:
+
+1. **Change the hostname** from `db` to `localhost` in the `config.json` file.
+2. **Change the port** from `5432` to `5433` in the `config.json` file.
+
 
 ## 🗃️ Database Setup
 
@@ -202,7 +211,7 @@ psql 'postgresql://postgres:password@127.0.0.1:5433/org_chart' -f scripts/seed_d
 ### 1. **Clone the Repository:**
 
 ```bash
-git clone https://github.com/keploy/orgChartApi.git
+git clone https://github.com/keploy/orgChartApi.git 
 cd orgChartApi
 git submodule update --init
 ```
