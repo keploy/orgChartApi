@@ -97,7 +97,7 @@ You should see two containers running: one for the PostgreSQL database and one f
 
 The application will be available at `http://localhost:3000` by default. You can now interact with the API using any HTTP client.
 
-### Note: See the usage guide to see how to interact with the application.
+### Note: Once the Application has started, See the usage guide to see how to interact with the application.
 
 ---
 
@@ -254,6 +254,15 @@ To register a new user, run:
 
 ```bash
 http post localhost:3000/auth/register username="admin1" password="password"
+```
+(or)
+
+```bash
+
+curl -X POST http://localhost:3000/auth/register \
+  -H "Content-Type: application/json" \
+  -d '{"username":"admin1","password":"password"}'
+
 ```
 
 You will receive a JWT token as the response:
