@@ -4,6 +4,55 @@ A **RESTful API** built with [Drogon](https://github.com/drogonframework/drogon)
 
 🔐 **All routes are protected using JWT for token-based authentication**.
 
+
+## 📚 Endpoints
+
+| Method   | URI                                                       | Action                    |
+| -------- | --------------------------------------------------------- | ------------------------- |
+| `GET`    | `/persons?limit={}&offset={}&sort_field={}&sort_order={}` | Retrieve all persons      |
+| `GET`    | `/persons/{id}`                                           | Retrieve a single person  |
+| `GET`    | `/persons/{id}/reports`                                   | Retrieve direct reports   |
+| `POST`   | `/persons`                                                | Create a new person       |
+| `PUT`    | `/persons/{id}`                                           | Update a person's details |
+| `DELETE` | `/persons/{id}`                                           | Delete a person           |
+
+---
+
+### 🏢 Departments
+
+| Method   | URI                                                           | Action                      |
+| -------- | ------------------------------------------------------------- | --------------------------- |
+| `GET`    | `/departments?limit={}&offset={}&sort_field={}&sort_order={}` | Retrieve all departments    |
+| `GET`    | `/departments/{id}`                                           | Retrieve a department       |
+| `GET`    | `/departments/{id}/persons`                                   | Retrieve department members |
+| `POST`   | `/departments`                                                | Create a department         |
+| `PUT`    | `/departments/{id}`                                           | Update department info      |
+| `DELETE` | `/departments/{id}`                                           | Delete a department         |
+
+---
+
+### 💼 Jobs
+
+| Method   | URI                                                     | Action                        |
+| -------- | ------------------------------------------------------- | ----------------------------- |
+| `GET`    | `/jobs?limit={}&offset={}&sort_fields={}&sort_order={}` | Retrieve all job roles        |
+| `GET`    | `/jobs/{id}`                                            | Retrieve a job role           |
+| `GET`    | `/jobs/{id}/persons`                                    | Retrieve people in a job role |
+| `POST`   | `/jobs`                                                 | Create a job role             |
+| `PUT`    | `/jobs/{id}`                                            | Update job role               |
+| `DELETE` | `/jobs/{id}`                                            | Delete a job role             |
+
+---
+
+### 🔐 Auth
+
+| Method | URI              | Action                              |
+| ------ | ---------------- | ----------------------------------- |
+| `POST` | `/auth/register` | Register a user and get a JWT token |
+| `POST` | `/auth/login`    | Login and receive a JWT token       |
+
+---
+
 ## 📦 Two Ways to Get Started
 
 There are two ways to run the project:
