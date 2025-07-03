@@ -120,7 +120,7 @@ Make sure you have the following tools installed on your system:
 
 ### 📥 Install Dependencies
 
-**For Ubuntu 24.04**, run the following commands to install necessary tools:
+**For Ubuntu**, run the following commands to install necessary tools:
 
 ```bash
 sudo apt install git gcc g++ cmake
