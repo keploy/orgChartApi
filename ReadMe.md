@@ -89,13 +89,10 @@ Now, let's install Drogon:
 
 ```bash
 # Clone the repository
-git clone https://github.com/keploy/orgChartApi.git
-cd orgChartApi/drogon
-
-# Initialize submodules
+cd $WORK_PATH
+git clone https://github.com/drogonframework/drogon
+cd drogon
 git submodule update --init
-
-# Build Drogon
 mkdir build && cd build
 cmake ..
 make && sudo make install
