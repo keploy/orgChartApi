@@ -20,9 +20,9 @@
             //filename: Sqlite3 db file name
             //"filename":"",
             //host: Server address,localhost by default
-            "host": "127.0.0.1",
+            "host": "db",
             //port: Server port, 5432 by default
-            "port": 5433,
+            "port": 5432,
             //dbname: Database name
             "dbname": "org_chart",
             //user: 'postgres' by default
