@@ -36,15 +36,18 @@ WORKDIR $DROGON_ROOT
 # Build Drogon
 RUN ./build.sh
 
+WORKDIR /
+
 # Copy source code for your application (from the local directory)
 COPY . /app
 
-# Install build tools for the app 
+WORKDIR /app
 
+# Install build tools for the app 
 RUN apt-get update && apt-get install -y cmake g++ git
 
 # Pull submodules for your application
-RUN git submodule update --init --recursive
+RUN git submodule update --init --recursive 
 
 # Create build directory and build the project
 RUN mkdir -p /app/build && cd /app/build && cmake .. && make -j$(nproc)
