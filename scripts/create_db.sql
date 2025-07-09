@@ -1,29 +1,29 @@
 CREATE TABLE job (
-    id SERIAL PRIMARY KEY,
+    id BIGINT UNSIGNED NOT NULL AUTO_INCREMENT PRIMARY KEY,
     title VARCHAR(50) UNIQUE NOT NULL
-);
+) ENGINE=InnoDB;
 
 CREATE TABLE department (
-    id SERIAL PRIMARY KEY,
+    id BIGINT UNSIGNED NOT NULL AUTO_INCREMENT PRIMARY KEY,
     name VARCHAR(50) UNIQUE NOT NULL
-);
+) ENGINE=InnoDB;
 
 CREATE TABLE person (
-    id SERIAL PRIMARY KEY,
-    job_id int NOT NULL,
-    department_id int NOT NULL,
-    manager_id int NOT NULL,
-    first_name VARCHAR(50) UNIQUE NOT NULL,
-    last_name VARCHAR(50) UNIQUE NOT NULL,
-    hire_date DATE UNIQUE NOT NULL,
+    id BIGINT UNSIGNED NOT NULL AUTO_INCREMENT PRIMARY KEY,
+    job_id BIGINT UNSIGNED NOT NULL,
+    department_id BIGINT UNSIGNED NULL,
+    manager_id BIGINT UNSIGNED NULL,
+    first_name VARCHAR(50) NOT NULL,
+    last_name VARCHAR(50) NOT NULL,
+    hire_date DATE NOT NULL,
     UNIQUE (first_name, last_name),
-    CONSTRAINT fk_job FOREIGN KEY(job_id) REFERENCES job(id) ON DELETE SET NULL,
-    CONSTRAINT fk_department FOREIGN KEY(department_id) REFERENCES department(id) ON DELETE SET NULL,
-    CONSTRAINT fk_manager FOREIGN KEY(manager_id) REFERENCES person(id) ON DELETE SET NULL
-);
+    CONSTRAINT fk_job        FOREIGN KEY (job_id)        REFERENCES job(id)        ON DELETE RESTRICT,
+    CONSTRAINT fk_department FOREIGN KEY (department_id) REFERENCES department(id) ON DELETE SET NULL,
+    CONSTRAINT fk_manager    FOREIGN KEY (manager_id)    REFERENCES person(id)     ON DELETE SET NULL
+) ENGINE=InnoDB;
 
 CREATE TABLE users (
-    id SERIAL PRIMARY KEY,
+    id BIGINT UNSIGNED NOT NULL AUTO_INCREMENT PRIMARY KEY,
     username VARCHAR(50) UNIQUE NOT NULL,
-    password VARCHAR UNIQUE NOT NULL
-);
+    password VARCHAR(255) UNIQUE NOT NULL
+) ENGINE=InnoDB;

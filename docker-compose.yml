@@ -1,56 +1,47 @@
 version: '3.8'
+
 services:
- db:
-   image: postgres:15
-   container_name: pg
-   restart: always
-   environment:
-     POSTGRES_PASSWORD: password
-   ports:
-     - "5433:5432"
-   volumes:
-     - pg_data:/var/lib/postgresql/data
-   healthcheck:
-     test: ["CMD-SHELL", "pg_isready -U postgres"]
-     interval: 5s
-     timeout: 3s
-     retries: 5
+  db:
+    image: mysql:8.3                  # or any 8.x you prefer
+    container_name: mysql
+    restart: always
+    environment:
+      # root account (use strong pw in prod)
+      MYSQL_ROOT_PASSWORD: password
+      # an app-level DB + user the app can connect with
+      MYSQL_DATABASE: org_chart
+      MYSQL_USER: org
+      MYSQL_PASSWORD: password
+    ports:
+      - "3307:3306"                   # host:container
+    volumes:
+      - mysql_data:/var/lib/mysql
+      # every *.sql in this dir runs exactly once at first boot
+      - ./scripts:/docker-entrypoint-initdb.d
+    healthcheck:
+      test: ["CMD", "mysqladmin", "ping", "-h", "localhost", "-ppassword"]
+      interval: 5s
+      timeout: 3s
+      retries: 5
 
-
- db-init:
-   image: postgres:15
-   depends_on:
-     db:
-       condition: service_healthy
-   volumes:
-     - ./scripts:/scripts
-   entrypoint: >
-     bash -c "
-      sleep 5 &&
-      psql postgresql://postgres:password@db:5432/postgres -c 'CREATE DATABASE org_chart;' &&
-      psql postgresql://postgres:password@db:5432/org_chart -f /scripts/create_db.sql &&
-      psql postgresql://postgres:password@db:5432/org_chart -f /scripts/seed_db.sql
-      "
-
- app:
-   build: .
-   container_name: drogon_app
-   ports:
-     - "3000:3000"
-   depends_on:
-     db-init:
-       condition: service_completed_successfully
-   environment:
-     - DB_HOST=db
-     - DB_PORT=5432
-     - DB_USER=postgres
-     - DB_PASSWORD=password
-     - DB_NAME=org_chart
-   working_dir: /app/build
-   command: ["./org_chart"]
-
+  app:
+    build: .
+    container_name: drogon_app
+    ports:
+      - "3000:3000"
+    depends_on:
+      db:
+        condition: service_healthy
+    environment:
+      - DB_HOST=db
+      - DB_PORT=3306
+      - DB_USER=org
+      - DB_PASSWORD=password
+      - DB_NAME=org_chart
+      # optional hint for many frameworks/ORMS
+      - DB_DRIVER=mysql
+    working_dir: /app/build
+    command: ["./org_chart"]
 
 volumes:
- pg_data:
-
-
+  mysql_data:

@@ -28,10 +28,15 @@ ENV LANG=en_US.UTF-8 \
 
 # Clone Drogon repository
 ENV DROGON_ROOT="$IROOT/drogon"
-RUN git clone https://github.com/drogonframework/drogon $DROGON_ROOT
+RUN git clone --depth 1 --recurse-submodules \
+        https://github.com/drogonframework/drogon $DROGON_ROOT   # ← submodules pulled
 
-# Set the working directory to Drogon repository
 WORKDIR $DROGON_ROOT
+RUN mkdir build && cd build && \
+    cmake .. -DCMAKE_BUILD_TYPE=Release \
+             -DMYSQL_CLIENT=ON  \
+             -DPOSTGRESQL_CLIENT=OFF \
+    && make -j$(nproc) && make install
 
 # Build Drogon
 RUN ./build.sh
