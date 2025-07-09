@@ -1,24 +1,10 @@
 {
-    //rdbms: server type, postgresql,mysql or sqlite3
-    "rdbms": "mysql",              // ⬅️ switched to MySQL
-    //filename: sqlite3 db file name
-    //"filename":"",
-    //host: server address,localhost by default;
-    "host": "db",                  // ⬅️ Docker-compose service name
-    //port: server port, 3306 for MySQL;
-    "port": 3306,                  // ⬅️ MySQL default port
-    //dbname: Database name;
+    "rdbms": "mysql",              
+    "host": "db",                  
+    "port": 3306,
     "dbname": "org_chart",
-    //schema: valid for postgreSQL, "public" by default;
-    // (not used by MySQL — you can remove or leave commented)
-    //"schema": "public",
-    //user: User name
     "user": "org",
-    //password or passwd: Password
     "password": "password",
-    //client_encoding: The character set used by drogon_ctl.
-    //"client_encoding": "",
-    //table: An array of tables to be modelized. if the array is empty, all revealed tables are modelized.
     "tables": [],
     "relationships": {
         "enabled": true,

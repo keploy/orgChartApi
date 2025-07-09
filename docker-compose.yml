@@ -32,6 +32,9 @@ services:
     depends_on:
       db:
         condition: service_healthy
+    volumes:
+      - .:/app
+      - /app/build
     environment:
       - DB_HOST=db
       - DB_PORT=3306

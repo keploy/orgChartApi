@@ -21,8 +21,8 @@ const bool Department::hasPrimaryKey = true;
 const std::string Department::tableName = "department";
 
 const std::vector<typename Department::MetaData> Department::metaData_={
-{"id","int32_t","integer",4,1,1,1},
-{"name","std::string","character varying",50,0,0,1}
+{"id","uint64_t","bigint unsigned",8,1,1,1},
+{"name","std::string","varchar(50)",50,0,0,1}
 };
 const std::string &Department::getColumnName(size_t index) noexcept(false)
 {
@@ -35,7 +35,7 @@ Department::Department(const Row &r, const ssize_t indexOffset) noexcept
     {
         if(!r["id"].isNull())
         {
-            id_=std::make_shared<int32_t>(r["id"].as<int32_t>());
+            id_=std::make_shared<uint64_t>(r["id"].as<uint64_t>());
         }
         if(!r["name"].isNull())
         {
@@ -54,7 +54,7 @@ Department::Department(const Row &r, const ssize_t indexOffset) noexcept
         index = offset + 0;
         if(!r[index].isNull())
         {
-            id_=std::make_shared<int32_t>(r[index].as<int32_t>());
+            id_=std::make_shared<uint64_t>(r[index].as<uint64_t>());
         }
         index = offset + 1;
         if(!r[index].isNull())
@@ -77,7 +77,7 @@ Department::Department(const Json::Value &pJson, const std::vector<std::string> 
         dirtyFlag_[0] = true;
         if(!pJson[pMasqueradingVector[0]].isNull())
         {
-            id_=std::make_shared<int32_t>((int32_t)pJson[pMasqueradingVector[0]].asInt64());
+            id_=std::make_shared<uint64_t>((uint64_t)pJson[pMasqueradingVector[0]].asUInt64());
         }
     }
     if(!pMasqueradingVector[1].empty() && pJson.isMember(pMasqueradingVector[1]))
@@ -97,7 +97,7 @@ Department::Department(const Json::Value &pJson) noexcept(false)
         dirtyFlag_[0]=true;
         if(!pJson["id"].isNull())
         {
-            id_=std::make_shared<int32_t>((int32_t)pJson["id"].asInt64());
+            id_=std::make_shared<uint64_t>((uint64_t)pJson["id"].asUInt64());
         }
     }
     if(pJson.isMember("name"))
@@ -122,7 +122,7 @@ void Department::updateByMasqueradedJson(const Json::Value &pJson,
     {
         if(!pJson[pMasqueradingVector[0]].isNull())
         {
-            id_=std::make_shared<int32_t>((int32_t)pJson[pMasqueradingVector[0]].asInt64());
+            id_=std::make_shared<uint64_t>((uint64_t)pJson[pMasqueradingVector[0]].asUInt64());
         }
     }
     if(!pMasqueradingVector[1].empty() && pJson.isMember(pMasqueradingVector[1]))
@@ -141,7 +141,7 @@ void Department::updateByJson(const Json::Value &pJson) noexcept(false)
     {
         if(!pJson["id"].isNull())
         {
-            id_=std::make_shared<int32_t>((int32_t)pJson["id"].asInt64());
+            id_=std::make_shared<uint64_t>((uint64_t)pJson["id"].asUInt64());
         }
     }
     if(pJson.isMember("name"))
@@ -154,20 +154,20 @@ void Department::updateByJson(const Json::Value &pJson) noexcept(false)
     }
 }
 
-const int32_t &Department::getValueOfId() const noexcept
+const uint64_t &Department::getValueOfId() const noexcept
 {
-    const static int32_t defaultValue = int32_t();
+    static const uint64_t defaultValue = uint64_t();
     if(id_)
         return *id_;
     return defaultValue;
 }
-const std::shared_ptr<int32_t> &Department::getId() const noexcept
+const std::shared_ptr<uint64_t> &Department::getId() const noexcept
 {
     return id_;
 }
-void Department::setId(const int32_t &pId) noexcept
+void Department::setId(const uint64_t &pId) noexcept
 {
-    id_ = std::make_shared<int32_t>(pId);
+    id_ = std::make_shared<uint64_t>(pId);
     dirtyFlag_[0] = true;
 }
 const typename Department::PrimaryKeyType & Department::getPrimaryKey() const
@@ -178,7 +178,7 @@ const typename Department::PrimaryKeyType & Department::getPrimaryKey() const
 
 const std::string &Department::getValueOfName() const noexcept
 {
-    const static std::string defaultValue = std::string();
+    static const std::string defaultValue = std::string();
     if(name_)
         return *name_;
     return defaultValue;
@@ -200,6 +200,7 @@ void Department::setName(std::string &&pName) noexcept
 
 void Department::updateId(const uint64_t id)
 {
+    id_ = std::make_shared<uint64_t>(id);
 }
 
 const std::vector<std::string> &Department::insertColumns() noexcept
@@ -254,7 +255,7 @@ Json::Value Department::toJson() const
     Json::Value ret;
     if(getId())
     {
-        ret["id"]=getValueOfId();
+        ret["id"]=(Json::UInt64)getValueOfId();
     }
     else
     {
@@ -271,6 +272,11 @@ Json::Value Department::toJson() const
     return ret;
 }
 
+std::string Department::toString() const
+{
+    return toJson().toStyledString();
+}
+
 Json::Value Department::toMasqueradedJson(
     const std::vector<std::string> &pMasqueradingVector) const
 {
@@ -281,7 +287,7 @@ Json::Value Department::toMasqueradedJson(
         {
             if(getId())
             {
-                ret[pMasqueradingVector[0]]=getValueOfId();
+                ret[pMasqueradingVector[0]]=(Json::UInt64)getValueOfId();
             }
             else
             {
@@ -304,7 +310,7 @@ Json::Value Department::toMasqueradedJson(
     LOG_ERROR << "Masquerade failed";
     if(getId())
     {
-        ret["id"]=getValueOfId();
+        ret["id"]=(Json::UInt64)getValueOfId();
     }
     else
     {
@@ -450,7 +456,7 @@ bool Department::validJsonOfField(size_t index,
                 err="The automatic primary key cannot be set";
                 return false;
             }
-            if(!pJson.isInt())
+            if(!pJson.isUInt64())
             {
                 err="Type error in the "+fieldName+" field";
                 return false;
@@ -467,8 +473,7 @@ bool Department::validJsonOfField(size_t index,
                 err="Type error in the "+fieldName+" field";
                 return false;
             }
-            // asString().length() creates a string object, is there any better way to validate the length?
-            if(pJson.isString() && pJson.asString().length() > 50)
+            if(pJson.isString() && std::strlen(pJson.asCString()) > 50)
             {
                 err="String length exceeds limit for the " +
                     fieldName +
@@ -480,15 +485,32 @@ bool Department::validJsonOfField(size_t index,
         default:
             err="Internal error in the server";
             return false;
-            break;
     }
     return true;
 }
+std::vector<Person> Department::getPersons(const DbClientPtr &clientPtr) const {
+    static const std::string sql = "select * from person where department_id = ?";
+    Result r(nullptr);
+    {
+        auto binder = *clientPtr << sql;
+        binder << *id_ << Mode::Blocking >>
+            [&r](const Result &result) { r = result; };
+        binder.exec();
+    }
+    std::vector<Person> ret;
+    ret.reserve(r.size());
+    for (auto const &row : r)
+    {
+        ret.emplace_back(Person(row));
+    }
+    return ret;
+}
+
 void Department::getPersons(const DbClientPtr &clientPtr,
                             const std::function<void(std::vector<Person>)> &rcb,
                             const ExceptionCallback &ecb) const
 {
-    const static std::string sql = "select * from person where department_id = $1";
+    static const std::string sql = "select * from person where department_id = ?";
     *clientPtr << sql
                << *id_
                >> [rcb = std::move(rcb)](const Result &r){

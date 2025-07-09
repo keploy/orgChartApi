@@ -27,12 +27,12 @@ const bool Person::hasPrimaryKey = true;
 const std::string Person::tableName = "person";
 
 const std::vector<typename Person::MetaData> Person::metaData_={
-{"id","int32_t","integer",4,1,1,1},
-{"job_id","int32_t","integer",4,0,0,1},
-{"department_id","int32_t","integer",4,0,0,1},
-{"manager_id","int32_t","integer",4,0,0,1},
-{"first_name","std::string","character varying",50,0,0,1},
-{"last_name","std::string","character varying",50,0,0,1},
+{"id","uint64_t","bigint unsigned",8,1,1,1},
+{"job_id","uint64_t","bigint unsigned",8,0,0,1},
+{"department_id","uint64_t","bigint unsigned",8,0,0,0},
+{"manager_id","uint64_t","bigint unsigned",8,0,0,0},
+{"first_name","std::string","varchar(50)",50,0,0,1},
+{"last_name","std::string","varchar(50)",50,0,0,1},
 {"hire_date","::trantor::Date","date",0,0,0,1}
 };
 const std::string &Person::getColumnName(size_t index) noexcept(false)
@@ -46,19 +46,19 @@ Person::Person(const Row &r, const ssize_t indexOffset) noexcept
     {
         if(!r["id"].isNull())
         {
-            id_=std::make_shared<int32_t>(r["id"].as<int32_t>());
+            id_=std::make_shared<uint64_t>(r["id"].as<uint64_t>());
         }
         if(!r["job_id"].isNull())
         {
-            jobId_=std::make_shared<int32_t>(r["job_id"].as<int32_t>());
+            jobId_=std::make_shared<uint64_t>(r["job_id"].as<uint64_t>());
         }
         if(!r["department_id"].isNull())
         {
-            departmentId_=std::make_shared<int32_t>(r["department_id"].as<int32_t>());
+            departmentId_=std::make_shared<uint64_t>(r["department_id"].as<uint64_t>());
         }
         if(!r["manager_id"].isNull())
         {
-            managerId_=std::make_shared<int32_t>(r["manager_id"].as<int32_t>());
+            managerId_=std::make_shared<uint64_t>(r["manager_id"].as<uint64_t>());
         }
         if(!r["first_name"].isNull())
         {
@@ -90,22 +90,22 @@ Person::Person(const Row &r, const ssize_t indexOffset) noexcept
         index = offset + 0;
         if(!r[index].isNull())
         {
-            id_=std::make_shared<int32_t>(r[index].as<int32_t>());
+            id_=std::make_shared<uint64_t>(r[index].as<uint64_t>());
         }
         index = offset + 1;
         if(!r[index].isNull())
         {
-            jobId_=std::make_shared<int32_t>(r[index].as<int32_t>());
+            jobId_=std::make_shared<uint64_t>(r[index].as<uint64_t>());
         }
         index = offset + 2;
         if(!r[index].isNull())
         {
-            departmentId_=std::make_shared<int32_t>(r[index].as<int32_t>());
+            departmentId_=std::make_shared<uint64_t>(r[index].as<uint64_t>());
         }
         index = offset + 3;
         if(!r[index].isNull())
         {
-            managerId_=std::make_shared<int32_t>(r[index].as<int32_t>());
+            managerId_=std::make_shared<uint64_t>(r[index].as<uint64_t>());
         }
         index = offset + 4;
         if(!r[index].isNull())
@@ -143,7 +143,7 @@ Person::Person(const Json::Value &pJson, const std::vector<std::string> &pMasque
         dirtyFlag_[0] = true;
         if(!pJson[pMasqueradingVector[0]].isNull())
         {
-            id_=std::make_shared<int32_t>((int32_t)pJson[pMasqueradingVector[0]].asInt64());
+            id_=std::make_shared<uint64_t>((uint64_t)pJson[pMasqueradingVector[0]].asUInt64());
         }
     }
     if(!pMasqueradingVector[1].empty() && pJson.isMember(pMasqueradingVector[1]))
@@ -151,7 +151,7 @@ Person::Person(const Json::Value &pJson, const std::vector<std::string> &pMasque
         dirtyFlag_[1] = true;
         if(!pJson[pMasqueradingVector[1]].isNull())
         {
-            jobId_=std::make_shared<int32_t>((int32_t)pJson[pMasqueradingVector[1]].asInt64());
+            jobId_=std::make_shared<uint64_t>((uint64_t)pJson[pMasqueradingVector[1]].asUInt64());
         }
     }
     if(!pMasqueradingVector[2].empty() && pJson.isMember(pMasqueradingVector[2]))
@@ -159,7 +159,7 @@ Person::Person(const Json::Value &pJson, const std::vector<std::string> &pMasque
         dirtyFlag_[2] = true;
         if(!pJson[pMasqueradingVector[2]].isNull())
         {
-            departmentId_=std::make_shared<int32_t>((int32_t)pJson[pMasqueradingVector[2]].asInt64());
+            departmentId_=std::make_shared<uint64_t>((uint64_t)pJson[pMasqueradingVector[2]].asUInt64());
         }
     }
     if(!pMasqueradingVector[3].empty() && pJson.isMember(pMasqueradingVector[3]))
@@ -167,7 +167,7 @@ Person::Person(const Json::Value &pJson, const std::vector<std::string> &pMasque
         dirtyFlag_[3] = true;
         if(!pJson[pMasqueradingVector[3]].isNull())
         {
-            managerId_=std::make_shared<int32_t>((int32_t)pJson[pMasqueradingVector[3]].asInt64());
+            managerId_=std::make_shared<uint64_t>((uint64_t)pJson[pMasqueradingVector[3]].asUInt64());
         }
     }
     if(!pMasqueradingVector[4].empty() && pJson.isMember(pMasqueradingVector[4]))
@@ -208,7 +208,7 @@ Person::Person(const Json::Value &pJson) noexcept(false)
         dirtyFlag_[0]=true;
         if(!pJson["id"].isNull())
         {
-            id_=std::make_shared<int32_t>((int32_t)pJson["id"].asInt64());
+            id_=std::make_shared<uint64_t>((uint64_t)pJson["id"].asUInt64());
         }
     }
     if(pJson.isMember("job_id"))
@@ -216,7 +216,7 @@ Person::Person(const Json::Value &pJson) noexcept(false)
         dirtyFlag_[1]=true;
         if(!pJson["job_id"].isNull())
         {
-            jobId_=std::make_shared<int32_t>((int32_t)pJson["job_id"].asInt64());
+            jobId_=std::make_shared<uint64_t>((uint64_t)pJson["job_id"].asUInt64());
         }
     }
     if(pJson.isMember("department_id"))
@@ -224,7 +224,7 @@ Person::Person(const Json::Value &pJson) noexcept(false)
         dirtyFlag_[2]=true;
         if(!pJson["department_id"].isNull())
         {
-            departmentId_=std::make_shared<int32_t>((int32_t)pJson["department_id"].asInt64());
+            departmentId_=std::make_shared<uint64_t>((uint64_t)pJson["department_id"].asUInt64());
         }
     }
     if(pJson.isMember("manager_id"))
@@ -232,7 +232,7 @@ Person::Person(const Json::Value &pJson) noexcept(false)
         dirtyFlag_[3]=true;
         if(!pJson["manager_id"].isNull())
         {
-            managerId_=std::make_shared<int32_t>((int32_t)pJson["manager_id"].asInt64());
+            managerId_=std::make_shared<uint64_t>((uint64_t)pJson["manager_id"].asUInt64());
         }
     }
     if(pJson.isMember("first_name"))
@@ -278,7 +278,7 @@ void Person::updateByMasqueradedJson(const Json::Value &pJson,
     {
         if(!pJson[pMasqueradingVector[0]].isNull())
         {
-            id_=std::make_shared<int32_t>((int32_t)pJson[pMasqueradingVector[0]].asInt64());
+            id_=std::make_shared<uint64_t>((uint64_t)pJson[pMasqueradingVector[0]].asUInt64());
         }
     }
     if(!pMasqueradingVector[1].empty() && pJson.isMember(pMasqueradingVector[1]))
@@ -286,7 +286,7 @@ void Person::updateByMasqueradedJson(const Json::Value &pJson,
         dirtyFlag_[1] = true;
         if(!pJson[pMasqueradingVector[1]].isNull())
         {
-            jobId_=std::make_shared<int32_t>((int32_t)pJson[pMasqueradingVector[1]].asInt64());
+            jobId_=std::make_shared<uint64_t>((uint64_t)pJson[pMasqueradingVector[1]].asUInt64());
         }
     }
     if(!pMasqueradingVector[2].empty() && pJson.isMember(pMasqueradingVector[2]))
@@ -294,7 +294,7 @@ void Person::updateByMasqueradedJson(const Json::Value &pJson,
         dirtyFlag_[2] = true;
         if(!pJson[pMasqueradingVector[2]].isNull())
         {
-            departmentId_=std::make_shared<int32_t>((int32_t)pJson[pMasqueradingVector[2]].asInt64());
+            departmentId_=std::make_shared<uint64_t>((uint64_t)pJson[pMasqueradingVector[2]].asUInt64());
         }
     }
     if(!pMasqueradingVector[3].empty() && pJson.isMember(pMasqueradingVector[3]))
@@ -302,7 +302,7 @@ void Person::updateByMasqueradedJson(const Json::Value &pJson,
         dirtyFlag_[3] = true;
         if(!pJson[pMasqueradingVector[3]].isNull())
         {
-            managerId_=std::make_shared<int32_t>((int32_t)pJson[pMasqueradingVector[3]].asInt64());
+            managerId_=std::make_shared<uint64_t>((uint64_t)pJson[pMasqueradingVector[3]].asUInt64());
         }
     }
     if(!pMasqueradingVector[4].empty() && pJson.isMember(pMasqueradingVector[4]))
@@ -342,7 +342,7 @@ void Person::updateByJson(const Json::Value &pJson) noexcept(false)
     {
         if(!pJson["id"].isNull())
         {
-            id_=std::make_shared<int32_t>((int32_t)pJson["id"].asInt64());
+            id_=std::make_shared<uint64_t>((uint64_t)pJson["id"].asUInt64());
         }
     }
     if(pJson.isMember("job_id"))
@@ -350,7 +350,7 @@ void Person::updateByJson(const Json::Value &pJson) noexcept(false)
         dirtyFlag_[1] = true;
         if(!pJson["job_id"].isNull())
         {
-            jobId_=std::make_shared<int32_t>((int32_t)pJson["job_id"].asInt64());
+            jobId_=std::make_shared<uint64_t>((uint64_t)pJson["job_id"].asUInt64());
         }
     }
     if(pJson.isMember("department_id"))
@@ -358,7 +358,7 @@ void Person::updateByJson(const Json::Value &pJson) noexcept(false)
         dirtyFlag_[2] = true;
         if(!pJson["department_id"].isNull())
         {
-            departmentId_=std::make_shared<int32_t>((int32_t)pJson["department_id"].asInt64());
+            departmentId_=std::make_shared<uint64_t>((uint64_t)pJson["department_id"].asUInt64());
         }
     }
     if(pJson.isMember("manager_id"))
@@ -366,7 +366,7 @@ void Person::updateByJson(const Json::Value &pJson) noexcept(false)
         dirtyFlag_[3] = true;
         if(!pJson["manager_id"].isNull())
         {
-            managerId_=std::make_shared<int32_t>((int32_t)pJson["manager_id"].asInt64());
+            managerId_=std::make_shared<uint64_t>((uint64_t)pJson["manager_id"].asUInt64());
         }
     }
     if(pJson.isMember("first_name"))
@@ -400,20 +400,20 @@ void Person::updateByJson(const Json::Value &pJson) noexcept(false)
     }
 }
 
-const int32_t &Person::getValueOfId() const noexcept
+const uint64_t &Person::getValueOfId() const noexcept
 {
-    const static int32_t defaultValue = int32_t();
+    static const uint64_t defaultValue = uint64_t();
     if(id_)
         return *id_;
     return defaultValue;
 }
-const std::shared_ptr<int32_t> &Person::getId() const noexcept
+const std::shared_ptr<uint64_t> &Person::getId() const noexcept
 {
     return id_;
 }
-void Person::setId(const int32_t &pId) noexcept
+void Person::setId(const uint64_t &pId) noexcept
 {
-    id_ = std::make_shared<int32_t>(pId);
+    id_ = std::make_shared<uint64_t>(pId);
     dirtyFlag_[0] = true;
 }
 const typename Person::PrimaryKeyType & Person::getPrimaryKey() const
@@ -422,60 +422,70 @@ const typename Person::PrimaryKeyType & Person::getPrimaryKey() const
     return *id_;
 }
 
-const int32_t &Person::getValueOfJobId() const noexcept
+const uint64_t &Person::getValueOfJobId() const noexcept
 {
-    const static int32_t defaultValue = int32_t();
+    static const uint64_t defaultValue = uint64_t();
     if(jobId_)
         return *jobId_;
     return defaultValue;
 }
-const std::shared_ptr<int32_t> &Person::getJobId() const noexcept
+const std::shared_ptr<uint64_t> &Person::getJobId() const noexcept
 {
     return jobId_;
 }
-void Person::setJobId(const int32_t &pJobId) noexcept
+void Person::setJobId(const uint64_t &pJobId) noexcept
 {
-    jobId_ = std::make_shared<int32_t>(pJobId);
+    jobId_ = std::make_shared<uint64_t>(pJobId);
     dirtyFlag_[1] = true;
 }
 
-const int32_t &Person::getValueOfDepartmentId() const noexcept
+const uint64_t &Person::getValueOfDepartmentId() const noexcept
 {
-    const static int32_t defaultValue = int32_t();
+    static const uint64_t defaultValue = uint64_t();
     if(departmentId_)
         return *departmentId_;
     return defaultValue;
 }
-const std::shared_ptr<int32_t> &Person::getDepartmentId() const noexcept
+const std::shared_ptr<uint64_t> &Person::getDepartmentId() const noexcept
 {
     return departmentId_;
 }
-void Person::setDepartmentId(const int32_t &pDepartmentId) noexcept
+void Person::setDepartmentId(const uint64_t &pDepartmentId) noexcept
 {
-    departmentId_ = std::make_shared<int32_t>(pDepartmentId);
+    departmentId_ = std::make_shared<uint64_t>(pDepartmentId);
+    dirtyFlag_[2] = true;
+}
+void Person::setDepartmentIdToNull() noexcept
+{
+    departmentId_.reset();
     dirtyFlag_[2] = true;
 }
 
-const int32_t &Person::getValueOfManagerId() const noexcept
+const uint64_t &Person::getValueOfManagerId() const noexcept
 {
-    const static int32_t defaultValue = int32_t();
+    static const uint64_t defaultValue = uint64_t();
     if(managerId_)
         return *managerId_;
     return defaultValue;
 }
-const std::shared_ptr<int32_t> &Person::getManagerId() const noexcept
+const std::shared_ptr<uint64_t> &Person::getManagerId() const noexcept
 {
     return managerId_;
 }
-void Person::setManagerId(const int32_t &pManagerId) noexcept
+void Person::setManagerId(const uint64_t &pManagerId) noexcept
 {
-    managerId_ = std::make_shared<int32_t>(pManagerId);
+    managerId_ = std::make_shared<uint64_t>(pManagerId);
+    dirtyFlag_[3] = true;
+}
+void Person::setManagerIdToNull() noexcept
+{
+    managerId_.reset();
     dirtyFlag_[3] = true;
 }
 
 const std::string &Person::getValueOfFirstName() const noexcept
 {
-    const static std::string defaultValue = std::string();
+    static const std::string defaultValue = std::string();
     if(firstName_)
         return *firstName_;
     return defaultValue;
@@ -497,7 +507,7 @@ void Person::setFirstName(std::string &&pFirstName) noexcept
 
 const std::string &Person::getValueOfLastName() const noexcept
 {
-    const static std::string defaultValue = std::string();
+    static const std::string defaultValue = std::string();
     if(lastName_)
         return *lastName_;
     return defaultValue;
@@ -519,7 +529,7 @@ void Person::setLastName(std::string &&pLastName) noexcept
 
 const ::trantor::Date &Person::getValueOfHireDate() const noexcept
 {
-    const static ::trantor::Date defaultValue = ::trantor::Date();
+    static const ::trantor::Date defaultValue = ::trantor::Date();
     if(hireDate_)
         return *hireDate_;
     return defaultValue;
@@ -536,6 +546,7 @@ void Person::setHireDate(const ::trantor::Date &pHireDate) noexcept
 
 void Person::updateId(const uint64_t id)
 {
+    id_ = std::make_shared<uint64_t>(id);
 }
 
 const std::vector<std::string> &Person::insertColumns() noexcept
@@ -725,7 +736,7 @@ Json::Value Person::toJson() const
     Json::Value ret;
     if(getId())
     {
-        ret["id"]=getValueOfId();
+        ret["id"]=(Json::UInt64)getValueOfId();
     }
     else
     {
@@ -733,7 +744,7 @@ Json::Value Person::toJson() const
     }
     if(getJobId())
     {
-        ret["job_id"]=getValueOfJobId();
+        ret["job_id"]=(Json::UInt64)getValueOfJobId();
     }
     else
     {
@@ -741,7 +752,7 @@ Json::Value Person::toJson() const
     }
     if(getDepartmentId())
     {
-        ret["department_id"]=getValueOfDepartmentId();
+        ret["department_id"]=(Json::UInt64)getValueOfDepartmentId();
     }
     else
     {
@@ -749,7 +760,7 @@ Json::Value Person::toJson() const
     }
     if(getManagerId())
     {
-        ret["manager_id"]=getValueOfManagerId();
+        ret["manager_id"]=(Json::UInt64)getValueOfManagerId();
     }
     else
     {
@@ -782,6 +793,11 @@ Json::Value Person::toJson() const
     return ret;
 }
 
+std::string Person::toString() const
+{
+    return toJson().toStyledString();
+}
+
 Json::Value Person::toMasqueradedJson(
     const std::vector<std::string> &pMasqueradingVector) const
 {
@@ -792,7 +808,7 @@ Json::Value Person::toMasqueradedJson(
         {
             if(getId())
             {
-                ret[pMasqueradingVector[0]]=getValueOfId();
+                ret[pMasqueradingVector[0]]=(Json::UInt64)getValueOfId();
             }
             else
             {
@@ -803,7 +819,7 @@ Json::Value Person::toMasqueradedJson(
         {
             if(getJobId())
             {
-                ret[pMasqueradingVector[1]]=getValueOfJobId();
+                ret[pMasqueradingVector[1]]=(Json::UInt64)getValueOfJobId();
             }
             else
             {
@@ -814,7 +830,7 @@ Json::Value Person::toMasqueradedJson(
         {
             if(getDepartmentId())
             {
-                ret[pMasqueradingVector[2]]=getValueOfDepartmentId();
+                ret[pMasqueradingVector[2]]=(Json::UInt64)getValueOfDepartmentId();
             }
             else
             {
@@ -825,7 +841,7 @@ Json::Value Person::toMasqueradedJson(
         {
             if(getManagerId())
             {
-                ret[pMasqueradingVector[3]]=getValueOfManagerId();
+                ret[pMasqueradingVector[3]]=(Json::UInt64)getValueOfManagerId();
             }
             else
             {
@@ -870,7 +886,7 @@ Json::Value Person::toMasqueradedJson(
     LOG_ERROR << "Masquerade failed";
     if(getId())
     {
-        ret["id"]=getValueOfId();
+        ret["id"]=(Json::UInt64)getValueOfId();
     }
     else
     {
@@ -878,7 +894,7 @@ Json::Value Person::toMasqueradedJson(
     }
     if(getJobId())
     {
-        ret["job_id"]=getValueOfJobId();
+        ret["job_id"]=(Json::UInt64)getValueOfJobId();
     }
     else
     {
@@ -886,7 +902,7 @@ Json::Value Person::toMasqueradedJson(
     }
     if(getDepartmentId())
     {
-        ret["department_id"]=getValueOfDepartmentId();
+        ret["department_id"]=(Json::UInt64)getValueOfDepartmentId();
     }
     else
     {
@@ -894,7 +910,7 @@ Json::Value Person::toMasqueradedJson(
     }
     if(getManagerId())
     {
-        ret["manager_id"]=getValueOfManagerId();
+        ret["manager_id"]=(Json::UInt64)getValueOfManagerId();
     }
     else
     {
@@ -949,20 +965,10 @@ bool Person::validateJsonForCreation(const Json::Value &pJson, std::string &err)
         if(!validJsonOfField(2, "department_id", pJson["department_id"], err, true))
             return false;
     }
-    else
-    {
-        err="The department_id column cannot be null";
-        return false;
-    }
     if(pJson.isMember("manager_id"))
     {
         if(!validJsonOfField(3, "manager_id", pJson["manager_id"], err, true))
             return false;
-    }
-    else
-    {
-        err="The manager_id column cannot be null";
-        return false;
     }
     if(pJson.isMember("first_name"))
     {
@@ -1034,11 +1040,6 @@ bool Person::validateMasqueradedJsonForCreation(const Json::Value &pJson,
               if(!validJsonOfField(2, pMasqueradingVector[2], pJson[pMasqueradingVector[2]], err, true))
                   return false;
           }
-        else
-        {
-            err="The " + pMasqueradingVector[2] + " column cannot be null";
-            return false;
-        }
       }
       if(!pMasqueradingVector[3].empty())
       {
@@ -1047,11 +1048,6 @@ bool Person::validateMasqueradedJsonForCreation(const Json::Value &pJson,
               if(!validJsonOfField(3, pMasqueradingVector[3], pJson[pMasqueradingVector[3]], err, true))
                   return false;
           }
-        else
-        {
-            err="The " + pMasqueradingVector[3] + " column cannot be null";
-            return false;
-        }
       }
       if(!pMasqueradingVector[4].empty())
       {
@@ -1221,7 +1217,7 @@ bool Person::validJsonOfField(size_t index,
                 err="The automatic primary key cannot be set";
                 return false;
             }
-            if(!pJson.isInt())
+            if(!pJson.isUInt64())
             {
                 err="Type error in the "+fieldName+" field";
                 return false;
@@ -1233,7 +1229,7 @@ bool Person::validJsonOfField(size_t index,
                 err="The " + fieldName + " column cannot be null";
                 return false;
             }
-            if(!pJson.isInt())
+            if(!pJson.isUInt64())
             {
                 err="Type error in the "+fieldName+" field";
                 return false;
@@ -1242,10 +1238,9 @@ bool Person::validJsonOfField(size_t index,
         case 2:
             if(pJson.isNull())
             {
-                err="The " + fieldName + " column cannot be null";
-                return false;
+                return true;
             }
-            if(!pJson.isInt())
+            if(!pJson.isUInt64())
             {
                 err="Type error in the "+fieldName+" field";
                 return false;
@@ -1254,10 +1249,9 @@ bool Person::validJsonOfField(size_t index,
         case 3:
             if(pJson.isNull())
             {
-                err="The " + fieldName + " column cannot be null";
-                return false;
+                return true;
             }
-            if(!pJson.isInt())
+            if(!pJson.isUInt64())
             {
                 err="Type error in the "+fieldName+" field";
                 return false;
@@ -1274,8 +1268,7 @@ bool Person::validJsonOfField(size_t index,
                 err="Type error in the "+fieldName+" field";
                 return false;
             }
-            // asString().length() creates a string object, is there any better way to validate the length?
-            if(pJson.isString() && pJson.asString().length() > 50)
+            if(pJson.isString() && std::strlen(pJson.asCString()) > 50)
             {
                 err="String length exceeds limit for the " +
                     fieldName +
@@ -1295,8 +1288,7 @@ bool Person::validJsonOfField(size_t index,
                 err="Type error in the "+fieldName+" field";
                 return false;
             }
-            // asString().length() creates a string object, is there any better way to validate the length?
-            if(pJson.isString() && pJson.asString().length() > 50)
+            if(pJson.isString() && std::strlen(pJson.asCString()) > 50)
             {
                 err="String length exceeds limit for the " +
                     fieldName +
@@ -1320,15 +1312,34 @@ bool Person::validJsonOfField(size_t index,
         default:
             err="Internal error in the server";
             return false;
-            break;
     }
     return true;
 }
+Department Person::getDepartment(const DbClientPtr &clientPtr) const {
+    static const std::string sql = "select * from department where id = ?";
+    Result r(nullptr);
+    {
+        auto binder = *clientPtr << sql;
+        binder << *departmentId_ << Mode::Blocking >>
+            [&r](const Result &result) { r = result; };
+        binder.exec();
+    }
+    if (r.size() == 0)
+    {
+        throw UnexpectedRows("0 rows found");
+    }
+    else if (r.size() > 1)
+    {
+        throw UnexpectedRows("Found more than one row");
+    }
+    return Department(r[0]);
+}
+
 void Person::getDepartment(const DbClientPtr &clientPtr,
                            const std::function<void(Department)> &rcb,
                            const ExceptionCallback &ecb) const
 {
-    const static std::string sql = "select * from department where id = $1";
+    static const std::string sql = "select * from department where id = ?";
     *clientPtr << sql
                << *departmentId_
                >> [rcb = std::move(rcb), ecb](const Result &r){
@@ -1347,11 +1358,31 @@ void Person::getDepartment(const DbClientPtr &clientPtr,
                }
                >> ecb;
 }
+Job Person::getJob(const DbClientPtr &clientPtr) const {
+    static const std::string sql = "select * from job where id = ?";
+    Result r(nullptr);
+    {
+        auto binder = *clientPtr << sql;
+        binder << *jobId_ << Mode::Blocking >>
+            [&r](const Result &result) { r = result; };
+        binder.exec();
+    }
+    if (r.size() == 0)
+    {
+        throw UnexpectedRows("0 rows found");
+    }
+    else if (r.size() > 1)
+    {
+        throw UnexpectedRows("Found more than one row");
+    }
+    return Job(r[0]);
+}
+
 void Person::getJob(const DbClientPtr &clientPtr,
                     const std::function<void(Job)> &rcb,
                     const ExceptionCallback &ecb) const
 {
-    const static std::string sql = "select * from job where id = $1";
+    static const std::string sql = "select * from job where id = ?";
     *clientPtr << sql
                << *jobId_
                >> [rcb = std::move(rcb), ecb](const Result &r){
@@ -1370,11 +1401,29 @@ void Person::getJob(const DbClientPtr &clientPtr,
                }
                >> ecb;
 }
+std::vector<Person> Person::getPersons(const DbClientPtr &clientPtr) const {
+    static const std::string sql = "select * from person where manager_id = ?";
+    Result r(nullptr);
+    {
+        auto binder = *clientPtr << sql;
+        binder << *id_ << Mode::Blocking >>
+            [&r](const Result &result) { r = result; };
+        binder.exec();
+    }
+    std::vector<Person> ret;
+    ret.reserve(r.size());
+    for (auto const &row : r)
+    {
+        ret.emplace_back(Person(row));
+    }
+    return ret;
+}
+
 void Person::getPersons(const DbClientPtr &clientPtr,
                         const std::function<void(std::vector<Person>)> &rcb,
                         const ExceptionCallback &ecb) const
 {
-    const static std::string sql = "select * from person where manager_id = $1";
+    static const std::string sql = "select * from person where manager_id = ?";
     *clientPtr << sql
                << *id_
                >> [rcb = std::move(rcb)](const Result &r){
