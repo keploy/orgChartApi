@@ -4,7 +4,6 @@ A **RESTful API** built with [Drogon](https://github.com/drogonframework/drogon)
 
 🔐 **All routes are protected using JWT for token-based authentication**.
 
-
 ## 📚 Endpoints
 
 | Method   | URI                                                       | Action                    |
@@ -57,13 +56,105 @@ A **RESTful API** built with [Drogon](https://github.com/drogonframework/drogon)
 
 There are two ways to run the project:
 
-### 1. **Using Docker** (Recommended for ease of setup)
+## 1. **Using Docker** (Recommended for ease of setup)
+
+```bash
+docker compose up
+```
 
 Docker simplifies the setup process and ensures all dependencies are handled automatically.
 
-### 2. **Manual Setup** (For those who prefer to run the project locally)  
+## 2. **Manual Setup** (For those who prefer to run the project locally)
 
-WIP
+### 📥 Install Dependencies
+
+```bash
+sudo apt-get update -yqq \
+    && sudo apt-get install -yqq --no-install-recommends \
+    software-properties-common \
+    sudo curl wget cmake make pkg-config locales git \
+    gcc-11 g++-11 openssl libssl-dev libjsoncpp-dev uuid-dev \
+    zlib1g-dev libc-ares-dev postgresql-server-dev-all \
+    libmariadb-dev libsqlite3-dev libhiredis-dev \
+    && sudo rm -rf /var/lib/apt/lists/*
+```
+
+### 🐉 Drogon Installation
+
+```bash
+DROGON_ROOT="/drogon"
+```
+
+```bash
+cd $DROGON_ROOT
+```
+
+```bash
+git clone https://github.com/drogonframework/drogon
+```
+
+```bash
+cd drogon
+```
+
+```bash
+git submodule update --init
+```
+
+```bash
+mkdir build && cd build
+```
+
+```bash
+sudo cmake .. -DCMAKE_BUILD_TYPE=Release -DUSE_MYSQL=ON
+```
+
+```bash
+sudo make -j$(nproc) && sudo make install
+```
+
+```bash
+drogon_ctl -v
+```
+
+### 🗃️ Database Setup
+
+navigate to orgchartAPI repo
+
+```bash
+docker run --name db \
+  -e MYSQL_ROOT_PASSWORD=password \
+  -e MYSQL_DATABASE=org_chart \
+  -e MYSQL_USER=org \
+  -e MYSQL_PASSWORD=password \
+  -p 3306:3306 \
+  -d mysql:8.3 \
+  --default-authentication-plugin=mysql_native_password
+```
+
+```bash
+mysql -h127.0.0.1 -P3306 -uorg -ppassword org_chart < scripts/create_db.sql
+mysql -h127.0.0.1 -P3306 -uorg -ppassword org_chart < scripts/seed_db.sql
+```
+
+### 🏗️ Build the Project
+
+```bash
+git submodule update --init --recursive 
+```
+
+```bash
+mkdir build && cd build
+```
+
+```bash
+cmake ..
+```
+```bash
+make
+```
+
+
 
 ## 💡 Usage Guide
 
@@ -80,6 +171,7 @@ To register a new user, run:
 ```bash
 http post localhost:3000/auth/register username="admin1" password="password"
 ```
+
 (or)
 
 ```bash
@@ -154,14 +246,14 @@ Sample response:
 
 ## 🧯 Troubleshooting
 
-* **OpenSSL not found?**
+- **OpenSSL not found?**
   If you encounter issues with OpenSSL, point CMake to the OpenSSL installation manually:
 
   ```bash
   cmake -DOPENSSL_ROOT_DIR=/usr/local/opt/openssl ..
   ```
 
-* **LSP / IntelliSense not working?**
+- **LSP / IntelliSense not working?**
   Enable compile commands for better LSP support:
 
   ```bash
