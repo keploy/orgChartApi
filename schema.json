@@ -1,0 +1,1152 @@
+{
+  "openapi": "3.0.0",
+  "info": {
+    "title": "Org Chat API",
+    "description": "API for managing users and organizational chat data, including authentication, person directory, departments, and job roles. This API allows users to log in, register, and manage various organizational records.",
+    "version": "1.0.0"
+  },
+  "servers": [
+    {
+      "url": "http://localhost:3000",
+      "description": "Local Development Server"
+    }
+  ],
+  "tags": [
+    {
+      "name": "Authentication",
+      "description": "User authentication and registration operations for accessing the API."
+    },
+    {
+      "name": "Persons",
+      "description": "Operations related to managing person/employee records within the organization."
+    },
+    {
+      "name": "Departments",
+      "description": "Operations related to managing organizational departments."
+    },
+    {
+      "name": "Jobs",
+      "description": "Operations related to managing job titles and roles."
+    }
+  ],
+  "paths": {
+    "/auth/login": {
+      "post": {
+        "tags": ["Authentication"],
+        "summary": "Logs in a user",
+        "description": "Authenticates a user with a provided username and password. On successful authentication, a JWT access token and username are returned.",
+        "requestBody": {
+          "description": "User credentials for login.",
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/LoginRequest"
+              },
+              "example": {
+                "username": "admin3adwes2",
+                "password": "passwdqsord"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Successful login, returns a JWT token.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AuthSuccessResponse"
+                },
+                "example": {
+                  "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXUyJ9.eyJleHAiOjE3NTIwNTY1MTIsImlhdCI6MTc1MjA1MjkxMiwiaXNzIjoiYXV0aDAiLCJ1c2VyX2lkIjoiMyJ9.-K3o-RBkiQEvfXFw6eePWFej08AMPm7lo-O8z65VSFM",
+                  "username": "admin3ads2"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request, indicating the user was not found. (As per Postman example)",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                },
+                "example": {
+                  "error": "user not found"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized, indicating incorrect password.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                },
+                "example": {
+                  "error": "username and password do not match"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/auth/register": {
+      "post": {
+        "tags": ["Authentication"],
+        "summary": "Registers a new user",
+        "description": "Creates a new user account with a unique username and password. Upon successful registration, a JWT token is returned.",
+        "requestBody": {
+          "description": "User details for registration.",
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/RegisterRequest"
+              },
+              "example": {
+                "username": "admin3adwes2",
+                "password": "password"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "User successfully registered and logged in.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AuthSuccessResponse"
+                },
+                "example": {
+                  "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXUyJ9.eyJleHAiOjE3NTIwNjA0NjAsImlhdCI6MTc1MjA1Njg2MCwiaXNzIjoiYXV0aDAiLCJ1c2VyX2lkIjoiMCJ9.N7JlIN3qyYi3ku4cLTR8qhTST0a37W3L2Uv50mOIC0s",
+                  "username": "admin3adwes2"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Unprocessable Entity, typically if the username is already taken. (Semantic error)",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                },
+                "example": {
+                  "error": "username is taken"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/persons": {
+      "get": {
+        "tags": ["Persons"],
+        "summary": "Get all persons",
+        "description": "Retrieves a paginated and sortable list of all persons (employees) in the system. Requires authentication.",
+        "security": [
+          {
+            "BearerAuth": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "offset",
+            "in": "query",
+            "description": "The number of items to skip before starting to collect the result set.",
+            "required": false,
+            "schema": {
+              "type": "integer",
+              "format": "int32",
+              "minimum": 0,
+              "default": 0
+            },
+            "example": 1
+          },
+          {
+            "name": "limit",
+            "in": "query",
+            "description": "The maximum number of items to return.",
+            "required": false,
+            "schema": {
+              "type": "integer",
+              "format": "int32",
+              "minimum": 1,
+              "default": 25
+            },
+            "example": 25
+          },
+          {
+            "name": "sort_field",
+            "in": "query",
+            "description": "The field by which to sort the results.",
+            "required": false,
+            "schema": {
+              "type": "string",
+              "enum": ["id", "first_name", "last_name", "hire_date", "job_id", "department_id", "manager_id"],
+              "default": "id"
+            },
+            "example": "id"
+          },
+          {
+            "name": "sort_order",
+            "in": "query",
+            "description": "The order in which to sort the results ('asc' for ascending, 'desc' for descending).",
+            "required": false,
+            "schema": {
+              "type": "string",
+              "enum": ["asc", "desc"],
+              "default": "asc"
+            },
+            "example": "asc"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "A successful response with a list of persons.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/PersonDetail"
+                  }
+                },
+                "example": [
+                  {
+                    "department": {
+                      "id": 2,
+                      "name": "Infrastructure"
+                    },
+                    "first_name": "Yancey",
+                    "hire_date": "2022-03-02",
+                    "id": 12,
+                    "job": {
+                      "id": 4,
+                      "title": "E5"
+                    },
+                    "last_name": "Trenton",
+                    "manager": {
+                      "full_name": "Sterling Haley",
+                      "id": 8
+                    }
+                  }
+                ]
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized, typically due to a missing or invalid authentication token.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                },
+                "example": {
+                  "error": "Unauthorized"
+                }
+              }
+            }
+          }
+        }
+      },
+      "post": {
+        "tags": ["Persons"],
+        "summary": "Create a new person",
+        "description": "Adds a new person/employee record to the system. Requires authentication.",
+        "security": [
+          {
+            "BearerAuth": []
+          }
+        ],
+        "requestBody": {
+          "description": "Details of the person to be created.",
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CreatePersonRequest"
+              },
+              "example": {
+                "job_id": 4,
+                "department_id": 1,
+                "first_name": "cap",
+                "last_name": "Kamaaa",
+                "hire_date": "2029-03-02"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Person successfully created.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Person"
+                },
+                "example": {
+                  "id": 1,
+                  "job_id": 4,
+                  "department_id": 1,
+                  "first_name": "cap",
+                  "last_name": "Kam",
+                  "manager_id": 2,
+                  "hire_date": "2029-03-02"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Unprocessable Entity, due to invalid input data or missing required fields within a syntactically correct request. (Semantic error)",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                },
+                "example": {
+                  "error": "Invalid input data"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized, due to a missing or invalid authentication token.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                },
+                "example": {
+                  "error": "Unauthorized"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/persons/{personId}": {
+      "get": {
+        "tags": ["Persons"],
+        "summary": "Get a single person by ID",
+        "description": "Retrieves the detailed information of a specific person using their unique ID.",
+        "parameters": [
+          {
+            "name": "personId",
+            "in": "path",
+            "description": "Unique identifier of the person to retrieve.",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int64"
+            },
+            "example": 13
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful response with the details of the person.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/PersonDetail"
+                },
+                "example": {
+                  "department": {
+                    "id": 2,
+                    "name": "Infrastructure"
+                  },
+                  "first_name": "Yancey",
+                  "hire_date": "2022-03-02",
+                  "id": 12,
+                  "job": {
+                    "id": 4,
+                    "title": "E5"
+                  },
+                  "last_name": "Trenton",
+                  "manager": {
+                    "full_name": "Sterling Haley",
+                    "id": 8
+                  }
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Not Found, if a person with the specified ID does not exist.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                },
+                "example": {
+                  "error": "resource not found"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/persons/{personId}/reports": {
+      "get": {
+        "tags": ["Persons"],
+        "summary": "Get direct reports of a person",
+        "description": "Retrieves a list of all persons who directly report to the specified person (manager).",
+        "parameters": [
+          {
+            "name": "personId",
+            "in": "path",
+            "description": "ID of the manager whose direct reports are to be retrieved.",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int64"
+            },
+            "example": 25
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "A successful response with a list of direct reports.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/PersonSummary"
+                  }
+                },
+                "example": [
+                  {
+                    "department_id": 1,
+                    "first_name": "Sabryna",
+                    "hire_date": "2014-02-01",
+                    "id": 1,
+                    "job_id": 1,
+                    "last_name": "Peers",
+                    "manager_id": 1
+                  },
+                  {
+                    "department_id": 1,
+                    "first_name": "Tayler",
+                    "hire_date": "2018-04-07",
+                    "id": 2,
+                    "job_id": 2,
+                    "last_name": "Shantee",
+                    "manager_id": 1
+                  },
+                  {
+                    "department_id": 1,
+                    "first_name": "Madonna",
+                    "hire_date": "2018-03-08",
+                    "id": 3,
+                    "job_id": 2,
+                    "last_name": "Axl",
+                    "manager_id": 1
+                  },
+                  {
+                    "department_id": 2,
+                    "first_name": "Sterling",
+                    "hire_date": "2019-11-02",
+                    "id": 8,
+                    "job_id": 2,
+                    "last_name": "Haley",
+                    "manager_id": 1
+                  }
+                ]
+              }
+            }
+          },
+          "404": {
+            "description": "Not Found, if the specified person (manager) does not exist.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                },
+                "example": {
+                  "error": "resource not found"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal Server Error, potentially indicating the person ID is not present in the system or another server-side issue. (As per Postman example)",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                },
+                "example": {
+                  "error": "Internal Server Error"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/departments": {
+      "get": {
+        "tags": ["Departments"],
+        "summary": "Get all departments",
+        "description": "Retrieves a list of all organizational departments.",
+        "responses": {
+          "200": {
+            "description": "A successful response with a list of departments.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/Department"
+                  }
+                },
+                "example": [
+                  {
+                    "id": 1,
+                    "name": "Engineering"
+                  },
+                  {
+                    "id": 2,
+                    "name": "Infrastructure"
+                  }
+                ]
+              }
+            }
+          }
+        }
+      },
+      "post": {
+        "tags": ["Departments"],
+        "summary": "Create a new department",
+        "description": "Adds a new department to the system.",
+        "security": [
+          {
+            "BearerAuth": []
+          }
+        ],
+        "requestBody": {
+          "description": "Details of the department to be created.",
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CreateDepartmentRequest"
+              },
+              "example": {
+                "name": "New Department"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Department successfully created.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Department"
+                },
+                "example": {
+                  "id": 3,
+                  "name": "New Department"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Unprocessable Entity, due to invalid input data (e.g., department name already exists or is empty).",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                },
+                "examples": {
+                  "duplicateName": {
+                    "summary": "Duplicate Department Name",
+                    "value": {
+                      "error": "Department name already exists"
+                    }
+                  },
+                  "missingName": {
+                    "summary": "Missing Department Name",
+                    "value": {
+                      "error": "Department name is required"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized, due to a missing or invalid authentication token.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                },
+                "example": {
+                  "error": "Unauthorized"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/departments/{departmentId}": {
+      "get": {
+        "tags": ["Departments"],
+        "summary": "Get a single department by ID",
+        "description": "Retrieves the detailed information of a specific department using its unique ID.",
+        "parameters": [
+          {
+            "name": "departmentId",
+            "in": "path",
+            "description": "Unique identifier of the department to retrieve.",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int64"
+            },
+            "example": 1
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful response with the details of the department.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Department"
+                },
+                "example": {
+                  "id": 1,
+                  "name": "Engineering"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Not Found, if a department with the specified ID does not exist.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                },
+                "example": {
+                  "error": "resource not found"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/jobs": {
+      "get": {
+        "tags": ["Jobs"],
+        "summary": "Get all jobs",
+        "description": "Retrieves a list of all available job titles.",
+        "responses": {
+          "200": {
+            "description": "A successful response with a list of jobs.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/Job"
+                  }
+                },
+                "example": [
+                  {
+                    "id": 1,
+                    "title": "Staff Engineer"
+                  },
+                  {
+                    "id": 2,
+                    "title": "Senior Engineer"
+                  },
+                  {
+                    "id": 3,
+                    "title": "Junior Engineer"
+                  }
+                ]
+              }
+            }
+          }
+        }
+      },
+      "post": {
+        "tags": ["Jobs"],
+        "summary": "Create a new job title",
+        "description": "Adds a new job title to the system.",
+        "security": [
+          {
+            "BearerAuth": []
+          }
+        ],
+        "requestBody": {
+          "description": "Details of the job title to be created.",
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CreateJobRequest"
+              },
+              "example": {
+                "title": "Lead Software Engineer"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Job title successfully created.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Job"
+                },
+                "example": {
+                  "id": 5,
+                  "title": "Lead Software Engineer"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Unprocessable Entity, due to invalid input data (e.g., job title already exists or is empty).",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                },
+                "examples": {
+                  "duplicateTitle": {
+                    "summary": "Duplicate Job Title",
+                    "value": {
+                      "error": "Job title already exists"
+                    }
+                  },
+                  "missingTitle": {
+                    "summary": "Missing Job Title",
+                    "value": {
+                      "error": "Job title is required"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized, due to a missing or invalid authentication token.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                },
+                "example": {
+                  "error": "Unauthorized"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/jobs/{jobId}": {
+      "get": {
+        "tags": ["Jobs"],
+        "summary": "Get a single job by ID",
+        "description": "Retrieves the detailed information of a specific job title using its unique ID.",
+        "parameters": [
+          {
+            "name": "jobId",
+            "in": "path",
+            "description": "Unique identifier of the job to retrieve.",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int64"
+            },
+            "example": 2
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful response with the details of the job.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Job"
+                },
+                "example": {
+                  "id": 2,
+                  "title": "Senior Engineer"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Not Found, if a job with the specified ID does not exist.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                },
+                "example": {
+                  "error": "resource not found"
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "LoginRequest": {
+        "type": "object",
+        "title": "Login Request",
+        "description": "Schema for user login request.",
+        "properties": {
+          "username": {
+            "type": "string",
+            "description": "The unique username of the user.",
+            "example": "admin3adwes2"
+          },
+          "password": {
+            "type": "string",
+            "format": "password",
+            "description": "The password for the user account.",
+            "example": "passwdqsord"
+          }
+        },
+        "required": ["username", "password"]
+      },
+      "RegisterRequest": {
+        "type": "object",
+        "title": "Register Request",
+        "description": "Schema for new user registration request.",
+        "properties": {
+          "username": {
+            "type": "string",
+            "description": "The desired unique username for the new account.",
+            "example": "admin3adwes2"
+          },
+          "password": {
+            "type": "string",
+            "format": "password",
+            "description": "The password for the new user account.",
+            "example": "password"
+          }
+        },
+        "required": ["username", "password"]
+      },
+      "AuthSuccessResponse": {
+        "type": "object",
+        "title": "Authentication Success Response",
+        "description": "Schema for a successful authentication or registration response.",
+        "properties": {
+          "token": {
+            "type": "string",
+            "description": "A JSON Web Token (JWT) used for subsequent API authentication.",
+            "example": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXUyJ9.eyJleHAiOjE3NTIwNTY1MTIsImlhdCI6MTc1MjA1MjkxMiwiaXNzIjoiYXV0aDAiLCJ1c2VyX2lkIjoiMyJ9.-K3o-RBkiQEvfXFw6eePWFej08AMPm7lo-O8z65VSFM"
+          },
+          "username": {
+            "type": "string",
+            "description": "The username of the authenticated user.",
+            "example": "admin3ads2"
+          }
+        },
+        "required": ["token", "username"]
+      },
+      "ErrorResponse": {
+        "type": "object",
+        "title": "Error Response",
+        "description": "Generic schema for API error responses.",
+        "properties": {
+          "error": {
+            "type": "string",
+            "description": "A descriptive error message.",
+            "example": "user not found"
+          }
+        },
+        "required": ["error"]
+      },
+      "Person": {
+        "type": "object",
+        "title": "Person",
+        "description": "Basic schema for a person/employee record.",
+        "properties": {
+          "id": {
+            "type": "integer",
+            "format": "int64",
+            "description": "The unique identifier for the person."
+          },
+          "department_id": {
+            "type": "integer",
+            "format": "int64",
+            "description": "The ID of the department the person belongs to."
+          },
+          "first_name": {
+            "type": "string",
+            "description": "The first name of the person."
+          },
+          "hire_date": {
+            "type": "string",
+            "format": "date",
+            "description": "The date when the person was hired (YYYY-MM-DD)."
+          },
+          "job_id": {
+            "type": "integer",
+            "format": "int64",
+            "description": "The ID of the job title held by the person."
+          },
+          "last_name": {
+            "type": "string",
+            "description": "The last name of the person."
+          },
+          "manager_id": {
+            "type": "integer",
+            "format": "int64",
+            "nullable": true,
+            "description": "The ID of the person's direct manager. Can be null if the person is a top-level manager."
+          }
+        },
+        "required": ["department_id", "first_name", "hire_date", "job_id", "last_name"]
+      },
+      "CreatePersonRequest": {
+        "type": "object",
+        "title": "Create Person Request",
+        "description": "Schema for creating a new person record.",
+        "properties": {
+          "job_id": {
+            "type": "integer",
+            "format": "int64",
+            "description": "The ID of the job title for the new person."
+          },
+          "department_id": {
+            "type": "integer",
+            "format": "int64",
+            "description": "The ID of the department for the new person."
+          },
+          "first_name": {
+            "type": "string",
+            "description": "The first name of the new person."
+          },
+          "last_name": {
+            "type": "string",
+            "description": "The last name of the new person."
+          },
+          "hire_date": {
+            "type": "string",
+            "format": "date",
+            "description": "The hire date for the new person (YYYY-MM-DD)."
+          },
+          "manager_id": {
+            "type": "integer",
+            "format": "int64",
+            "nullable": true,
+            "description": "Optional: The ID of the manager for the new person."
+          }
+        },
+        "required": ["job_id", "department_id", "first_name", "last_name", "hire_date"]
+      },
+      "PersonDetail": {
+        "type": "object",
+        "title": "Person Detail",
+        "description": "Detailed schema for a single person, including nested department, job, and manager information.",
+        "properties": {
+          "department": {
+            "type": "object",
+            "properties": {
+              "id": {
+                "type": "integer",
+                "format": "int64",
+                "description": "The ID of the department."
+              },
+              "name": {
+                "type": "string",
+                "description": "The name of the department."
+              }
+            },
+            "required": ["id", "name"]
+          },
+          "first_name": {
+            "type": "string",
+            "description": "The first name of the person."
+          },
+          "hire_date": {
+            "type": "string",
+            "format": "date",
+            "description": "The hire date of the person (YYYY-MM-DD)."
+          },
+          "id": {
+            "type": "integer",
+            "format": "int64",
+            "description": "The unique identifier of the person."
+          },
+          "job": {
+            "type": "object",
+            "properties": {
+              "id": {
+                "type": "integer",
+                "format": "int64",
+                "description": "The ID of the job title."
+              },
+              "title": {
+                "type": "string",
+                "description": "The title of the job."
+              }
+            },
+            "required": ["id", "title"]
+          },
+          "last_name": {
+            "type": "string",
+            "description": "The last name of the person."
+          },
+          "manager": {
+            "type": "object",
+            "properties": {
+              "full_name": {
+                "type": "string",
+                "description": "The full name of the person's manager."
+              },
+              "id": {
+                "type": "integer",
+                "format": "int64",
+                "description": "The ID of the person's manager."
+              }
+            },
+            "nullable": true,
+            "description": "Information about the person's direct manager."
+          }
+        },
+        "required": ["department", "first_name", "hire_date", "id", "job", "last_name"]
+      },
+      "PersonSummary": {
+        "type": "object",
+        "title": "Person Summary",
+        "description": "A summarized schema for a person, typically used in lists like direct reports where full details are not needed.",
+        "properties": {
+          "department_id": {
+            "type": "integer",
+            "format": "int64",
+            "description": "The ID of the department the person belongs to."
+          },
+          "first_name": {
+            "type": "string",
+            "description": "The first name of the person."
+          },
+          "hire_date": {
+            "type": "string",
+            "format": "date",
+            "description": "The hire date of the person (YYYY-MM-DD)."
+          },
+          "id": {
+            "type": "integer",
+            "format": "int64",
+            "description": "The unique identifier for the person."
+          },
+          "job_id": {
+            "type": "integer",
+            "format": "int64",
+            "description": "The ID of the job title held by the person."
+          },
+          "last_name": {
+            "type": "string",
+            "description": "The last name of the person."
+          },
+          "manager_id": {
+            "type": "integer",
+            "format": "int64",
+            "nullable": true,
+            "description": "The ID of the person's direct manager. Can be null."
+          }
+        },
+        "required": ["department_id", "first_name", "hire_date", "id", "job_id", "last_name"]
+      },
+      "Department": {
+        "type": "object",
+        "title": "Department",
+        "description": "Schema for an organizational department.",
+        "properties": {
+          "id": {
+            "type": "integer",
+            "format": "int64",
+            "description": "The unique identifier for the department."
+          },
+          "name": {
+            "type": "string",
+            "description": "The name of the department."
+          }
+        },
+        "required": ["id", "name"]
+      },
+      "CreateDepartmentRequest": {
+        "type": "object",
+        "title": "Create Department Request",
+        "description": "Schema for creating a new department.",
+        "properties": {
+          "name": {
+            "type": "string",
+            "description": "The name of the new department.",
+            "example": "New Department"
+          }
+        },
+        "required": ["name"]
+      },
+      "Job": {
+        "type": "object",
+        "title": "Job",
+        "description": "Schema for a job title/role.",
+        "properties": {
+          "id": {
+            "type": "integer",
+            "format": "int64",
+            "description": "The unique identifier for the job title."
+          },
+          "title": {
+            "type": "string",
+            "description": "The title of the job."
+          }
+        },
+        "required": ["id", "title"]
+      },
+      "CreateJobRequest": {
+        "type": "object",
+        "title": "Create Job Request",
+        "description": "Schema for creating a new job title.",
+        "properties": {
+          "title": {
+            "type": "string",
+            "description": "The title of the new job.",
+            "example": "Lead Software Engineer"
+          }
+        },
+        "required": ["title"]
+      }
+    },
+    "securitySchemes": {
+      "BearerAuth": {
+        "type": "http",
+        "scheme": "bearer",
+        "bearerFormat": "JWT",
+        "description": "JWT Authorization header using the Bearer scheme. Example: 'Authorization: Bearer {token}'"
+      }
+    }
+  }
+}

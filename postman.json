@@ -1,0 +1,2095 @@
+{
+	"info": {
+		"_postman_id": "b1aa86f1-6962-4ebc-bf4c-1eef0eed99e1",
+		"name": "orgchatapi",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "25619313",
+		"_collection_link": "https://red-crater-507561.postman.co/workspace/Team-Workspace~6a72fc01-4ebc-42b7-82f8-18542c577ceb/collection/25619313-b1aa86f1-6962-4ebc-bf4c-1eef0eed99e1?action=share&source=collection_link&creator=25619313"
+	},
+	"item": [
+		{
+			"name": "auth",
+			"item": [
+				{
+					"name": "Login",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"username\": \"admin3adwes2\",\n    \"password\": \"passwdqsord\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:3000/auth/login",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"auth",
+								"login"
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "200",
+							"originalRequest": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"username\": \"admin3adwes2\",\n    \"password\": \"password\"\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://localhost:3000/auth/login",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "3000",
+									"path": [
+										"auth",
+										"login"
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "content-length",
+									"value": "201"
+								},
+								{
+									"key": "content-type",
+									"value": "application/json; charset=utf-8"
+								},
+								{
+									"key": "server",
+									"value": "drogon/1.7.5"
+								},
+								{
+									"key": "date",
+									"value": "Wed, 09 Jul 2025 09:21:52 GMT"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"token\": \"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXUyJ9.eyJleHAiOjE3NTIwNTY1MTIsImlhdCI6MTc1MjA1MjkxMiwiaXNzIjoiYXV0aDAiLCJ1c2VyX2lkIjoiMyJ9.-K3o-RBkiQEvfXFw6eePWFej08AMPm7lo-O8z65VSFM\",\n    \"username\": \"admin3ads2\"\n}"
+						},
+						{
+							"name": "400 - User not found",
+							"originalRequest": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"username\": \"admin3aqweweds2\",\n    \"password\": \"password\"\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://localhost:3000/auth/login",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "3000",
+									"path": [
+										"auth",
+										"login"
+									]
+								}
+							},
+							"status": "Bad Request",
+							"code": 400,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "content-length",
+									"value": "26"
+								},
+								{
+									"key": "content-type",
+									"value": "application/json; charset=utf-8"
+								},
+								{
+									"key": "server",
+									"value": "drogon/1.7.5"
+								},
+								{
+									"key": "date",
+									"value": "Wed, 09 Jul 2025 10:28:15 GMT"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"error\": \"user not found\"\n}"
+						},
+						{
+							"name": "401 - wrong password",
+							"originalRequest": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"username\": \"admin3ads2\",\n    \"password\": \"passwdqsord\"\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://localhost:3000/auth/login",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "3000",
+									"path": [
+										"auth",
+										"login"
+									]
+								}
+							},
+							"status": "Unauthorized",
+							"code": 401,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "content-length",
+									"value": "46"
+								},
+								{
+									"key": "content-type",
+									"value": "application/json; charset=utf-8"
+								},
+								{
+									"key": "server",
+									"value": "drogon/1.7.5"
+								},
+								{
+									"key": "date",
+									"value": "Wed, 09 Jul 2025 10:28:57 GMT"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"error\": \"username and password do not match\"\n}"
+						}
+					]
+				},
+				{
+					"name": "resgister user",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"username\": \"admin3adwes2\",\n    \"password\": \"password\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:3000/auth/register",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"auth",
+								"register"
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "200",
+							"originalRequest": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"username\": \"admin3adwes2\",\n    \"password\": \"password\"\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://localhost:3000/auth/register",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "3000",
+									"path": [
+										"auth",
+										"register"
+									]
+								}
+							},
+							"status": "Created",
+							"code": 201,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "content-length",
+									"value": "203"
+								},
+								{
+									"key": "content-type",
+									"value": "application/json; charset=utf-8"
+								},
+								{
+									"key": "server",
+									"value": "drogon/1.7.5"
+								},
+								{
+									"key": "date",
+									"value": "Wed, 09 Jul 2025 10:27:40 GMT"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"token\": \"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXUyJ9.eyJleHAiOjE3NTIwNjA0NjAsImlhdCI6MTc1MjA1Njg2MCwiaXNzIjoiYXV0aDAiLCJ1c2VyX2lkIjoiMCJ9.N7JlIN3qyYi3ku4cLTR8qhTST0a37W3L2Uv50mOIC0s\",\n    \"username\": \"admin3adwes2\"\n}"
+						},
+						{
+							"name": "400 - username taken",
+							"originalRequest": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"username\": \"admin3adwes2\",\n    \"password\": \"password\"\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://localhost:3000/auth/register",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "3000",
+									"path": [
+										"auth",
+										"register"
+									]
+								}
+							},
+							"status": "Bad Request",
+							"code": 400,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "content-length",
+									"value": "29"
+								},
+								{
+									"key": "content-type",
+									"value": "application/json; charset=utf-8"
+								},
+								{
+									"key": "server",
+									"value": "drogon/1.7.5"
+								},
+								{
+									"key": "date",
+									"value": "Wed, 09 Jul 2025 09:21:35 GMT"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"error\": \"username is taken\"\n}"
+						}
+					]
+				}
+			]
+		},
+		{
+			"name": "person",
+			"item": [
+				{
+					"name": "Get All persons",
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXUyJ9.eyJleHAiOjE3NTIwNTY1MTIsImlhdCI6MTc1MjA1MjkxMiwiaXNzIjoiYXV0aDAiLCJ1c2VyX2lkIjoiMyJ9.-K3o-RBkiQEvfXFw6eePWFej08AMPm7lo-O8z65VSFM"
+							}
+						],
+						"url": {
+							"raw": "http://localhost:3000/persons?offset=1&limit=25&sort_field=id&sort_order=asc",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"persons"
+							],
+							"query": [
+								{
+									"key": "offset",
+									"value": "1"
+								},
+								{
+									"key": "limit",
+									"value": "25"
+								},
+								{
+									"key": "sort_field",
+									"value": "id"
+								},
+								{
+									"key": "sort_order",
+									"value": "asc"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get A Person",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:3000/persons/13",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"persons",
+								"13"
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "200",
+							"originalRequest": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "http://localhost:3000/persons/12",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "3000",
+									"path": [
+										"persons",
+										"12"
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "content-length",
+									"value": "200"
+								},
+								{
+									"key": "content-type",
+									"value": "application/json; charset=utf-8"
+								},
+								{
+									"key": "server",
+									"value": "drogon/1.7.5"
+								},
+								{
+									"key": "date",
+									"value": "Wed, 09 Jul 2025 10:25:19 GMT"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"department\": {\n        \"id\": 2,\n        \"name\": \"Infrastructure\"\n    },\n    \"first_name\": \"Yancey\",\n    \"hire_date\": \"2022-03-02\",\n    \"id\": 12,\n    \"job\": {\n        \"id\": 4,\n        \"title\": \"E5\"\n    },\n    \"last_name\": \"Trenton\",\n    \"manager\": {\n        \"full_name\": \"Sterling Haley\",\n        \"id\": 8\n    }\n}"
+						},
+						{
+							"name": "404",
+							"originalRequest": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "http://localhost:3000/persons/56",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "3000",
+									"path": [
+										"persons",
+										"56"
+									]
+								}
+							},
+							"status": "Not Found",
+							"code": 404,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "content-length",
+									"value": "30"
+								},
+								{
+									"key": "content-type",
+									"value": "application/json; charset=utf-8"
+								},
+								{
+									"key": "server",
+									"value": "drogon/1.7.5"
+								},
+								{
+									"key": "date",
+									"value": "Wed, 09 Jul 2025 10:26:45 GMT"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"error\": \"resource not found\"\n}"
+						}
+					]
+				},
+				{
+					"name": "Get report of person",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:3000/persons/25/reports",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"persons",
+								"25",
+								"reports"
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "200",
+							"originalRequest": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "http://localhost:3000/persons/1/reports",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "3000",
+									"path": [
+										"persons",
+										"1",
+										"reports"
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "content-length",
+									"value": "485"
+								},
+								{
+									"key": "content-type",
+									"value": "application/json; charset=utf-8"
+								},
+								{
+									"key": "server",
+									"value": "drogon/1.7.5"
+								},
+								{
+									"key": "date",
+									"value": "Wed, 09 Jul 2025 10:43:10 GMT"
+								}
+							],
+							"cookie": [],
+							"body": "[\n    {\n        \"department_id\": 1,\n        \"first_name\": \"Sabryna\",\n        \"hire_date\": \"2014-02-01\",\n        \"id\": 1,\n        \"job_id\": 1,\n        \"last_name\": \"Peers\",\n        \"manager_id\": 1\n    },\n    {\n        \"department_id\": 1,\n        \"first_name\": \"Tayler\",\n        \"hire_date\": \"2018-04-07\",\n        \"id\": 2,\n        \"job_id\": 2,\n        \"last_name\": \"Shantee\",\n        \"manager_id\": 1\n    },\n    {\n        \"department_id\": 1,\n        \"first_name\": \"Madonna\",\n        \"hire_date\": \"2018-03-08\",\n        \"id\": 3,\n        \"job_id\": 2,\n        \"last_name\": \"Axl\",\n        \"manager_id\": 1\n    },\n    {\n        \"department_id\": 2,\n        \"first_name\": \"Sterling\",\n        \"hire_date\": \"2019-11-02\",\n        \"id\": 8,\n        \"job_id\": 2,\n        \"last_name\": \"Haley\",\n        \"manager_id\": 1\n    }\n]"
+						},
+						{
+							"name": "500 - personId not present",
+							"originalRequest": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "http://localhost:3000/persons/25/reports",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "3000",
+									"path": [
+										"persons",
+										"25",
+										"reports"
+									]
+								}
+							},
+							"status": "Internal Server Error",
+							"code": 500,
+							"_postman_previewlanguage": "html",
+							"header": [
+								{
+									"key": "content-length",
+									"value": "0"
+								},
+								{
+									"key": "content-type",
+									"value": "text/html; charset=utf-8"
+								},
+								{
+									"key": "server",
+									"value": "drogon/1.7.5"
+								},
+								{
+									"key": "date",
+									"value": "Wed, 09 Jul 2025 10:50:04 GMT"
+								}
+							],
+							"cookie": [],
+							"body": null
+						}
+					]
+				},
+				{
+					"name": "Create Person",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"job_id\": 4,\n    \"department_id\": 1,\n    \"first_name\": \"cap\",\n    \"last_name\": \"Kamaaa\",\n    \"hire_date\": \"2029-03-02\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:3000/persons",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"persons"
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "200",
+							"originalRequest": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"job_id\": 4,\n    \"department_id\": 1,\n    \"first_name\": \"cap\",\n    \"last_name\": \"Kam\",\n    \"manager_id\": 2,\n    \"hire_date\": \"2029-03-02\"\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://localhost:3000/persons",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "3000",
+									"path": [
+										"persons"
+									]
+								}
+							},
+							"status": "Created",
+							"code": 201,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "content-length",
+									"value": "115"
+								},
+								{
+									"key": "content-type",
+									"value": "application/json; charset=utf-8"
+								},
+								{
+									"key": "server",
+									"value": "drogon/1.7.5"
+								},
+								{
+									"key": "date",
+									"value": "Thu, 10 Jul 2025 10:22:55 GMT"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"department_id\": 1,\n    \"first_name\": \"cap\",\n    \"hire_date\": \"2029-03-02\",\n    \"id\": 16,\n    \"job_id\": 4,\n    \"last_name\": \"Kam\",\n    \"manager_id\": 2\n}"
+						},
+						{
+							"name": "400 hire date",
+							"originalRequest": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"job_id\": 4,\n    \"department_id\": 1,\n    \"first_name\": \"cap\",\n    \"last_name\": \"Kam\",\n    \"manager_id\": 2,\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://localhost:3000/persons",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "3000",
+									"path": [
+										"persons"
+									]
+								}
+							},
+							"status": "Bad Request",
+							"code": 400,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "content-length",
+									"value": "35"
+								},
+								{
+									"key": "content-type",
+									"value": "application/json; charset=utf-8"
+								},
+								{
+									"key": "server",
+									"value": "drogon/1.7.5"
+								},
+								{
+									"key": "date",
+									"value": "Thu, 10 Jul 2025 10:28:11 GMT"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"error\": \"hire_date is compulsory\"\n}"
+						},
+						{
+							"name": "400 depart id",
+							"originalRequest": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"job_id\": 4,\n    \"first_name\": \"cap\",\n    \"last_name\": \"Kam\",\n    \"manager_id\": 2,\n    \"hire_date\": \"2029-03-02\"\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://localhost:3000/persons",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "3000",
+									"path": [
+										"persons"
+									]
+								}
+							},
+							"status": "Bad Request",
+							"code": 400,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "content-length",
+									"value": "39"
+								},
+								{
+									"key": "content-type",
+									"value": "application/json; charset=utf-8"
+								},
+								{
+									"key": "server",
+									"value": "drogon/1.7.5"
+								},
+								{
+									"key": "date",
+									"value": "Thu, 10 Jul 2025 10:28:41 GMT"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"error\": \"department_id is compulsory\"\n}"
+						},
+						{
+							"name": "400 job id",
+							"originalRequest": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"department_id\": 1,\n    \"first_name\": \"cap\",\n    \"last_name\": \"Kam\",\n    \"manager_id\": 2,\n    \"hire_date\": \"2029-03-02\"\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://localhost:3000/persons",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "3000",
+									"path": [
+										"persons"
+									]
+								}
+							},
+							"status": "Bad Request",
+							"code": 400,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "content-length",
+									"value": "32"
+								},
+								{
+									"key": "content-type",
+									"value": "application/json; charset=utf-8"
+								},
+								{
+									"key": "server",
+									"value": "drogon/1.7.5"
+								},
+								{
+									"key": "date",
+									"value": "Thu, 10 Jul 2025 10:29:23 GMT"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"error\": \"job_id is compulsory\"\n}"
+						}
+					]
+				},
+				{
+					"name": "delete person",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:3000/persons/1",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"persons",
+								"1"
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "204",
+							"originalRequest": {
+								"method": "DELETE",
+								"header": [],
+								"url": {
+									"raw": "http://localhost:3000/persons/13",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "3000",
+									"path": [
+										"persons",
+										"13"
+									]
+								}
+							},
+							"status": "No Content",
+							"code": 204,
+							"_postman_previewlanguage": "html",
+							"header": [
+								{
+									"key": "content-length",
+									"value": "0"
+								},
+								{
+									"key": "content-type",
+									"value": "text/html; charset=utf-8"
+								},
+								{
+									"key": "server",
+									"value": "drogon/1.7.5"
+								},
+								{
+									"key": "date",
+									"value": "Wed, 09 Jul 2025 10:53:22 GMT"
+								}
+							],
+							"cookie": [],
+							"body": null
+						}
+					]
+				},
+				{
+					"name": "Update Person",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"manager_id\": \"1\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:3000/persons/14",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"persons",
+								"14"
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "422",
+							"originalRequest": {
+								"method": "PUT",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"manager_id\": \"50\"\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://localhost:3000/persons/14",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "3000",
+									"path": [
+										"persons",
+										"14"
+									]
+								}
+							},
+							"status": "Unprocessable Entity",
+							"code": 422,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "content-length",
+									"value": "33"
+								},
+								{
+									"key": "content-type",
+									"value": "application/json; charset=utf-8"
+								},
+								{
+									"key": "server",
+									"value": "drogon/1.7.5"
+								},
+								{
+									"key": "date",
+									"value": "Thu, 10 Jul 2025 10:45:25 GMT"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"error\": \"manager_id is invalid\"\n}"
+						},
+						{
+							"name": "204",
+							"originalRequest": {
+								"method": "PUT",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"manager_id\": \"1\"\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://localhost:3000/persons/14",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "3000",
+									"path": [
+										"persons",
+										"14"
+									]
+								}
+							},
+							"status": "No Content",
+							"code": 204,
+							"_postman_previewlanguage": "html",
+							"header": [
+								{
+									"key": "content-length",
+									"value": "0"
+								},
+								{
+									"key": "content-type",
+									"value": "text/html; charset=utf-8"
+								},
+								{
+									"key": "server",
+									"value": "drogon/1.7.5"
+								},
+								{
+									"key": "date",
+									"value": "Thu, 10 Jul 2025 10:45:37 GMT"
+								}
+							],
+							"cookie": [],
+							"body": null
+						}
+					]
+				}
+			]
+		},
+		{
+			"name": "department",
+			"item": [
+				{
+					"name": "get all",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:3000/departments?offset=0&limit=25&sort_field=id&sort_order=asc",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"departments"
+							],
+							"query": [
+								{
+									"key": "offset",
+									"value": "0"
+								},
+								{
+									"key": "limit",
+									"value": "25"
+								},
+								{
+									"key": "sort_field",
+									"value": "id"
+								},
+								{
+									"key": "sort_order",
+									"value": "asc"
+								}
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "200",
+							"originalRequest": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "http://localhost:3000/departments?offset=0&limit=25&sort_field=id&sort_order=asc",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "3000",
+									"path": [
+										"departments"
+									],
+									"query": [
+										{
+											"key": "offset",
+											"value": "0"
+										},
+										{
+											"key": "limit",
+											"value": "25"
+										},
+										{
+											"key": "sort_field",
+											"value": "id"
+										},
+										{
+											"key": "sort_order",
+											"value": "asc"
+										}
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "content-length",
+									"value": "60"
+								},
+								{
+									"key": "content-type",
+									"value": "application/json; charset=utf-8"
+								},
+								{
+									"key": "server",
+									"value": "drogon/1.7.5"
+								},
+								{
+									"key": "date",
+									"value": "Wed, 09 Jul 2025 20:07:13 GMT"
+								}
+							],
+							"cookie": [],
+							"body": "[\n    {\n        \"id\": 1,\n        \"name\": \"Product\"\n    },\n    {\n        \"id\": 2,\n        \"name\": \"Infrastructure\"\n    }\n]"
+						}
+					]
+				},
+				{
+					"name": "get",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:3000/departments/3",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"departments",
+								"3"
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "200",
+							"originalRequest": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "http://localhost:3000/departments/3",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "3000",
+									"path": [
+										"departments",
+										"3"
+									]
+								}
+							},
+							"status": "Created",
+							"code": 201,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "content-length",
+									"value": "25"
+								},
+								{
+									"key": "content-type",
+									"value": "application/json; charset=utf-8"
+								},
+								{
+									"key": "server",
+									"value": "drogon/1.7.5"
+								},
+								{
+									"key": "date",
+									"value": "Wed, 09 Jul 2025 20:07:51 GMT"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"id\": 1,\n    \"name\": \"Product\"\n}"
+						},
+						{
+							"name": "404",
+							"originalRequest": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "http://localhost:3000/departments/3",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "3000",
+									"path": [
+										"departments",
+										"3"
+									]
+								}
+							},
+							"status": "Not Found",
+							"code": 404,
+							"_postman_previewlanguage": "html",
+							"header": [
+								{
+									"key": "content-length",
+									"value": "0"
+								},
+								{
+									"key": "content-type",
+									"value": "text/html; charset=utf-8"
+								},
+								{
+									"key": "server",
+									"value": "drogon/1.7.5"
+								},
+								{
+									"key": "date",
+									"value": "Wed, 09 Jul 2025 20:08:18 GMT"
+								}
+							],
+							"cookie": [],
+							"body": null
+						}
+					]
+				},
+				{
+					"name": "get persons",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXUyJ9.eyJleHAiOjE3NTIwOTUzOTUsImlhdCI6MTc1MjA5MTc5NSwiaXNzIjoiYXV0aDAiLCJ1c2VyX2lkIjoiMiJ9.0MGnGsfZwpyaqTEKYeikMBf-8XTIsYbQvz-IHyF8Czk",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "http://localhost:3000/departments/1/persons",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"departments",
+								"1",
+								"persons"
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "200",
+							"originalRequest": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "Authorization",
+										"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXUyJ9.eyJleHAiOjE3NTIwOTUzOTUsImlhdCI6MTc1MjA5MTc5NSwiaXNzIjoiYXV0aDAiLCJ1c2VyX2lkIjoiMiJ9.0MGnGsfZwpyaqTEKYeikMBf-8XTIsYbQvz-IHyF8Czk",
+										"type": "text"
+									}
+								],
+								"url": {
+									"raw": "http://localhost:3000/departments/1/persons",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "3000",
+									"path": [
+										"departments",
+										"1",
+										"persons"
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "content-length",
+									"value": "966"
+								},
+								{
+									"key": "content-type",
+									"value": "application/json; charset=utf-8"
+								},
+								{
+									"key": "server",
+									"value": "drogon/1.7.5"
+								},
+								{
+									"key": "date",
+									"value": "Wed, 09 Jul 2025 20:10:13 GMT"
+								}
+							],
+							"cookie": [],
+							"body": "[\n    {\n        \"department_id\": 1,\n        \"first_name\": \"Sabryna\",\n        \"hire_date\": \"2014-02-01\",\n        \"id\": 1,\n        \"job_id\": 1,\n        \"last_name\": \"Peers\",\n        \"manager_id\": 1\n    },\n    {\n        \"department_id\": 1,\n        \"first_name\": \"Tayler\",\n        \"hire_date\": \"2018-04-07\",\n        \"id\": 2,\n        \"job_id\": 2,\n        \"last_name\": \"Shantee\",\n        \"manager_id\": 1\n    },\n    {\n        \"department_id\": 1,\n        \"first_name\": \"Madonna\",\n        \"hire_date\": \"2018-03-08\",\n        \"id\": 3,\n        \"job_id\": 2,\n        \"last_name\": \"Axl\",\n        \"manager_id\": 1\n    },\n    {\n        \"department_id\": 1,\n        \"first_name\": \"Marcia\",\n        \"hire_date\": \"2020-01-11\",\n        \"id\": 4,\n        \"job_id\": 4,\n        \"last_name\": \"Stuart\",\n        \"manager_id\": 2\n    },\n    {\n        \"department_id\": 1,\n        \"first_name\": \"Cliff\",\n        \"hire_date\": \"2021-02-15\",\n        \"id\": 5,\n        \"job_id\": 3,\n        \"last_name\": \"Rosalind\",\n        \"manager_id\": 2\n    },\n    {\n        \"department_id\": 1,\n        \"first_name\": \"Lake\",\n        \"hire_date\": \"2022-05-21\",\n        \"id\": 6,\n        \"job_id\": 3,\n        \"last_name\": \"Philippa\",\n        \"manager_id\": 3\n    },\n    {\n        \"department_id\": 1,\n        \"first_name\": \"Wynne\",\n        \"hire_date\": \"2021-12-31\",\n        \"id\": 7,\n        \"job_id\": 3,\n        \"last_name\": \"Walker\",\n        \"manager_id\": 3\n    },\n    {\n        \"department_id\": 1,\n        \"first_name\": \"Charan\",\n        \"hire_date\": \"2022-03-02\",\n        \"id\": 17,\n        \"job_id\": 4,\n        \"last_name\": \"Kam\",\n        \"manager_id\": 2\n    }\n]"
+						}
+					]
+				},
+				{
+					"name": "create",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXUyJ9.eyJleHAiOjE3NTIwOTUzOTUsImlhdCI6MTc1MjA5MTc5NSwiaXNzIjoiYXV0aDAiLCJ1c2VyX2lkIjoiMiJ9.0MGnGsfZwpyaqTEKYeikMBf-8XTIsYbQvz-IHyF8Czk",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"name\": \"New Product\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:3000/departments",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"departments"
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "201",
+							"originalRequest": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Authorization",
+										"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXUyJ9.eyJleHAiOjE3NTIwOTUzOTUsImlhdCI6MTc1MjA5MTc5NSwiaXNzIjoiYXV0aDAiLCJ1c2VyX2lkIjoiMiJ9.0MGnGsfZwpyaqTEKYeikMBf-8XTIsYbQvz-IHyF8Czk",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"name\": \"New Product\"\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://localhost:3000/departments",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "3000",
+									"path": [
+										"departments"
+									]
+								}
+							},
+							"status": "Created",
+							"code": 201,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "content-length",
+									"value": "29"
+								},
+								{
+									"key": "content-type",
+									"value": "application/json; charset=utf-8"
+								},
+								{
+									"key": "server",
+									"value": "drogon/1.7.5"
+								},
+								{
+									"key": "date",
+									"value": "Wed, 09 Jul 2025 20:11:54 GMT"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"id\": 3,\n    \"name\": \"New Product\"\n}"
+						}
+					]
+				},
+				{
+					"name": "put",
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXUyJ9.eyJleHAiOjE3NTIwOTUzOTUsImlhdCI6MTc1MjA5MTc5NSwiaXNzIjoiYXV0aDAiLCJ1c2VyX2lkIjoiMiJ9.0MGnGsfZwpyaqTEKYeikMBf-8XTIsYbQvz-IHyF8Czk",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\"name\": \"new2\"}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:3000/departments/3",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"departments",
+								"3"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "delete",
+					"request": {
+						"method": "DELETE",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXUyJ9.eyJleHAiOjE3NTIwOTUzOTUsImlhdCI6MTc1MjA5MTc5NSwiaXNzIjoiYXV0aDAiLCJ1c2VyX2lkIjoiMiJ9.0MGnGsfZwpyaqTEKYeikMBf-8XTIsYbQvz-IHyF8Czk",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "http://localhost:3000/departments/3",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"departments",
+								"3"
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "201",
+							"originalRequest": {
+								"method": "DELETE",
+								"header": [
+									{
+										"key": "Authorization",
+										"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXUyJ9.eyJleHAiOjE3NTIwOTUzOTUsImlhdCI6MTc1MjA5MTc5NSwiaXNzIjoiYXV0aDAiLCJ1c2VyX2lkIjoiMiJ9.0MGnGsfZwpyaqTEKYeikMBf-8XTIsYbQvz-IHyF8Czk",
+										"type": "text"
+									}
+								],
+								"url": {
+									"raw": "http://localhost:3000/departments/3",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "3000",
+									"path": [
+										"departments",
+										"3"
+									]
+								}
+							},
+							"status": "No Content",
+							"code": 204,
+							"_postman_previewlanguage": "html",
+							"header": [
+								{
+									"key": "content-length",
+									"value": "0"
+								},
+								{
+									"key": "content-type",
+									"value": "text/html; charset=utf-8"
+								},
+								{
+									"key": "server",
+									"value": "drogon/1.7.5"
+								},
+								{
+									"key": "date",
+									"value": "Wed, 09 Jul 2025 20:13:39 GMT"
+								}
+							],
+							"cookie": [],
+							"body": null
+						}
+					]
+				}
+			]
+		},
+		{
+			"name": "job",
+			"item": [
+				{
+					"name": "getall",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXUyJ9.eyJleHAiOjE3NTIwOTUzOTUsImlhdCI6MTc1MjA5MTc5NSwiaXNzIjoiYXV0aDAiLCJ1c2VyX2lkIjoiMiJ9.0MGnGsfZwpyaqTEKYeikMBf-8XTIsYbQvz-IHyF8Czk",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "http://localhost:3000/jobs?offset=1&limit=25&sort_field=id&sort_order=asc",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"jobs"
+							],
+							"query": [
+								{
+									"key": "offset",
+									"value": "1"
+								},
+								{
+									"key": "limit",
+									"value": "25"
+								},
+								{
+									"key": "sort_field",
+									"value": "id"
+								},
+								{
+									"key": "sort_order",
+									"value": "asc"
+								},
+								{
+									"key": "Authorization",
+									"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXUyJ9.eyJleHAiOjE3NTIwOTUzOTUsImlhdCI6MTc1MjA5MTc5NSwiaXNzIjoiYXV0aDAiLCJ1c2VyX2lkIjoiMiJ9.0MGnGsfZwpyaqTEKYeikMBf-8XTIsYbQvz-IHyF8Czk",
+									"disabled": true
+								}
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "200",
+							"originalRequest": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "Authorization",
+										"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXUyJ9.eyJleHAiOjE3NTIwOTUzOTUsImlhdCI6MTc1MjA5MTc5NSwiaXNzIjoiYXV0aDAiLCJ1c2VyX2lkIjoiMiJ9.0MGnGsfZwpyaqTEKYeikMBf-8XTIsYbQvz-IHyF8Czk",
+										"type": "text"
+									}
+								],
+								"url": {
+									"raw": "http://localhost:3000/jobs?offset=1&limit=25&sort_field=id&sort_order=asc",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "3000",
+									"path": [
+										"jobs"
+									],
+									"query": [
+										{
+											"key": "offset",
+											"value": "1"
+										},
+										{
+											"key": "limit",
+											"value": "25"
+										},
+										{
+											"key": "sort_field",
+											"value": "id"
+										},
+										{
+											"key": "sort_order",
+											"value": "asc"
+										},
+										{
+											"key": "Authorization",
+											"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXUyJ9.eyJleHAiOjE3NTIwOTUzOTUsImlhdCI6MTc1MjA5MTc5NSwiaXNzIjoiYXV0aDAiLCJ1c2VyX2lkIjoiMiJ9.0MGnGsfZwpyaqTEKYeikMBf-8XTIsYbQvz-IHyF8Czk",
+											"disabled": true
+										}
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "content-length",
+									"value": "67"
+								},
+								{
+									"key": "content-type",
+									"value": "application/json; charset=utf-8"
+								},
+								{
+									"key": "server",
+									"value": "drogon/1.7.5"
+								},
+								{
+									"key": "date",
+									"value": "Wed, 09 Jul 2025 20:20:06 GMT"
+								}
+							],
+							"cookie": [],
+							"body": "[\n    {\n        \"id\": 2,\n        \"title\": \"M1\"\n    },\n    {\n        \"id\": 3,\n        \"title\": \"E4\"\n    },\n    {\n        \"id\": 4,\n        \"title\": \"E5\"\n    }\n]"
+						}
+					]
+				},
+				{
+					"name": "get",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXUyJ9.eyJleHAiOjE3NTIwOTUzOTUsImlhdCI6MTc1MjA5MTc5NSwiaXNzIjoiYXV0aDAiLCJ1c2VyX2lkIjoiMiJ9.0MGnGsfZwpyaqTEKYeikMBf-8XTIsYbQvz-IHyF8Czk",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "http://localhost:3000/jobs/1",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"jobs",
+								"1"
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "201",
+							"originalRequest": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "Authorization",
+										"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXUyJ9.eyJleHAiOjE3NTIwOTUzOTUsImlhdCI6MTc1MjA5MTc5NSwiaXNzIjoiYXV0aDAiLCJ1c2VyX2lkIjoiMiJ9.0MGnGsfZwpyaqTEKYeikMBf-8XTIsYbQvz-IHyF8Czk",
+										"type": "text"
+									}
+								],
+								"url": {
+									"raw": "http://localhost:3000/jobs/1",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "3000",
+									"path": [
+										"jobs",
+										"1"
+									]
+								}
+							},
+							"status": "Created",
+							"code": 201,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "content-length",
+									"value": "22"
+								},
+								{
+									"key": "content-type",
+									"value": "application/json; charset=utf-8"
+								},
+								{
+									"key": "server",
+									"value": "drogon/1.7.5"
+								},
+								{
+									"key": "date",
+									"value": "Wed, 09 Jul 2025 20:20:54 GMT"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"id\": 1,\n    \"title\": \"CEO\"\n}"
+						}
+					]
+				},
+				{
+					"name": "get persons",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXUyJ9.eyJleHAiOjE3NTIwOTUzOTUsImlhdCI6MTc1MjA5MTc5NSwiaXNzIjoiYXV0aDAiLCJ1c2VyX2lkIjoiMiJ9.0MGnGsfZwpyaqTEKYeikMBf-8XTIsYbQvz-IHyF8Czk",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "http://localhost:3000/jobs/1/persons",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"jobs",
+								"1",
+								"persons"
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "200",
+							"originalRequest": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "Authorization",
+										"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXUyJ9.eyJleHAiOjE3NTIwOTUzOTUsImlhdCI6MTc1MjA5MTc5NSwiaXNzIjoiYXV0aDAiLCJ1c2VyX2lkIjoiMiJ9.0MGnGsfZwpyaqTEKYeikMBf-8XTIsYbQvz-IHyF8Czk",
+										"type": "text"
+									}
+								],
+								"url": {
+									"raw": "http://localhost:3000/jobs/1/persons",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "3000",
+									"path": [
+										"jobs",
+										"1",
+										"persons"
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "content-length",
+									"value": "122"
+								},
+								{
+									"key": "content-type",
+									"value": "application/json; charset=utf-8"
+								},
+								{
+									"key": "server",
+									"value": "drogon/1.7.5"
+								},
+								{
+									"key": "date",
+									"value": "Wed, 09 Jul 2025 20:56:03 GMT"
+								}
+							],
+							"cookie": [],
+							"body": "[\n    {\n        \"department_id\": 1,\n        \"first_name\": \"Sabryna\",\n        \"hire_date\": \"2014-02-01\",\n        \"id\": 1,\n        \"job_id\": 1,\n        \"last_name\": \"Peers\",\n        \"manager_id\": 1\n    }\n]"
+						}
+					]
+				},
+				{
+					"name": "create job",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXUyJ9.eyJleHAiOjE3NTIwOTUzOTUsImlhdCI6MTc1MjA5MTc5NSwiaXNzIjoiYXV0aDAiLCJ1c2VyX2lkIjoiMiJ9.0MGnGsfZwpyaqTEKYeikMBf-8XTIsYbQvz-IHyF8Czk",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n   \"title\": \"poen\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:3000/jobs",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"jobs"
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "201",
+							"originalRequest": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Authorization",
+										"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXUyJ9.eyJleHAiOjE3NTIwOTUzOTUsImlhdCI6MTc1MjA5MTc5NSwiaXNzIjoiYXV0aDAiLCJ1c2VyX2lkIjoiMiJ9.0MGnGsfZwpyaqTEKYeikMBf-8XTIsYbQvz-IHyF8Czk",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n   \"title\": \"poen\"\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://localhost:3000/jobs",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "3000",
+									"path": [
+										"jobs"
+									]
+								}
+							},
+							"status": "Created",
+							"code": 201,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "content-length",
+									"value": "23"
+								},
+								{
+									"key": "content-type",
+									"value": "application/json; charset=utf-8"
+								},
+								{
+									"key": "server",
+									"value": "drogon/1.7.5"
+								},
+								{
+									"key": "date",
+									"value": "Wed, 09 Jul 2025 20:57:47 GMT"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"id\": 5,\n    \"title\": \"poen\"\n}"
+						}
+					]
+				},
+				{
+					"name": "update job",
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXUyJ9.eyJleHAiOjE3NTIwOTUzOTUsImlhdCI6MTc1MjA5MTc5NSwiaXNzIjoiYXV0aDAiLCJ1c2VyX2lkIjoiMiJ9.0MGnGsfZwpyaqTEKYeikMBf-8XTIsYbQvz-IHyF8Czk",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"title\": \"poen1\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:3000/jobs/5",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"jobs",
+								"5"
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "200",
+							"originalRequest": {
+								"method": "PUT",
+								"header": [
+									{
+										"key": "Authorization",
+										"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXUyJ9.eyJleHAiOjE3NTIwOTUzOTUsImlhdCI6MTc1MjA5MTc5NSwiaXNzIjoiYXV0aDAiLCJ1c2VyX2lkIjoiMiJ9.0MGnGsfZwpyaqTEKYeikMBf-8XTIsYbQvz-IHyF8Czk",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"title\": \"poen1\"\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://localhost:3000/jobs/5",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "3000",
+									"path": [
+										"jobs",
+										"5"
+									]
+								}
+							},
+							"status": "No Content",
+							"code": 204,
+							"_postman_previewlanguage": "html",
+							"header": [
+								{
+									"key": "content-length",
+									"value": "0"
+								},
+								{
+									"key": "content-type",
+									"value": "text/html; charset=utf-8"
+								},
+								{
+									"key": "server",
+									"value": "drogon/1.7.5"
+								},
+								{
+									"key": "date",
+									"value": "Wed, 09 Jul 2025 20:58:44 GMT"
+								}
+							],
+							"cookie": [],
+							"body": null
+						}
+					]
+				},
+				{
+					"name": "delete",
+					"request": {
+						"method": "DELETE",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXUyJ9.eyJleHAiOjE3NTIwOTUzOTUsImlhdCI6MTc1MjA5MTc5NSwiaXNzIjoiYXV0aDAiLCJ1c2VyX2lkIjoiMiJ9.0MGnGsfZwpyaqTEKYeikMBf-8XTIsYbQvz-IHyF8Czk",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "http://localhost:3000/jobs/5",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"jobs",
+								"5"
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "New Request",
+							"originalRequest": {
+								"method": "DELETE",
+								"header": [],
+								"url": {
+									"raw": "http://localhost:3000/jobs/5",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "3000",
+									"path": [
+										"jobs",
+										"5"
+									]
+								}
+							},
+							"status": "Bad Request",
+							"code": 400,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "content-length",
+									"value": "40"
+								},
+								{
+									"key": "content-type",
+									"value": "application/json; charset=utf-8"
+								},
+								{
+									"key": "server",
+									"value": "drogon/1.7.5"
+								},
+								{
+									"key": "date",
+									"value": "Wed, 09 Jul 2025 20:59:26 GMT"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"error\": \"missing Authorization header\"\n}"
+						},
+						{
+							"name": "200",
+							"originalRequest": {
+								"method": "DELETE",
+								"header": [
+									{
+										"key": "Authorization",
+										"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXUyJ9.eyJleHAiOjE3NTIwOTUzOTUsImlhdCI6MTc1MjA5MTc5NSwiaXNzIjoiYXV0aDAiLCJ1c2VyX2lkIjoiMiJ9.0MGnGsfZwpyaqTEKYeikMBf-8XTIsYbQvz-IHyF8Czk",
+										"type": "text"
+									}
+								],
+								"url": {
+									"raw": "http://localhost:3000/jobs/5",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "3000",
+									"path": [
+										"jobs",
+										"5"
+									]
+								}
+							},
+							"status": "No Content",
+							"code": 204,
+							"_postman_previewlanguage": "html",
+							"header": [
+								{
+									"key": "content-length",
+									"value": "0"
+								},
+								{
+									"key": "content-type",
+									"value": "text/html; charset=utf-8"
+								},
+								{
+									"key": "server",
+									"value": "drogon/1.7.5"
+								},
+								{
+									"key": "date",
+									"value": "Wed, 09 Jul 2025 20:59:39 GMT"
+								}
+							],
+							"cookie": [],
+							"body": null
+						}
+					]
+				}
+			]
+		}
+	]
+}
