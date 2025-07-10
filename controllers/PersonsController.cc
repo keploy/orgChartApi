@@ -43,7 +43,7 @@ void PersonsController::get(const HttpRequestPtr &req, std::function<void(const 
                        from person \n\
                        join job on person.job_id =job.id \n\
                        join department on person.department_id=department.id \n\
-                       join person as manager on person.manager_id = manager.id \n\
+                       left join person as manager on person.manager_id = manager.id \n\
                        order by $sort_field $sort_order \n\
                        limit ? offset ?;";
 
@@ -97,7 +97,7 @@ void PersonsController::getOne(const HttpRequestPtr &req, std::function<void(con
                        from person \n\
                        join job on person.job_id =job.id \n\
                        join department on person.department_id=department.id \n\
-                       join person as manager on person.manager_id = manager.id \n\
+                       left join person as manager on person.manager_id = manager.id \n\
                        where person.id = ?";
 
     *dbClientPtr << std::string(sql)
@@ -134,6 +134,43 @@ void PersonsController::createOne(const HttpRequestPtr &req, std::function<void(
     LOG_DEBUG << "createOne";
     auto callbackPtr = std::make_shared<std::function<void(const HttpResponsePtr &)>>(std::move(callback));
     auto dbClientPtr = drogon::app().getDbClient();
+
+    auto errResp = [&](const std::string &msg, int code = 400)
+    {
+        auto resp = HttpResponse::newHttpJsonResponse(makeErrResp(msg));
+        resp->setStatusCode(static_cast<HttpStatusCode>(code));
+        (*callbackPtr)(resp);
+    };
+
+    /* ---------- VALIDATE REQUIRED FIELDS ---------- */
+    if (!pPerson.getLastName() || pPerson.getLastName()->empty())
+        return errResp("last_name is compulsory");
+
+    if (!pPerson.getFirstName() || pPerson.getFirstName()->empty())
+        return errResp("first_name is compulsory");
+
+    if (!pPerson.getHireDate())
+        return errResp("hire_date is compulsory");
+
+    if (!pPerson.getDepartmentId())
+        return errResp("department_id is compulsory");
+    if (!rowExists(dbClientPtr, "department", pPerson.getValueOfDepartmentId()))
+        return errResp("department_id is invalid", 422);
+
+    if (!pPerson.getJobId())
+        return errResp("job_id is compulsory");
+    if (!rowExists(dbClientPtr, "job", pPerson.getValueOfJobId()))
+        return errResp("job_id is invalid", 422);
+
+    /* ---------- MANAGER (optional) ---------- */
+    if (pPerson.getManagerId() && // provided
+        !rowExists(dbClientPtr, "person", pPerson.getValueOfManagerId()))
+        return errResp("manager_id is invalid", 422);
+
+    if (personNameExists(dbClientPtr,
+                         *pPerson.getFirstName(),
+                         *pPerson.getLastName()))
+        return errResp("person with the same first_name and last_name already exists");
 
     Mapper<Person> mp(dbClientPtr);
     mp.insert(
@@ -175,16 +212,31 @@ void PersonsController::updateOne(const HttpRequestPtr &req, std::function<void(
         return;
     }
 
+    auto callbackPtr = std::make_shared<std::function<void(const HttpResponsePtr &)>>(std::move(callback));
+
+    auto errResp = [&](const std::string &msg, int code = 400)
+    {
+        auto resp = HttpResponse::newHttpJsonResponse(makeErrResp(msg));
+        resp->setStatusCode(static_cast<HttpStatusCode>(code));
+        (*callbackPtr)(resp);
+    };
+
     if (pPerson.getJobId() != nullptr)
     {
+        if (!rowExists(dbClientPtr, "job", pPerson.getValueOfJobId()))
+            return errResp("job_id is invalid", 422);
         person.setJobId(pPerson.getValueOfJobId());
     }
     if (pPerson.getManagerId() != nullptr)
     {
+        if (!rowExists(dbClientPtr, "person", pPerson.getValueOfManagerId()))
+            return errResp("manager_id is invalid", 422);
         person.setManagerId(pPerson.getValueOfManagerId());
     }
     if (pPerson.getDepartmentId() != nullptr)
     {
+        if (!rowExists(dbClientPtr, "department", pPerson.getValueOfDepartmentId()))
+            return errResp("department_id is invalid", 422);
         person.setDepartmentId(pPerson.getValueOfDepartmentId());
     }
     if (pPerson.getFirstName() != nullptr)
@@ -196,7 +248,6 @@ void PersonsController::updateOne(const HttpRequestPtr &req, std::function<void(
         person.setLastName(pPerson.getValueOfLastName());
     }
 
-    auto callbackPtr = std::make_shared<std::function<void(const HttpResponsePtr &)>>(std::move(callback));
     mp.update(
         person,
         [callbackPtr](const std::size_t count)
