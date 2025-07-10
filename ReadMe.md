@@ -157,4 +157,4 @@ make
 
 ## 💡 Usage Guide
 
-Use the postman.json for postman collection and try the requests
+Use the `postman.json` for postman collection and try the requests
