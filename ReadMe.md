@@ -85,21 +85,13 @@ sudo apt-get update -yqq \
 DROGON_ROOT="/drogon"
 ```
 
-```bash
-cd $DROGON_ROOT
+````bash
+git clone --depth 1 --recurse-submodules https://github.com/drogonframework/drogon $DROGON_ROOT
 ```
 
 ```bash
-git clone https://github.com/drogonframework/drogon
-```
-
-```bash
-cd drogon
-```
-
-```bash
-git submodule update --init
-```
+cd /drogon
+````
 
 ```bash
 mkdir build && cd build
@@ -153,6 +145,9 @@ cmake ..
 
 ```bash
 make
+```
+```bash
+./org_chart
 ```
 
 ## 💡 Usage Guide
