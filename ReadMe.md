@@ -140,7 +140,7 @@ mysql -h127.0.0.1 -P3306 -uorg -ppassword org_chart < scripts/seed_db.sql
 ### 🏗️ Build the Project
 
 ```bash
-git submodule update --init --recursive 
+git submodule update --init --recursive
 ```
 
 ```bash
@@ -150,112 +150,11 @@ mkdir build && cd build
 ```bash
 cmake ..
 ```
+
 ```bash
 make
 ```
 
-
-
 ## 💡 Usage Guide
 
-### 1. **Register a User:**
-
-Install [HTTPie](https://httpie.io/) if you haven’t already:
-
-```bash
-sudo apt install httpie
-```
-
-To register a new user, run:
-
-```bash
-http post localhost:3000/auth/register username="admin1" password="password"
-```
-
-(or)
-
-```bash
-
-curl -X POST http://localhost:3000/auth/register \
-  -H "Content-Type: application/json" \
-  -d '{"username":"admin1","password":"password"}'
-
-```
-
-You will receive a JWT token as the response:
-
-```json
-{
-  "token": "jwt_token_here",
-  "username": "admin1"
-}
-```
-
-### 2. **Login:**
-
-To log in and receive a token:
-
-```bash
-http post localhost:3000/auth/login username="admin1" password="password"
-```
-
-The response will look like:
-
-```json
-{
-  "token": "jwt_token_here",
-  "username": "admin1"
-}
-```
-
-### 3. **Access Protected Resources:**
-
-Use the JWT token to access protected endpoints:
-
-```bash
-http --auth-type=bearer --auth="your_jwt_token" get localhost:3000/persons offset==1 limit==25 sort_field==id sort_order==asc
-```
-
-Sample response:
-
-```json
-[
-  {
-    "id": 2,
-    "first_name": "Gary",
-    "last_name": "Reed",
-    "hire_date": "2018-04-07 01:00:00",
-    "job": {
-      "id": 2,
-      "title": "M1"
-    },
-    "department": {
-      "id": 1,
-      "name": "Product"
-    },
-    "manager": {
-      "id": 1,
-      "full_name": "Sabryna Peers"
-    }
-  },
-  ...
-]
-```
-
----
-
-## 🧯 Troubleshooting
-
-- **OpenSSL not found?**
-  If you encounter issues with OpenSSL, point CMake to the OpenSSL installation manually:
-
-  ```bash
-  cmake -DOPENSSL_ROOT_DIR=/usr/local/opt/openssl ..
-  ```
-
-- **LSP / IntelliSense not working?**
-  Enable compile commands for better LSP support:
-
-  ```bash
-  cmake -DCMAKE_EXPORT_COMPILE_COMMANDS=ON ..
-  ```
+Use the postman.json for postman collection and try the requests
