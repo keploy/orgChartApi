@@ -80,6 +80,8 @@ There are two ways to run the project:
 
 ### 1. Using Docker
 
+**in `config.json` file change the host from `127.0.0.1` to db**
+
 ```bash
 docker compose up
 ```
