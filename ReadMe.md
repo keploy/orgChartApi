@@ -94,12 +94,14 @@ Docker simplifies the setup process and ensures all dependencies are handled aut
 ### 📥 Install Dependencies
 
 ```bash
-sudo apt-get install -yqq --no-install-recommends \
-software-properties-common \
-sudo curl wget cmake make pkg-config locales git \
-gcc-11 g++-11 openssl libssl-dev libjsoncpp-dev uuid-dev \
-zlib1g-dev libc-ares-dev postgresql-server-dev-all \
-libmariadb-dev libsqlite3-dev libhiredis-dev \
+sudo apt-get update -yqq \
+  && sudo apt-get install -yqq --no-install-recommends \
+    software-properties-common \
+    curl wget cmake make pkg-config locales git \
+    gcc-11 g++-11 openssl libssl-dev libjsoncpp-dev uuid-dev \
+    zlib1g-dev libc-ares-dev postgresql-server-dev-all \
+    libmariadb-dev libsqlite3-dev libhiredis-dev \
+  && sudo rm -rf /var/lib/apt/lists/*
 ```
 
 ### 🐉 Drogon Installation
@@ -113,7 +115,7 @@ git clone --depth 1 --recurse-submodules https://github.com/drogonframework/drog
 ```
 
 ```bash
-cd /drogon
+cd $HOME/drogon
 ```
 
 ```bash
