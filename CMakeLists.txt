@@ -21,6 +21,13 @@ set(CMAKE_CXX_EXTENSIONS OFF)
 
 add_executable(${PROJECT_NAME} main.cc)
 
+# Add these lines for coverage
+if (COVERAGE MATCHES "ON") # Or any build type you use for coverage
+    message(STATUS "Enabling code coverage flags")
+    target_compile_options(${PROJECT_NAME} PRIVATE --coverage)
+    target_link_options(${PROJECT_NAME} PRIVATE --coverage)
+endif()
+
 # ##############################################################################
 # https://github.com/drogonframework/drogon
 add_subdirectory(third_party/drogon)
@@ -33,6 +40,9 @@ target_link_libraries(${PROJECT_NAME} PRIVATE jwt-cpp)
 # https://github.com/trusch/libbcrypt
 add_subdirectory(third_party/libbcrypt)
 target_link_libraries(${PROJECT_NAME} PRIVATE bcrypt)
+
+add_subdirectory(third_party/gtest)
+target_link_libraries(${PROJECT_NAME} PRIVATE gtest gtest_main)
 
 # and comment out the following lines
 find_package(Drogon CONFIG REQUIRED)

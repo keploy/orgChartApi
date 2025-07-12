@@ -1,10 +1,32 @@
 # Org Chart API
 
+## 📑 Index
+
+1. [Overview](#overview)
+2. [Endpoints](#-endpoints)
+   - [Persons](#persons)
+   - [Departments](#-departments)
+   - [Jobs](#-jobs)
+   - [Auth](#-auth)
+3. [Getting Started](#-two-ways-to-get-started)
+   - [Using Docker](#1-using-docker)
+   - [Manual Setup](#2-manual-setup-for-those-who-prefer-to-run-the-project-locally)
+     - [Install Dependencies](#-install-dependencies)
+     - [Drogon Installation](#-drogon-installation)
+     - [Database Setup](#database-setup)
+     - [Build the Project](#build-the-project)
+4. [UT and Coverage](#-ut-and-coverage)
+5. [Usage Guide](#-usage-guide)
+
+## Overview
+
 A **RESTful API** built with [Drogon](https://github.com/drogonframework/drogon), a high-performance C++ framework. This API is designed to manage organizational structures, including persons, departments, and job roles.
 
 🔐 **All routes are protected using JWT for token-based authentication**.
 
 ## 📚 Endpoints
+
+### 🧍 Persons
 
 | Method   | URI                                                       | Action                    |
 | -------- | --------------------------------------------------------- | ------------------------- |
@@ -56,7 +78,7 @@ A **RESTful API** built with [Drogon](https://github.com/drogonframework/drogon)
 
 There are two ways to run the project:
 
-## 1. **Using Docker** (Recommended for ease of setup)
+### 1. Using Docker
 
 ```bash
 docker compose up
@@ -64,25 +86,23 @@ docker compose up
 
 Docker simplifies the setup process and ensures all dependencies are handled automatically.
 
-## 2. **Manual Setup** (For those who prefer to run the project locally)
+### 2. **Manual Setup** (For those who prefer to run the project locally)
 
 ### 📥 Install Dependencies
 
 ```bash
-sudo apt-get update -yqq \
-    && sudo apt-get install -yqq --no-install-recommends \
-    software-properties-common \
-    sudo curl wget cmake make pkg-config locales git \
-    gcc-11 g++-11 openssl libssl-dev libjsoncpp-dev uuid-dev \
-    zlib1g-dev libc-ares-dev postgresql-server-dev-all \
-    libmariadb-dev libsqlite3-dev libhiredis-dev \
-    && sudo rm -rf /var/lib/apt/lists/*
+sudo apt-get install -yqq --no-install-recommends \
+software-properties-common \
+sudo curl wget cmake make pkg-config locales git \
+gcc-11 g++-11 openssl libssl-dev libjsoncpp-dev uuid-dev \
+zlib1g-dev libc-ares-dev postgresql-server-dev-all \
+libmariadb-dev libsqlite3-dev libhiredis-dev \
 ```
 
 ### 🐉 Drogon Installation
 
 ```bash
-DROGON_ROOT="/drogon"
+DROGON_ROOT="$HOME/drogon"
 ```
 
 ````bash
@@ -98,20 +118,22 @@ mkdir build && cd build
 ```
 
 ```bash
-sudo cmake .. -DCMAKE_BUILD_TYPE=Release -DUSE_MYSQL=ON
+cmake .. -DCMAKE_BUILD_TYPE=Release -DUSE_MYSQL=ON
 ```
 
 ```bash
-sudo make -j$(nproc) && sudo make install
+make -j$(nproc) && sudo make install
 ```
 
 ```bash
 drogon_ctl -v
 ```
 
-### 🗃️ Database Setup
+### Database Setup
 
-navigate to orgchartAPI repo
+```bash
+navigate to orgchartAPI repo folder
+```
 
 ```bash
 docker run --name db \
@@ -129,7 +151,7 @@ mysql -h127.0.0.1 -P3306 -uorg -ppassword org_chart < scripts/create_db.sql
 mysql -h127.0.0.1 -P3306 -uorg -ppassword org_chart < scripts/seed_db.sql
 ```
 
-### 🏗️ Build the Project
+### Build the Project
 
 ```bash
 git submodule update --init --recursive
@@ -146,9 +168,51 @@ cmake ..
 ```bash
 make
 ```
+
 ```bash
 ./org_chart
 ```
+
+## 🧪 UT and Coverage
+
+There are already some unit tests in the repository. Here’s how you can run them and generate a coverage report:
+
+1. Install `gcovr`
+
+   ```bash
+   sudo apt install gcovr
+   ```
+
+2. Navigate to the orgChartAPI Repository
+
+3. Build the Project with Coverage Enabled  
+   Follow the [Build the Project](#build-the-project) steps, but **replace**:
+
+   ```bash
+   cmake ..
+   ```
+
+   with
+
+   ```bash
+   cmake -DCOVERAGE=ON ..
+   ```
+
+4. Run the Unit Tests
+
+   ```bash
+   ./test/org_chart_test
+   ```
+
+5. Navigate to the orgChartAPI Repository
+
+6. Generate the Coverage Report
+   ```bash
+   mkdir -p coverage
+   gcovr -r . --html --html-details -o coverage/coverage.html
+   ```
+
+Open `coverage/coverage.html` in your browser to view the coverage report.
 
 ## 💡 Usage Guide
 

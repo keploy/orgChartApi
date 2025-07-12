@@ -10,3 +10,9 @@
 [submodule "third_party/libbcrypt"]
 	path = third_party/libbcrypt
 	url = https://github.com/trusch/libbcrypt
+[submodule "third_party/gtest"]
+	path = third_party/gtest
+	url = https://github.com/google/googletest
+[submodule "third_party/gmock"]
+	path = third_party/gmock
+	url = https://github.com/google/googlemock
