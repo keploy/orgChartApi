@@ -108,13 +108,13 @@ libmariadb-dev libsqlite3-dev libhiredis-dev \
 DROGON_ROOT="$HOME/drogon"
 ```
 
-````bash
+```bash
 git clone --depth 1 --recurse-submodules https://github.com/drogonframework/drogon $DROGON_ROOT
 ```
 
 ```bash
 cd /drogon
-````
+```
 
 ```bash
 mkdir build && cd build
