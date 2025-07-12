@@ -304,28 +304,38 @@ for combined coverage you can do something like this
    gcovr -r . --json ut.json
    ```
 
-2. After you ran keploy test save the coverage to another json
+2. remove the saved coverage object files
+
+   ```bash
+   find . -name "*.gcda" -delete
+   ```
+
+3. After you ran keploy test save the coverage to another json
 
    ```bash
    gcovr -r . --json it.json
    ```
 
-3. Generate report for ut
+4. Generate report for ut
 
    ```bash
    gcovr --add-tracefile ut.json --html --html-details -o coverage-ut/coverage.html
    ```
 
-4. Generate report for it
+5. Generate report for it
 
    ```bash
    gcovr --add-tracefile it.json --html --html-details -o coverage-it/coverage.html
    ```
 
-5. generate report for combined
+6. generate report for combined
 
    ```bash
-   gcovr --add-tracefile ut.json it.json --html --html-details -o coverage-combined/coverage.html
+   gcovr merge --add-tracefile ut.json --add-tracefile it.json --json -o merged.json
+   ```
+
+   ```bash
+   gcovr --add-tracefile merged.json --html --html-details -o coverage-combined/coverage.html
    ```
 
 ---
