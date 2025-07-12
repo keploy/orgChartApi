@@ -17,6 +17,7 @@
      - [Build the Project](#build-the-project)
 4. [UT and Coverage](#-ut-and-coverage)
 5. [Usage Guide](#-usage-guide)
+6. [keploy Integration and Coverage](#keploy-integration-api-testing-and-coverage)
 
 ## Overview
 
@@ -219,3 +220,80 @@ Open `coverage/coverage.html` in your browser to view the coverage report.
 ## 💡 Usage Guide
 
 Use the `postman.json` for postman collection and try the requests
+
+## Keploy Integration (API Testing and Coverage)
+
+Integrate [Keploy](https://keploy.io) to automatically record, replay, and generate coverage for your API tests.
+
+---
+
+### 1. Install Keploy
+
+**Open Source:**
+
+```bash
+curl --silent -O -L https://keploy.io/install.sh && source install.sh
+```
+
+**Enterprise:**
+
+```bash
+curl --silent -O -L https://keploy.io/ent/install.sh && source install.sh
+```
+
+---
+
+### 2. Run Application in Record Mode
+
+**If using Docker Compose:**
+
+```bash
+keploy record -c "docker compose up" --container-name "drogon_app"
+```
+
+**Or, if running manually:**
+
+```bash
+keploy record -c "./org_chart"
+```
+
+---
+
+### 3. Hit and Record API Requests
+
+Example (Register a new user):
+
+```bash
+curl --location 'http://localhost:3000/auth/register' \
+  --header 'Content-Type: application/json' \
+  --data '{
+    "username": "admin3adwes2",
+    "password": "password"
+  }'
+```
+
+---
+
+### 4. Stop Keploy and Run in Test Mode
+
+**With Docker Compose:**
+
+```bash
+keploy test -c "docker compose up" --container-name "drogon_app"
+```
+
+**Or, manually:**
+
+```bash
+keploy test -c "./org_chart"
+```
+
+---
+
+### 5. View Coverage Report
+
+Coverage will be **automatically saved** if the build was done with the `-DCOVERAGE=ON` flag during CMake.
+
+---
+
+For more, see [Keploy Docs](https://docs.keploy.io/).
