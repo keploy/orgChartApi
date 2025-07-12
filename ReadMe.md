@@ -294,6 +294,38 @@ keploy test -c "./org_chart"
 
 Coverage will be **automatically saved** if the build was done with the `-DCOVERAGE=ON` flag during CMake.
 
+for combined coverage you can do something like this
+
+1. After you ran the uts save the coverage to a json
+
+   ```bash
+   gcovr -r . --json ut.json
+   ```
+
+2. After you ran keploy test save the coverage to another json
+
+   ```bash
+   gcovr -r . --json it.json
+   ```
+
+3. Generate report for ut
+
+   ```bash
+   gcovr --add-tracefile ut.json --html --html-details -o coverage-ut/coverage.html
+   ```
+
+4. Generate report for it
+
+   ```bash
+   gcovr --add-tracefile it.json --html --html-details -o coverage-it/coverage.html
+   ```
+
+5. generate report for combined
+
+   ```bash
+   gcovr --add-tracefile ut.json it.json --html --html-details -o coverage-combined/coverage.html
+   ```
+
 ---
 
 For more, see [Keploy Docs](https://docs.keploy.io/).
