@@ -9,6 +9,14 @@
 using namespace drogon::orm;
 using namespace drogon_model::org_chart;
 
+JobsController::JobsController()
+{
+    dbClient_ = drogon::app().getDbClient();
+}
+
+JobsController::JobsController(std::shared_ptr<drogon::orm::DbClient> dbClient)
+    : dbClient_(std::move(dbClient)) {}
+
 namespace drogon
 {
     template <>

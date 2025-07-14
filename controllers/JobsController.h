@@ -2,20 +2,18 @@
 
 #include <drogon/HttpController.h>
 #include "../models/Job.h"
-#include <drogon/orm/DbClient.h> // Correct path to DbClient
+#include <drogon/orm/DbClient.h>
 #include <memory>
 
 using namespace drogon;
 using namespace drogon_model::org_chart;
-using namespace drogon::orm; // Ensure drogon::orm is in the scope
+using namespace drogon::orm;
 
 class JobsController : public drogon::HttpController<JobsController>
 {
 public:
-  JobsController() = default; // For Drogon singleton
-  // Constructor that accepts a DbClient or a mock DbClient
-  explicit JobsController(std::shared_ptr<drogon::orm::DbClient> dbClient)
-      : dbClient_(std::move(dbClient)) {}
+  JobsController(); // Default constructor, defined in .cc
+  explicit JobsController(std::shared_ptr<drogon::orm::DbClient> dbClient);
 
   METHOD_LIST_BEGIN
   ADD_METHOD_TO(JobsController::get, "/jobs", Get, "LoginFilter");
@@ -34,5 +32,5 @@ public:
   void getJobPersons(const HttpRequestPtr &req, std::function<void(const HttpResponsePtr &)> &&callback, int jobId) const;
 
 private:
-  std::shared_ptr<drogon::orm::DbClient> dbClient_; // Database client is injected here
+  std::shared_ptr<drogon::orm::DbClient> dbClient_;
 };
