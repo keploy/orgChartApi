@@ -152,6 +152,10 @@ docker run --name db \
 ```
 
 ```bash
+sudo apt install default-mysql-client
+```
+
+```bash
 mysql -h127.0.0.1 -P3306 -uorg -ppassword org_chart < scripts/create_db.sql
 mysql -h127.0.0.1 -P3306 -uorg -ppassword org_chart < scripts/seed_db.sql
 ```
@@ -160,6 +164,14 @@ mysql -h127.0.0.1 -P3306 -uorg -ppassword org_chart < scripts/seed_db.sql
 
 ```bash
 git submodule update --init --recursive
+```
+
+```bash
+git submodule add https://github.com/google/googletest third_party/gtest
+```
+
+```bash
+git submodule add https://github.com/google/googlemock third_party/gmock
 ```
 
 ```bash
