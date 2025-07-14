@@ -167,14 +167,6 @@ git submodule update --init --recursive
 ```
 
 ```bash
-git submodule add https://github.com/google/googletest third_party/gtest
-```
-
-```bash
-git submodule add https://github.com/google/googlemock third_party/gmock
-```
-
-```bash
 mkdir build && cd build
 ```
 
