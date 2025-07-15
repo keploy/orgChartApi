@@ -17,7 +17,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n    \"username\": \"admin3adwes2\",\n    \"password\": \"passwdqsord\"\n}",
+							"raw": "{\n    \"username\": \"admin3adwes2\",\n    \"password\": \"password\"\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -45,7 +45,7 @@
 								"header": [],
 								"body": {
 									"mode": "raw",
-									"raw": "{\n    \"username\": \"admin3adwes2\",\n    \"password\": \"password\"\n}",
+									"raw": "{\n    \"username\": \"admin1\",\n    \"password\": \"password\"\n}",
 									"options": {
 										"raw": {
 											"language": "json"
@@ -96,7 +96,7 @@
 								"header": [],
 								"body": {
 									"mode": "raw",
-									"raw": "{\n    \"username\": \"admin3aqweweds2\",\n    \"password\": \"password\"\n}",
+									"raw": "{\n    \"username\": \"admin2\",\n    \"password\": \"password\"\n}",
 									"options": {
 										"raw": {
 											"language": "json"
@@ -147,7 +147,7 @@
 								"header": [],
 								"body": {
 									"mode": "raw",
-									"raw": "{\n    \"username\": \"admin3ads2\",\n    \"password\": \"passwdqsord\"\n}",
+									"raw": "{\n    \"username\": \"admin1\",\n    \"password\": \"passwdqsord\"\n}",
 									"options": {
 										"raw": {
 											"language": "json"
@@ -205,7 +205,7 @@
 						],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n    \"username\": \"admin3adwes2\",\n    \"password\": \"password\"\n}",
+							"raw": "{\n    \"username\": \"admin3aedwes2\",\n    \"password\": \"password\"\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -238,7 +238,7 @@
 								],
 								"body": {
 									"mode": "raw",
-									"raw": "{\n    \"username\": \"admin3adwes2\",\n    \"password\": \"password\"\n}",
+									"raw": "{\n    \"username\": \"admin1\",\n    \"password\": \"password\"\n}",
 									"options": {
 										"raw": {
 											"language": "json"
@@ -294,7 +294,7 @@
 								],
 								"body": {
 									"mode": "raw",
-									"raw": "{\n    \"username\": \"admin3adwes2\",\n    \"password\": \"password\"\n}",
+									"raw": "{\n    \"username\": \"admin1\",\n    \"password\": \"passwordss\"\n}",
 									"options": {
 										"raw": {
 											"language": "json"
@@ -349,13 +349,21 @@
 					"name": "Get All persons",
 					"request": {
 						"auth": {
-							"type": "noauth"
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXUyJ9.eyJleHAiOjE3NTI1NzI3NDcsImlhdCI6MTc1MjU2OTE0NywiaXNzIjoiYXV0aDAiLCJ1c2VyX2lkIjoiMiJ9._pTqhslpZmWpvZwPS0e3E6hdRAdLGxowo_YR7BGt2MM",
+									"type": "string"
+								}
+							]
 						},
 						"method": "GET",
 						"header": [
 							{
 								"key": "Authorization",
-								"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXUyJ9.eyJleHAiOjE3NTIwNTY1MTIsImlhdCI6MTc1MjA1MjkxMiwiaXNzIjoiYXV0aDAiLCJ1c2VyX2lkIjoiMyJ9.-K3o-RBkiQEvfXFw6eePWFej08AMPm7lo-O8z65VSFM"
+								"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXUyJ9.eyJleHAiOjE3NTIwNjA0NjAsImlhdCI6MTc1MjA1Njg2MCwiaXNzIjoiYXV0aDAiLCJ1c2VyX2lkIjoiMCJ9.N7JlIN3qyYi3ku4cLTR8qhTST0a37W3L2Uv50mOIC0s",
+								"disabled": true
 							}
 						],
 						"url": {
@@ -393,6 +401,16 @@
 				{
 					"name": "Get A Person",
 					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXUyJ9.eyJleHAiOjE3NTI1NzI3NDcsImlhdCI6MTc1MjU2OTE0NywiaXNzIjoiYXV0aDAiLCJ1c2VyX2lkIjoiMiJ9._pTqhslpZmWpvZwPS0e3E6hdRAdLGxowo_YR7BGt2MM",
+									"type": "string"
+								}
+							]
+						},
 						"method": "GET",
 						"header": [],
 						"url": {
@@ -492,12 +510,64 @@
 							],
 							"cookie": [],
 							"body": "{\n    \"error\": \"resource not found\"\n}"
+						},
+						{
+							"name": "200",
+							"originalRequest": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "http://localhost:3000/persons/12",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "3000",
+									"path": [
+										"persons",
+										"12"
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "content-length",
+									"value": "200"
+								},
+								{
+									"key": "content-type",
+									"value": "application/json; charset=utf-8"
+								},
+								{
+									"key": "server",
+									"value": "drogon/1.7.5"
+								},
+								{
+									"key": "date",
+									"value": "Tue, 15 Jul 2025 08:47:25 GMT"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"department\": {\n        \"id\": 2,\n        \"name\": \"Infrastructure\"\n    },\n    \"first_name\": \"Yancey\",\n    \"hire_date\": \"2022-03-02\",\n    \"id\": 12,\n    \"job\": {\n        \"id\": 4,\n        \"title\": \"E5\"\n    },\n    \"last_name\": \"Trenton\",\n    \"manager\": {\n        \"full_name\": \"Sterling Haley\",\n        \"id\": 8\n    }\n}"
 						}
 					]
 				},
 				{
 					"name": "Get report of person",
 					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXUyJ9.eyJleHAiOjE3NTI1NzI3NDcsImlhdCI6MTc1MjU2OTE0NywiaXNzIjoiYXV0aDAiLCJ1c2VyX2lkIjoiMiJ9._pTqhslpZmWpvZwPS0e3E6hdRAdLGxowo_YR7BGt2MM",
+									"type": "string"
+								}
+							]
+						},
 						"method": "GET",
 						"header": [],
 						"url": {
@@ -606,6 +676,16 @@
 				{
 					"name": "Create Person",
 					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXUyJ9.eyJleHAiOjE3NTI1NzI3NDcsImlhdCI6MTc1MjU2OTE0NywiaXNzIjoiYXV0aDAiLCJ1c2VyX2lkIjoiMiJ9._pTqhslpZmWpvZwPS0e3E6hdRAdLGxowo_YR7BGt2MM",
+									"type": "string"
+								}
+							]
+						},
 						"method": "POST",
 						"header": [],
 						"body": {
@@ -835,6 +915,16 @@
 				{
 					"name": "delete person",
 					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXUyJ9.eyJleHAiOjE3NTI1NzI3NDcsImlhdCI6MTc1MjU2OTE0NywiaXNzIjoiYXV0aDAiLCJ1c2VyX2lkIjoiMiJ9._pTqhslpZmWpvZwPS0e3E6hdRAdLGxowo_YR7BGt2MM",
+									"type": "string"
+								}
+							]
+						},
 						"method": "DELETE",
 						"header": [],
 						"url": {
@@ -898,6 +988,16 @@
 				{
 					"name": "Update Person",
 					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXUyJ9.eyJleHAiOjE3NTI1NzI3NDcsImlhdCI6MTc1MjU2OTE0NywiaXNzIjoiYXV0aDAiLCJ1c2VyX2lkIjoiMiJ9._pTqhslpZmWpvZwPS0e3E6hdRAdLGxowo_YR7BGt2MM",
+									"type": "string"
+								}
+							]
+						},
 						"method": "PUT",
 						"header": [],
 						"body": {
@@ -938,7 +1038,7 @@
 									}
 								},
 								"url": {
-									"raw": "http://localhost:3000/persons/14",
+									"raw": "http://localhost:3000/persons/12",
 									"protocol": "http",
 									"host": [
 										"localhost"
@@ -946,7 +1046,7 @@
 									"port": "3000",
 									"path": [
 										"persons",
-										"14"
+										"12"
 									]
 								}
 							},
@@ -981,7 +1081,7 @@
 								"header": [],
 								"body": {
 									"mode": "raw",
-									"raw": "{\n    \"manager_id\": \"1\"\n}",
+									"raw": "{\n    \"manager_id\": \"2\"\n}",
 									"options": {
 										"raw": {
 											"language": "json"
@@ -989,7 +1089,7 @@
 									}
 								},
 								"url": {
-									"raw": "http://localhost:3000/persons/14",
+									"raw": "http://localhost:3000/persons/12",
 									"protocol": "http",
 									"host": [
 										"localhost"
@@ -997,7 +1097,7 @@
 									"port": "3000",
 									"path": [
 										"persons",
-										"14"
+										"12"
 									]
 								}
 							},
@@ -1035,6 +1135,16 @@
 				{
 					"name": "get all",
 					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXUyJ9.eyJleHAiOjE3NTI1NzI3NDcsImlhdCI6MTc1MjU2OTE0NywiaXNzIjoiYXV0aDAiLCJ1c2VyX2lkIjoiMiJ9._pTqhslpZmWpvZwPS0e3E6hdRAdLGxowo_YR7BGt2MM",
+									"type": "string"
+								}
+							]
+						},
 						"method": "GET",
 						"header": [],
 						"url": {
@@ -1132,6 +1242,16 @@
 				{
 					"name": "get",
 					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXUyJ9.eyJleHAiOjE3NTI1NzI3NDcsImlhdCI6MTc1MjU2OTE0NywiaXNzIjoiYXV0aDAiLCJ1c2VyX2lkIjoiMiJ9._pTqhslpZmWpvZwPS0e3E6hdRAdLGxowo_YR7BGt2MM",
+									"type": "string"
+								}
+							]
+						},
 						"method": "GET",
 						"header": [],
 						"url": {
@@ -1154,7 +1274,7 @@
 								"method": "GET",
 								"header": [],
 								"url": {
-									"raw": "http://localhost:3000/departments/3",
+									"raw": "http://localhost:3000/departments/1",
 									"protocol": "http",
 									"host": [
 										"localhost"
@@ -1162,7 +1282,7 @@
 									"port": "3000",
 									"path": [
 										"departments",
-										"3"
+										"1"
 									]
 								}
 							},
@@ -1237,6 +1357,16 @@
 				{
 					"name": "get persons",
 					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXUyJ9.eyJleHAiOjE3NTI1NzI3NDcsImlhdCI6MTc1MjU2OTE0NywiaXNzIjoiYXV0aDAiLCJ1c2VyX2lkIjoiMiJ9._pTqhslpZmWpvZwPS0e3E6hdRAdLGxowo_YR7BGt2MM",
+									"type": "string"
+								}
+							]
+						},
 						"method": "GET",
 						"header": [
 							{
@@ -1314,6 +1444,16 @@
 				{
 					"name": "create",
 					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXUyJ9.eyJleHAiOjE3NTI1NzI3NDcsImlhdCI6MTc1MjU2OTE0NywiaXNzIjoiYXV0aDAiLCJ1c2VyX2lkIjoiMiJ9._pTqhslpZmWpvZwPS0e3E6hdRAdLGxowo_YR7BGt2MM",
+									"type": "string"
+								}
+							]
+						},
 						"method": "POST",
 						"header": [
 							{
@@ -1405,6 +1545,16 @@
 				{
 					"name": "put",
 					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXUyJ9.eyJleHAiOjE3NTI1NzI3NDcsImlhdCI6MTc1MjU2OTE0NywiaXNzIjoiYXV0aDAiLCJ1c2VyX2lkIjoiMiJ9._pTqhslpZmWpvZwPS0e3E6hdRAdLGxowo_YR7BGt2MM",
+									"type": "string"
+								}
+							]
+						},
 						"method": "PUT",
 						"header": [
 							{
@@ -1440,6 +1590,16 @@
 				{
 					"name": "delete",
 					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXUyJ9.eyJleHAiOjE3NTI1NzI3NDcsImlhdCI6MTc1MjU2OTE0NywiaXNzIjoiYXV0aDAiLCJ1c2VyX2lkIjoiMiJ9._pTqhslpZmWpvZwPS0e3E6hdRAdLGxowo_YR7BGt2MM",
+									"type": "string"
+								}
+							]
+						},
 						"method": "DELETE",
 						"header": [
 							{
@@ -1520,11 +1680,21 @@
 				{
 					"name": "getall",
 					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXUyJ9.eyJleHAiOjE3NTI1NzI3NDcsImlhdCI6MTc1MjU2OTE0NywiaXNzIjoiYXV0aDAiLCJ1c2VyX2lkIjoiMiJ9._pTqhslpZmWpvZwPS0e3E6hdRAdLGxowo_YR7BGt2MM",
+									"type": "string"
+								}
+							]
+						},
 						"method": "GET",
 						"header": [
 							{
 								"key": "Authorization",
-								"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXUyJ9.eyJleHAiOjE3NTIwOTUzOTUsImlhdCI6MTc1MjA5MTc5NSwiaXNzIjoiYXV0aDAiLCJ1c2VyX2lkIjoiMiJ9.0MGnGsfZwpyaqTEKYeikMBf-8XTIsYbQvz-IHyF8Czk",
+								"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXUyJ9.eyJleHAiOjE3NTI0OTQ2MDgsImlhdCI6MTc1MjQ5MTAwOCwiaXNzIjoiYXV0aDAiLCJ1c2VyX2lkIjoiMTIifQ.Uq1-QBDckUqFs8mjsC0VQceT3BnsDcO3DHzk4kV24OE",
 								"type": "text"
 							}
 						],
@@ -1639,6 +1809,16 @@
 				{
 					"name": "get",
 					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXUyJ9.eyJleHAiOjE3NTI1NzI3NDcsImlhdCI6MTc1MjU2OTE0NywiaXNzIjoiYXV0aDAiLCJ1c2VyX2lkIjoiMiJ9._pTqhslpZmWpvZwPS0e3E6hdRAdLGxowo_YR7BGt2MM",
+									"type": "string"
+								}
+							]
+						},
 						"method": "GET",
 						"header": [
 							{
@@ -1714,6 +1894,16 @@
 				{
 					"name": "get persons",
 					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXUyJ9.eyJleHAiOjE3NTI1NzI3NDcsImlhdCI6MTc1MjU2OTE0NywiaXNzIjoiYXV0aDAiLCJ1c2VyX2lkIjoiMiJ9._pTqhslpZmWpvZwPS0e3E6hdRAdLGxowo_YR7BGt2MM",
+									"type": "string"
+								}
+							]
+						},
 						"method": "GET",
 						"header": [
 							{
@@ -1749,7 +1939,7 @@
 									}
 								],
 								"url": {
-									"raw": "http://localhost:3000/jobs/1/persons",
+									"raw": "http://localhost:3000/jobs/2/persons",
 									"protocol": "http",
 									"host": [
 										"localhost"
@@ -1757,7 +1947,7 @@
 									"port": "3000",
 									"path": [
 										"jobs",
-										"1",
+										"2",
 										"persons"
 									]
 								}
@@ -1791,6 +1981,16 @@
 				{
 					"name": "create job",
 					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXUyJ9.eyJleHAiOjE3NTI1NzI3NDcsImlhdCI6MTc1MjU2OTE0NywiaXNzIjoiYXV0aDAiLCJ1c2VyX2lkIjoiMiJ9._pTqhslpZmWpvZwPS0e3E6hdRAdLGxowo_YR7BGt2MM",
+									"type": "string"
+								}
+							]
+						},
 						"method": "POST",
 						"header": [
 							{
@@ -1882,6 +2082,16 @@
 				{
 					"name": "update job",
 					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXUyJ9.eyJleHAiOjE3NTI1NzI3NDcsImlhdCI6MTc1MjU2OTE0NywiaXNzIjoiYXV0aDAiLCJ1c2VyX2lkIjoiMiJ9._pTqhslpZmWpvZwPS0e3E6hdRAdLGxowo_YR7BGt2MM",
+									"type": "string"
+								}
+							]
+						},
 						"method": "PUT",
 						"header": [
 							{
@@ -1975,6 +2185,16 @@
 				{
 					"name": "delete",
 					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXUyJ9.eyJleHAiOjE3NTI1NzI3NDcsImlhdCI6MTc1MjU2OTE0NywiaXNzIjoiYXV0aDAiLCJ1c2VyX2lkIjoiMiJ9._pTqhslpZmWpvZwPS0e3E6hdRAdLGxowo_YR7BGt2MM",
+									"type": "string"
+								}
+							]
+						},
 						"method": "DELETE",
 						"header": [
 							{
@@ -1997,48 +2217,6 @@
 						}
 					},
 					"response": [
-						{
-							"name": "New Request",
-							"originalRequest": {
-								"method": "DELETE",
-								"header": [],
-								"url": {
-									"raw": "http://localhost:3000/jobs/5",
-									"protocol": "http",
-									"host": [
-										"localhost"
-									],
-									"port": "3000",
-									"path": [
-										"jobs",
-										"5"
-									]
-								}
-							},
-							"status": "Bad Request",
-							"code": 400,
-							"_postman_previewlanguage": "json",
-							"header": [
-								{
-									"key": "content-length",
-									"value": "40"
-								},
-								{
-									"key": "content-type",
-									"value": "application/json; charset=utf-8"
-								},
-								{
-									"key": "server",
-									"value": "drogon/1.7.5"
-								},
-								{
-									"key": "date",
-									"value": "Wed, 09 Jul 2025 20:59:26 GMT"
-								}
-							],
-							"cookie": [],
-							"body": "{\n    \"error\": \"missing Authorization header\"\n}"
-						},
 						{
 							"name": "200",
 							"originalRequest": {
