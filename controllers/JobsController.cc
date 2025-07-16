@@ -22,9 +22,20 @@ namespace drogon
     template <>
     inline Job fromRequest(const HttpRequest &req)
     {
-        auto json = req.getJsonObject();
-        auto job = Job(*json);
-        return job;
+        auto jsonPtr = req.getJsonObject();
+        if (jsonPtr)
+        {
+            return Job(*jsonPtr);
+        }
+
+        Json::Value json;
+        Json::Reader reader;
+        if (reader.parse(std::string(req.body()), json))
+        {
+            return Job(json);
+        }
+
+        return Job(Json::Value{});
     }
 }
 

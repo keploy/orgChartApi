@@ -5,23 +5,38 @@
 using namespace drogon::orm;
 using namespace drogon_model::org_chart;
 
-namespace drogon {
-    template<>
-    inline User fromRequest(const HttpRequest &req) {
+namespace drogon
+{
+    template <>
+    inline User fromRequest(const HttpRequest &req)
+    {
         auto jsonPtr = req.getJsonObject();
-        auto json = *jsonPtr;
-        auto user = User(json);
-        return user;
+        if (jsonPtr)
+        {
+            return User(*jsonPtr);
+        }
+
+        Json::Value json;
+        Json::Reader reader;
+        if (reader.parse(std::string(req.body()), json))
+        { // <-- FIXED
+            return User(json);
+        }
+
+        return User(Json::Value{});
     }
 }
 
-void AuthController::registerUser(const HttpRequestPtr &req, std::function<void(const HttpResponsePtr &)> &&callback, User &&pUser) const {
+void AuthController::registerUser(const HttpRequestPtr &req, std::function<void(const HttpResponsePtr &)> &&callback, User &&pUser) const
+{
     LOG_DEBUG << "registerUser";
-    try {
+    try
+    {
         auto dbClientPtr = drogon::app().getDbClient();
         Mapper<User> mp(dbClientPtr);
 
-        if (!areFieldsValid(pUser)) {
+        if (!areFieldsValid(pUser))
+        {
             Json::Value ret{};
             ret["error"] = "missing fields";
             auto resp = HttpResponse::newHttpJsonResponse(ret);
@@ -30,7 +45,8 @@ void AuthController::registerUser(const HttpRequestPtr &req, std::function<void(
             return;
         }
 
-        if (!isUserAvailable(pUser, mp)) {
+        if (!isUserAvailable(pUser, mp))
+        {
             Json::Value ret{};
             ret["error"] = "username is taken";
             auto resp = HttpResponse::newHttpJsonResponse(ret);
@@ -48,7 +64,9 @@ void AuthController::registerUser(const HttpRequestPtr &req, std::function<void(
         auto resp = HttpResponse::newHttpJsonResponse(ret);
         resp->setStatusCode(HttpStatusCode::k201Created);
         callback(resp);
-    } catch (const DrogonDbException & e) {
+    }
+    catch (const DrogonDbException &e)
+    {
         LOG_ERROR << e.base().what();
         Json::Value ret{};
         ret["error"] = "database error";
@@ -58,13 +76,16 @@ void AuthController::registerUser(const HttpRequestPtr &req, std::function<void(
     }
 }
 
-void AuthController::loginUser(const HttpRequestPtr &req, std::function<void(const HttpResponsePtr &)> &&callback, User &&pUser) const {
+void AuthController::loginUser(const HttpRequestPtr &req, std::function<void(const HttpResponsePtr &)> &&callback, User &&pUser) const
+{
     LOG_DEBUG << "loginUser";
-    try {
+    try
+    {
         auto dbClientPtr = drogon::app().getDbClient();
         Mapper<User> mp(dbClientPtr);
 
-        if (!areFieldsValid(pUser)) {
+        if (!areFieldsValid(pUser))
+        {
             Json::Value ret{};
             ret["error"] = "missing fields";
             auto resp = HttpResponse::newHttpJsonResponse(ret);
@@ -74,7 +95,8 @@ void AuthController::loginUser(const HttpRequestPtr &req, std::function<void(con
         }
 
         auto user = mp.findFutureBy(Criteria(User::Cols::_username, CompareOperator::EQ, pUser.getValueOfUsername())).get();
-        if (user.empty()) {
+        if (user.empty())
+        {
             Json::Value ret{};
             ret["error"] = "user not found";
             auto resp = HttpResponse::newHttpJsonResponse(ret);
@@ -83,7 +105,8 @@ void AuthController::loginUser(const HttpRequestPtr &req, std::function<void(con
             return;
         }
 
-        if (!isPasswordValid(pUser.getValueOfPassword(), user[0].getValueOfPassword())) {
+        if (!isPasswordValid(pUser.getValueOfPassword(), user[0].getValueOfPassword()))
+        {
             Json::Value ret{};
             ret["error"] = "username and password do not match";
             auto resp = HttpResponse::newHttpJsonResponse(ret);
@@ -96,7 +119,9 @@ void AuthController::loginUser(const HttpRequestPtr &req, std::function<void(con
         auto ret = userWithToken.toJson();
         auto resp = HttpResponse::newHttpJsonResponse(ret);
         callback(resp);
-    } catch (const DrogonDbException & e) {
+    }
+    catch (const DrogonDbException &e)
+    {
         LOG_ERROR << e.base().what();
         Json::Value ret{};
         ret["error"] = "database error";
@@ -106,27 +131,32 @@ void AuthController::loginUser(const HttpRequestPtr &req, std::function<void(con
     }
 }
 
-bool AuthController::areFieldsValid(const User &user) const {
+bool AuthController::areFieldsValid(const User &user) const
+{
     return user.getUsername() != nullptr && user.getPassword() != nullptr;
 }
 
-bool AuthController::isUserAvailable(const User &user, Mapper<User> &mp) const {
+bool AuthController::isUserAvailable(const User &user, Mapper<User> &mp) const
+{
     auto criteria = Criteria(User::Cols::_username, CompareOperator::EQ, user.getValueOfUsername());
     return mp.findFutureBy(criteria).get().empty();
 }
 
-bool AuthController::isPasswordValid(const std::string &text, const std::string &hash) const {
+bool AuthController::isPasswordValid(const std::string &text, const std::string &hash) const
+{
     return BCrypt::validatePassword(text, hash);
 }
 
-AuthController::UserWithToken::UserWithToken(const User &user) {
+AuthController::UserWithToken::UserWithToken(const User &user)
+{
     auto *jwtPtr = drogon::app().getPlugin<JwtPlugin>();
     auto jwt = jwtPtr->init();
     token = jwt.encode("user_id", user.getValueOfId());
     username = user.getValueOfUsername();
 }
 
-Json::Value AuthController::UserWithToken::toJson() {
+Json::Value AuthController::UserWithToken::toJson()
+{
     Json::Value ret{};
     ret["username"] = username;
     ret["token"] = token;

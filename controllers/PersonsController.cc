@@ -13,16 +13,33 @@ namespace drogon
     template <>
     inline Person fromRequest(const HttpRequest &req)
     {
+        // Try Content-Type: application/json first
         auto jsonPtr = req.getJsonObject();
-        auto json = *jsonPtr;
-        if (json["department_id"])
+        Json::Value json;
+        if (jsonPtr)
+        {
+            json = *jsonPtr;
+        }
+        else
+        {
+            // Fallback: parse raw body as JSON
+            Json::Reader reader;
+            if (!reader.parse(std::string(req.body()), json))
+            {
+                // Parsing failed, return default Person
+                return Person(Json::Value{});
+            }
+        }
+
+        // Safely coerce string fields to int if present
+        if (json.isMember("department_id") && json["department_id"].isString())
             json["department_id"] = std::stoi(json["department_id"].asString());
-        if (json["manager_id"])
+        if (json.isMember("manager_id") && json["manager_id"].isString())
             json["manager_id"] = std::stoi(json["manager_id"].asString());
-        if (json["job_id"])
+        if (json.isMember("job_id") && json["job_id"].isString())
             json["job_id"] = std::stoi(json["job_id"].asString());
-        auto person = Person(json);
-        return person;
+
+        return Person(json);
     }
 } // namespace drogon
 
