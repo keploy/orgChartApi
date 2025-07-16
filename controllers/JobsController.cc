@@ -154,6 +154,7 @@ void JobsController::updateOne(const HttpRequestPtr &req, std::function<void(con
         auto resp = HttpResponse::newHttpJsonResponse(ret);
         resp->setStatusCode(HttpStatusCode::k404NotFound);
         callback(resp);
+        return;
     }
 
     if (pJobDetails.getTitle() != nullptr)
@@ -221,6 +222,7 @@ void JobsController::getJobPersons(const HttpRequestPtr &req, std::function<void
         auto resp = HttpResponse::newHttpJsonResponse(ret);
         resp->setStatusCode(HttpStatusCode::k404NotFound);
         callback(resp);
+        return;
     }
 
     job.getPersons(dbClientPtr, [callbackPtr](const std::vector<Person> persons)

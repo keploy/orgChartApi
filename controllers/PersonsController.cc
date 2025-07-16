@@ -324,6 +324,7 @@ void PersonsController::getDirectReports(const HttpRequestPtr &req, std::functio
         auto resp = HttpResponse::newHttpJsonResponse(makeErrResp("resource not found"));
         resp->setStatusCode(HttpStatusCode::k404NotFound);
         callback(resp);
+        return;
     }
 
     department.getPersons(dbClientPtr, [callbackPtr](const std::vector<Person> persons)

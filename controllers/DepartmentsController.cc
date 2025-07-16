@@ -208,6 +208,7 @@ void DepartmentsController::getDepartmentPersons(const HttpRequestPtr &req, std:
         auto resp = HttpResponse::newHttpJsonResponse(ret);
         resp->setStatusCode(HttpStatusCode::k404NotFound);
         callback(resp);
+        return;
     }
 
     department.getPersons(dbClientPtr, [callbackPtr](const std::vector<Person> persons)
