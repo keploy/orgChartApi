@@ -162,3 +162,60 @@ Json::Value AuthController::UserWithToken::toJson()
     ret["token"] = token;
     return ret;
 }
+
+void AuthController::deregisterUser(
+    const HttpRequestPtr &req,
+    std::function<void(const HttpResponsePtr &)> &&callback,
+    User && /*pUser*/) const // accept it, but ignore it.
+{
+    LOG_DEBUG << "deregisterUser";
+
+    const auto jsonPtr = req->getJsonObject();
+    if (!jsonPtr || !jsonPtr->isMember("username") || !(*jsonPtr)["username"].isString())
+    {
+        auto resp = HttpResponse::newHttpJsonResponse({{"error", "missing or invalid 'username'"}});
+        resp->setStatusCode(HttpStatusCode::k400BadRequest);
+        return callback(resp);
+    }
+
+    std::string username = (*jsonPtr)["username"].asString();
+    if (username.empty() || username.size() > 128)
+    {
+        auto resp = HttpResponse::newHttpJsonResponse({{"error", "invalid 'username' length"}});
+        resp->setStatusCode(HttpStatusCode::k400BadRequest);
+        return callback(resp);
+    }
+
+    auto cbPtr = std::make_shared<std::function<void(const HttpResponsePtr &)>>(
+        std::move(callback));
+    auto client = drogon::app().getDbClient();
+    Mapper<User> mp(client);
+
+    mp.deleteBy(
+        Criteria(User::Cols::_username, CompareOperator::EQ, username),
+        [cbPtr](std::size_t count)
+        {
+            Json::Value body;
+            HttpStatusCode code;
+            if (count == 0)
+            {
+                body["error"] = "user not found";
+                code = HttpStatusCode::k404NotFound;
+            }
+            else
+            {
+                body["message"] = "user deregistered successfully";
+                code = HttpStatusCode::k200OK;
+            }
+            auto resp = HttpResponse::newHttpJsonResponse(body);
+            resp->setStatusCode(code);
+            (*cbPtr)(resp);
+        },
+        [cbPtr](const DrogonDbException &e)
+        {
+            LOG_ERROR << e.base().what();
+            auto resp = HttpResponse::newHttpJsonResponse({{"error", "database error"}});
+            resp->setStatusCode(HttpStatusCode::k500InternalServerError);
+            (*cbPtr)(resp);
+        });
+}

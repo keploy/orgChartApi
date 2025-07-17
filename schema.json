@@ -32,7 +32,9 @@
   "paths": {
     "/auth/login": {
       "post": {
-        "tags": ["Authentication"],
+        "tags": [
+          "Authentication"
+        ],
         "summary": "Logs in a user",
         "description": "Authenticates a user with a provided username and password. On successful authentication, a JWT access token and username are returned.",
         "requestBody": {
@@ -96,7 +98,9 @@
     },
     "/auth/register": {
       "post": {
-        "tags": ["Authentication"],
+        "tags": [
+          "Authentication"
+        ],
         "summary": "Registers a new user",
         "description": "Creates a new user account with a unique username and password. Upon successful registration, a JWT token is returned.",
         "requestBody": {
@@ -145,9 +149,75 @@
         }
       }
     },
+    "/auth/deregister": {
+      "post": {
+        "tags": [
+          "Authentication"
+        ],
+        "summary": "Deregister (delete) a user",
+        "description": "Deletes a user account. Authentication requirements are implementation-defined; typically requires valid credentials in the body.",
+        "operationId": "deregisterUser",
+        "requestBody": {
+          "description": "User credentials to confirm deregistration.",
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/DeregisterRequest"
+              },
+              "example": {
+                "username": "newuser",
+                "password": "password"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "User deregistered successfully.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/MessageResponse"
+                },
+                "example": {
+                  "message": "user deregistered successfully"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "User not found or invalid credentials.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                },
+                "examples": {
+                  "notFound": {
+                    "summary": "User not found",
+                    "value": {
+                      "error": "user not found"
+                    }
+                  },
+                  "badCreds": {
+                    "summary": "Bad credentials",
+                    "value": {
+                      "error": "username and password do not match"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
     "/persons": {
       "get": {
-        "tags": ["Persons"],
+        "tags": [
+          "Persons"
+        ],
         "summary": "Get all persons",
         "description": "Retrieves a paginated and sortable list of all persons (employees) in the system. Requires authentication.",
         "security": [
@@ -189,7 +259,15 @@
             "required": false,
             "schema": {
               "type": "string",
-              "enum": ["id", "first_name", "last_name", "hire_date", "job_id", "department_id", "manager_id"],
+              "enum": [
+                "id",
+                "first_name",
+                "last_name",
+                "hire_date",
+                "job_id",
+                "department_id",
+                "manager_id"
+              ],
               "default": "id"
             },
             "example": "id"
@@ -201,7 +279,10 @@
             "required": false,
             "schema": {
               "type": "string",
-              "enum": ["asc", "desc"],
+              "enum": [
+                "asc",
+                "desc"
+              ],
               "default": "asc"
             },
             "example": "asc"
@@ -257,7 +338,9 @@
         }
       },
       "post": {
-        "tags": ["Persons"],
+        "tags": [
+          "Persons"
+        ],
         "summary": "Create a new person",
         "description": "Adds a new person/employee record to the system. Requires authentication.",
         "security": [
@@ -334,7 +417,9 @@
     },
     "/persons/{personId}": {
       "get": {
-        "tags": ["Persons"],
+        "tags": [
+          "Persons"
+        ],
         "summary": "Get a single person by ID",
         "description": "Retrieves the detailed information of a specific person using their unique ID.",
         "parameters": [
@@ -397,7 +482,9 @@
     },
     "/persons/{personId}/reports": {
       "get": {
-        "tags": ["Persons"],
+        "tags": [
+          "Persons"
+        ],
         "summary": "Get direct reports of a person",
         "description": "Retrieves a list of all persons who directly report to the specified person (manager).",
         "parameters": [
@@ -496,7 +583,9 @@
     },
     "/departments": {
       "get": {
-        "tags": ["Departments"],
+        "tags": [
+          "Departments"
+        ],
         "summary": "Get all departments",
         "description": "Retrieves a list of all organizational departments.",
         "responses": {
@@ -526,7 +615,9 @@
         }
       },
       "post": {
-        "tags": ["Departments"],
+        "tags": [
+          "Departments"
+        ],
         "summary": "Create a new department",
         "description": "Adds a new department to the system.",
         "security": [
@@ -605,7 +696,9 @@
     },
     "/departments/{departmentId}": {
       "get": {
-        "tags": ["Departments"],
+        "tags": [
+          "Departments"
+        ],
         "summary": "Get a single department by ID",
         "description": "Retrieves the detailed information of a specific department using its unique ID.",
         "parameters": [
@@ -654,7 +747,9 @@
     },
     "/jobs": {
       "get": {
-        "tags": ["Jobs"],
+        "tags": [
+          "Jobs"
+        ],
         "summary": "Get all jobs",
         "description": "Retrieves a list of all available job titles.",
         "responses": {
@@ -688,7 +783,9 @@
         }
       },
       "post": {
-        "tags": ["Jobs"],
+        "tags": [
+          "Jobs"
+        ],
         "summary": "Create a new job title",
         "description": "Adds a new job title to the system.",
         "security": [
@@ -767,7 +864,9 @@
     },
     "/jobs/{jobId}": {
       "get": {
-        "tags": ["Jobs"],
+        "tags": [
+          "Jobs"
+        ],
         "summary": "Get a single job by ID",
         "description": "Retrieves the detailed information of a specific job title using its unique ID.",
         "parameters": [
@@ -834,7 +933,10 @@
             "example": "passwdqsord"
           }
         },
-        "required": ["username", "password"]
+        "required": [
+          "username",
+          "password"
+        ]
       },
       "RegisterRequest": {
         "type": "object",
@@ -853,7 +955,10 @@
             "example": "password"
           }
         },
-        "required": ["username", "password"]
+        "required": [
+          "username",
+          "password"
+        ]
       },
       "AuthSuccessResponse": {
         "type": "object",
@@ -871,7 +976,10 @@
             "example": "admin3ads2"
           }
         },
-        "required": ["token", "username"]
+        "required": [
+          "token",
+          "username"
+        ]
       },
       "ErrorResponse": {
         "type": "object",
@@ -884,7 +992,9 @@
             "example": "user not found"
           }
         },
-        "required": ["error"]
+        "required": [
+          "error"
+        ]
       },
       "Person": {
         "type": "object",
@@ -926,7 +1036,13 @@
             "description": "The ID of the person's direct manager. Can be null if the person is a top-level manager."
           }
         },
-        "required": ["department_id", "first_name", "hire_date", "job_id", "last_name"]
+        "required": [
+          "department_id",
+          "first_name",
+          "hire_date",
+          "job_id",
+          "last_name"
+        ]
       },
       "CreatePersonRequest": {
         "type": "object",
@@ -963,7 +1079,13 @@
             "description": "Optional: The ID of the manager for the new person."
           }
         },
-        "required": ["job_id", "department_id", "first_name", "last_name", "hire_date"]
+        "required": [
+          "job_id",
+          "department_id",
+          "first_name",
+          "last_name",
+          "hire_date"
+        ]
       },
       "PersonDetail": {
         "type": "object",
@@ -983,7 +1105,10 @@
                 "description": "The name of the department."
               }
             },
-            "required": ["id", "name"]
+            "required": [
+              "id",
+              "name"
+            ]
           },
           "first_name": {
             "type": "string",
@@ -1012,7 +1137,10 @@
                 "description": "The title of the job."
               }
             },
-            "required": ["id", "title"]
+            "required": [
+              "id",
+              "title"
+            ]
           },
           "last_name": {
             "type": "string",
@@ -1035,7 +1163,14 @@
             "description": "Information about the person's direct manager."
           }
         },
-        "required": ["department", "first_name", "hire_date", "id", "job", "last_name"]
+        "required": [
+          "department",
+          "first_name",
+          "hire_date",
+          "id",
+          "job",
+          "last_name"
+        ]
       },
       "PersonSummary": {
         "type": "object",
@@ -1077,7 +1212,14 @@
             "description": "The ID of the person's direct manager. Can be null."
           }
         },
-        "required": ["department_id", "first_name", "hire_date", "id", "job_id", "last_name"]
+        "required": [
+          "department_id",
+          "first_name",
+          "hire_date",
+          "id",
+          "job_id",
+          "last_name"
+        ]
       },
       "Department": {
         "type": "object",
@@ -1094,7 +1236,10 @@
             "description": "The name of the department."
           }
         },
-        "required": ["id", "name"]
+        "required": [
+          "id",
+          "name"
+        ]
       },
       "CreateDepartmentRequest": {
         "type": "object",
@@ -1107,7 +1252,9 @@
             "example": "New Department"
           }
         },
-        "required": ["name"]
+        "required": [
+          "name"
+        ]
       },
       "Job": {
         "type": "object",
@@ -1124,7 +1271,10 @@
             "description": "The title of the job."
           }
         },
-        "required": ["id", "title"]
+        "required": [
+          "id",
+          "title"
+        ]
       },
       "CreateJobRequest": {
         "type": "object",
@@ -1137,7 +1287,9 @@
             "example": "Lead Software Engineer"
           }
         },
-        "required": ["title"]
+        "required": [
+          "title"
+        ]
       }
     },
     "securitySchemes": {
