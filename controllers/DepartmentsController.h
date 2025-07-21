@@ -9,6 +9,11 @@ using namespace drogon_model::org_chart;
 class DepartmentsController : public drogon::HttpController<DepartmentsController>
 {
 public:
+  #ifndef FUZZING_BUILD
+
+  METHOD_LIST_BEGIN
+  METHOD_LIST_END
+  #else
   METHOD_LIST_BEGIN
   ADD_METHOD_TO(DepartmentsController::get, "/departments", Get, "LoginFilter");
   ADD_METHOD_TO(DepartmentsController::getOne, "/departments/{1}", Get, "LoginFilter");
@@ -17,7 +22,7 @@ public:
   ADD_METHOD_TO(DepartmentsController::deleteOne, "/departments/{1}", Delete, "LoginFilter");
   ADD_METHOD_TO(DepartmentsController::getDepartmentPersons, "/departments/{1}/persons", Get, "LoginFilter");
   METHOD_LIST_END
-
+  #endif
   void get(const HttpRequestPtr &req, std::function<void(const HttpResponsePtr &)> &&callback) const;
   void getOne(const HttpRequestPtr &req, std::function<void(const HttpResponsePtr &)> &&callback, int pDepartmentId) const;
   void createOne(const HttpRequestPtr &req, std::function<void(const HttpResponsePtr &)> &&callback, Department &&pDepartment) const;
