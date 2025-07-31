@@ -1,8 +1,8 @@
-version: '3.8'
+version: "3.8"
 
 services:
   db:
-    image: mysql:8.3                  # or any 8.x you prefer
+    image: mysql:8.3 # or any 8.x you prefer
     container_name: mysql
     restart: always
     environment:
@@ -13,7 +13,7 @@ services:
       MYSQL_USER: org
       MYSQL_PASSWORD: password
     ports:
-      - "3307:3306"                   # host:container
+      - "3307:3306" # host:container
     volumes:
       - mysql_data:/var/lib/mysql
       # every *.sql in this dir runs exactly once at first boot
@@ -32,9 +32,6 @@ services:
     depends_on:
       db:
         condition: service_healthy
-    volumes:
-      - .:/app
-      - /app/build
     environment:
       - DB_HOST=db
       - DB_PORT=3306
