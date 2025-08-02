@@ -32,6 +32,8 @@ services:
     depends_on:
       db:
         condition: service_healthy
+    volumes:
+      - ./coverage_report:/app/coverage_report
     environment:
       - DB_HOST=db
       - DB_PORT=3306
@@ -41,7 +43,8 @@ services:
       # optional hint for many frameworks/ORMS
       - DB_DRIVER=mysql
     working_dir: /app/build
-    command: ["./org_chart"]
+    command: ["../run_docker.sh"]
+    stop_grace_period: 30s
 
 volumes:
   mysql_data:

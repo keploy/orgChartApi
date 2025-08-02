@@ -13,6 +13,7 @@ RUN apt-get update -yqq \
     gcc-11 g++-11 openssl libssl-dev libjsoncpp-dev uuid-dev \
     zlib1g-dev libc-ares-dev postgresql-server-dev-all \
     libmariadb-dev libsqlite3-dev libhiredis-dev \
+    python3 python3-pip \
     && rm -rf /var/lib/apt/lists/* \
     && locale-gen en_US.UTF-8
 
@@ -29,13 +30,13 @@ ENV LANG=en_US.UTF-8 \
 # Clone Drogon repository
 ENV DROGON_ROOT="$IROOT/drogon"
 RUN git clone --depth 1 --recurse-submodules \
-        https://github.com/drogonframework/drogon $DROGON_ROOT   # ← submodules pulled
+    https://github.com/drogonframework/drogon $DROGON_ROOT   # ← submodules pulled
 
 WORKDIR $DROGON_ROOT
 RUN mkdir build && cd build && \
     cmake .. -DCMAKE_BUILD_TYPE=Release \
-             -DMYSQL_CLIENT=ON  \
-             -DPOSTGRESQL_CLIENT=OFF \
+    -DMYSQL_CLIENT=ON  \
+    -DPOSTGRESQL_CLIENT=OFF \
     && make -j$(nproc) && make install
 
 # Build Drogon
@@ -54,8 +55,14 @@ RUN apt-get update && apt-get install -y cmake g++ git
 # Pull submodules for your application
 RUN git submodule update --init --recursive 
 
+RUN mkdir -p coverage_report
+
 # Create build directory and build the project
-RUN mkdir -p /app/build && cd /app/build && cmake .. && make -j$(nproc)
+RUN mkdir -p /app/build && cd /app/build && cmake -DCOVERAGE=ON .. && make -j$(nproc)
+
+RUN chmod +x ./run_docker.sh
+
+RUN pip3 install gcovr
 
 # Set CMD to the actual binary
-CMD ["./build/org_chart"]
+CMD ["./run_docker.sh"]
