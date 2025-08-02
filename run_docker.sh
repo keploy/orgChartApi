@@ -44,8 +44,8 @@ cleanup() {
   # Run gcovr, capture its output (both stdout and stderr), print it to console (tee),
   # AND save it to a dedicated log file for later inspection.
   cd ..
-  gcovr -r . --json it.json
-  gcovr --add-tracefile it.json --html --html-details -o "$COVERAGE_REPORT_DIR/report.html" . 2>&1 | tee "$GCOVR_LOG_FILE"
+  gcovr -r . --json $COVERAGE_REPORT_DIR/it.json
+  gcovr --add-tracefile $COVERAGE_REPORT_DIR/it.json --exclude 'third_party' --exclude 'models' --exclude 'test' --html-details -o "$COVERAGE_REPORT_DIR/report.html" . 2>&1 | tee "$GCOVR_LOG_FILE"
   GCOVR_EXIT_CODE=$? # Capture the exit code of gcovr
 
   if [ $GCOVR_EXIT_CODE -ne 0 ]; then

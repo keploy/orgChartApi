@@ -233,7 +233,7 @@ Integrate [Keploy](https://keploy.io) to automatically record, replay, and gener
 
 ---
 
-### 1. Install Keploy
+### 1. Install Keploy (Mac/Linux)
 
 **Open Source:**
 
@@ -285,7 +285,7 @@ curl --location 'http://localhost:3000/auth/register' \
 **With Docker Compose:**
 
 ```bash
-keploy test -c "docker compose up" --container-name "drogon_app"
+keploy test -c "docker compose up" --container-name "drogon_app" --delay 20
 ```
 
 **Or, manually:**
@@ -297,6 +297,8 @@ keploy test -c "./org_chart"
 ---
 
 ### 5. View Coverage Report
+
+**(For docker the coverage is stored directly in the coverage_report folder. For Local/Native/To-combine-UT-coverage instructions are below)**
 
 Coverage will be **automatically saved** if the build was done with the `-DCOVERAGE=ON` flag during CMake.
 
