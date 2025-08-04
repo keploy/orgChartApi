@@ -13,7 +13,7 @@ RUN apt-get update -yqq \
     gcc-11 g++-11 openssl libssl-dev libjsoncpp-dev uuid-dev \
     zlib1g-dev libc-ares-dev postgresql-server-dev-all \
     libmariadb-dev libsqlite3-dev libhiredis-dev \
-    python3 python3-pip \
+    python3 python3-pip dos2unix \
     && rm -rf /var/lib/apt/lists/* \
     && locale-gen en_US.UTF-8
 
@@ -48,6 +48,8 @@ WORKDIR /
 COPY . /app
 
 WORKDIR /app
+
+RUN dos2unix /app/run_docker.sh
 
 # Install build tools for the app 
 RUN apt-get update && apt-get install -y cmake g++ git
