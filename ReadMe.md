@@ -270,7 +270,7 @@ keploy record -c "./org_chart"
 Example (Register a new user):
 
 ```bash
-curl --location 'http://localhost:3000/auth/register' \
+curl --location 'http://localhost:4000/auth/register' \
   --header 'Content-Type: application/json' \
   --data '{
     "username": "admin3adwes2",

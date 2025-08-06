@@ -5,7 +5,7 @@
 
 DROGON_TEST(RemoteAPITest)
 {
-    auto client = drogon::HttpClient::newHttpClient("http://localhost:3000");
+    auto client = drogon::HttpClient::newHttpClient("http://localhost:4000");
     auto req = drogon::HttpRequest::newHttpRequest();
     req->setPath("/jobs");
     client->sendRequest(req, [TEST_CTX](drogon::ReqResult res, const drogon::HttpResponsePtr& resp) {
