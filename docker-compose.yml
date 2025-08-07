@@ -28,7 +28,7 @@ services:
     build: .
     container_name: drogon_app
     ports:
-      - "3000:3000"
+      - "4000:4000"
     depends_on:
       db:
         condition: service_healthy

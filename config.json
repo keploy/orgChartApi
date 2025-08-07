@@ -14,7 +14,7 @@
             //rdbms: Server type, postgresql,mysql or sqlite3, "postgresql" by default
             "rdbms": "mysql",                 // ⬅️ switched to mysql
             //"filename":"",
-            "host": "127.0.0.1",
+            "host": "db",
             //port: Server port, 3306 for MySQL
             "port": 3306,                     // ⬅️ MySQL port
             "dbname": "org_chart",
