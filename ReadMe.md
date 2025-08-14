@@ -8,16 +8,8 @@
    - [Departments](#-departments)
    - [Jobs](#-jobs)
    - [Auth](#-auth)
-3. [Getting Started](#-two-ways-to-get-started)
-   - [Using Docker](#1-using-docker)
-   - [Manual Setup](#2-manual-setup-for-those-who-prefer-to-run-the-project-locally)
-     - [Install Dependencies](#-install-dependencies)
-     - [Drogon Installation](#-drogon-installation)
-     - [Database Setup](#database-setup)
-     - [Build the Project](#build-the-project)
-4. [UT and Coverage](#-ut-and-coverage)
-5. [Usage Guide](#-usage-guide)
-6. [keploy Integration and Coverage](#keploy-integration-api-testing-and-coverage)
+3. [Getting Started](#-get-started)
+4. [keploy Integration and Coverage](#keploy-integration-api-testing-and-coverage)
 
 ## Overview
 
