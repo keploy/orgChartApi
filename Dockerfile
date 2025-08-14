@@ -66,11 +66,11 @@ RUN chmod +x ./run_docker.sh
 
 RUN pip3 install gcovr
 
-ADD https://keploy-enterprise.s3.us-west-2.amazonaws.com/releases/latest/assets/freeze_time_amd64.so /lib/keploy/freeze_time_amd64.so
+# ADD https://keploy-enterprise.s3.us-west-2.amazonaws.com/releases/latest/assets/freeze_time_amd64.so /lib/keploy/freeze_time_amd64.so
 
-RUN chmod +x /lib/keploy/freeze_time_amd64.so
+# RUN chmod +x /lib/keploy/freeze_time_amd64.so
 
-ENV LD_PRELOAD=/lib/keploy/freeze_time_amd64.so
+# ENV LD_PRELOAD=/lib/keploy/freeze_time_amd64.so
 
 # Set CMD to the actual binary
 CMD ["./run_docker.sh"]

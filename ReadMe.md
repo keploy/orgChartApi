@@ -75,274 +75,35 @@ A **RESTful API** built with [Drogon](https://github.com/drogonframework/drogon)
 
 ---
 
-## 📦 Two Ways to Get Started
-
-There are two ways to run the project:
-
-### 1. Using Docker
-
-**in `config.json` file change the host from `127.0.0.1` to db**
+## 📦 Get Started
 
 ```bash
 docker compose up
 ```
 
-Docker simplifies the setup process and ensures all dependencies are handled automatically.
-
-### 2. **Manual Setup** (For those who prefer to run the project locally)
-
-### 📥 Install Dependencies
-
-```bash
-sudo apt-get update -yqq \
-  && sudo apt-get install -yqq --no-install-recommends \
-    software-properties-common \
-    curl wget cmake make pkg-config locales git \
-    gcc-11 g++-11 openssl libssl-dev libjsoncpp-dev uuid-dev \
-    zlib1g-dev libc-ares-dev postgresql-server-dev-all \
-    libmariadb-dev libsqlite3-dev libhiredis-dev \
-  && sudo rm -rf /var/lib/apt/lists/*
-```
-
-### 🐉 Drogon Installation
-
-```bash
-DROGON_ROOT="$HOME/drogon"
-```
-
-```bash
-git clone --depth 1 --recurse-submodules https://github.com/drogonframework/drogon $DROGON_ROOT
-```
-
-```bash
-cd $HOME/drogon
-```
-
-```bash
-mkdir build && cd build
-```
-
-```bash
-cmake .. -DCMAKE_BUILD_TYPE=Release -DUSE_MYSQL=ON
-```
-
-```bash
-make -j$(nproc) && sudo make install
-```
-
-```bash
-drogon_ctl -v
-```
-
-### Database Setup
-
-```bash
-navigate to orgchartAPI repo folder
-```
-
-```bash
-docker run --name db \
-  -e MYSQL_ROOT_PASSWORD=password \
-  -e MYSQL_DATABASE=org_chart \
-  -e MYSQL_USER=org \
-  -e MYSQL_PASSWORD=password \
-  -p 3306:3306 \
-  -d mysql:8.3 \
-  --default-authentication-plugin=mysql_native_password
-```
-
-```bash
-sudo apt install default-mysql-client
-```
-
-```bash
-mysql -h127.0.0.1 -P3306 -uorg -ppassword org_chart < scripts/create_db.sql
-mysql -h127.0.0.1 -P3306 -uorg -ppassword org_chart < scripts/seed_db.sql
-```
-
-### Build the Project
-
-```bash
-git submodule update --init --recursive
-```
-
-```bash
-mkdir build && cd build
-```
-
-```bash
-cmake ..
-```
-
-```bash
-make
-```
-
-```bash
-./org_chart
-```
-
-## 🧪 UT and Coverage
-
-There are already some unit tests in the repository. Here’s how you can run them and generate a coverage report:
-
-1. Install `gcovr`
-
-   ```bash
-   sudo apt install gcovr
-   ```
-
-2. Navigate to the orgChartAPI Repository
-
-3. Build the Project with Coverage Enabled  
-   Follow the [Build the Project](#build-the-project) steps, but **replace**:
-
-   ```bash
-   cmake ..
-   ```
-
-   with
-
-   ```bash
-   cmake -DCOVERAGE=ON ..
-   ```
-
-4. Run the Unit Tests
-
-   ```bash
-   ./test/org_chart_test
-   ```
-
-5. Navigate to the orgChartAPI Repository
-
-6. Generate the Coverage Report
-   ```bash
-   mkdir -p coverage
-   gcovr -r . --html --html-details -o coverage/coverage.html
-   ```
-
-Open `coverage/coverage.html` in your browser to view the coverage report.
-
-## 💡 Usage Guide
-
-Use the `postman.json` for postman collection and try the requests
+UI will be available on http://localhost:5173
 
 ## Keploy Integration (API Testing and Coverage)
 
-Integrate [Keploy](https://keploy.io) to automatically record, replay, and generate coverage for your API tests.
+Integrate Keploy to automatically record, replay, and generate coverage for your API tests.
 
----
-
-### 1. Install Keploy (Mac/Linux)
-
-**Open Source:**
-
-```bash
-curl --silent -O -L https://keploy.io/install.sh && source install.sh
-```
-
-**Enterprise:**
-
-```bash
-curl --silent -O -L https://keploy.io/ent/install.sh && source install.sh
-```
-
----
-
-### 2. Run Application in Record Mode
-
-**If using Docker Compose:**
+### 1. Run Application in Record Mode
 
 ```bash
 keploy record -c "docker compose up" --container-name "drogon_app"
 ```
 
-**Or, if running manually:**
+### 2. Use the UI to hit the requests
 
-```bash
-keploy record -c "./org_chart"
-```
-
----
-
-### 3. Hit and Record API Requests
-
-Example (Register a new user):
-
-```bash
-curl --location 'http://localhost:3000/auth/register' \
-  --header 'Content-Type: application/json' \
-  --data '{
-    "username": "admin3adwes2",
-    "password": "password"
-  }'
-```
-
----
-
-### 4. Stop Keploy and Run in Test Mode
-
-**With Docker Compose:**
+### 3. Stop Keploy and Run in Test Mode
 
 ```bash
 keploy test -c "docker compose up" --container-name "drogon_app" --delay 20
 ```
 
-**Or, manually:**
+### 4. View Coverage Report
 
-```bash
-keploy test -c "./org_chart"
-```
-
----
-
-### 5. View Coverage Report
-
-**(For docker the coverage is stored directly in the coverage_report folder. For Local/Native/To-combine-UT-coverage instructions are below)**
-
-Coverage will be **automatically saved** if the build was done with the `-DCOVERAGE=ON` flag during CMake.
-
-for combined coverage you can do something like this
-
-1. After you ran the uts save the coverage to a json
-
-   ```bash
-   gcovr -r . --json ut.json
-   ```
-
-2. remove the saved coverage object files
-
-   ```bash
-   find . -name "*.gcda" -delete
-   ```
-
-3. After you ran keploy test save the coverage to another json
-
-   ```bash
-   gcovr -r . --json it.json
-   ```
-
-4. Generate report for ut
-
-   ```bash
-   gcovr --add-tracefile ut.json --html --html-details -o coverage-ut/coverage.html
-   ```
-
-5. Generate report for it
-
-   ```bash
-   gcovr --add-tracefile it.json --html --html-details -o coverage-it/coverage.html
-   ```
-
-6. generate report for combined
-
-   ```bash
-   gcovr merge --add-tracefile ut.json --add-tracefile it.json --json -o merged.json
-   ```
-
-   ```bash
-   gcovr --add-tracefile merged.json --html --html-details -o coverage-combined/coverage.html
-   ```
+coverage report will be created in coverage_report folder automatically
 
 ---
 

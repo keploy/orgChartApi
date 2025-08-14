@@ -2,21 +2,18 @@ version: "3.8"
 
 services:
   db:
-    image: mysql:8.3 # or any 8.x you prefer
+    image: mysql:8.3
     container_name: mysql
     restart: always
     environment:
-      # root account (use strong pw in prod)
       MYSQL_ROOT_PASSWORD: password
-      # an app-level DB + user the app can connect with
       MYSQL_DATABASE: org_chart
       MYSQL_USER: org
       MYSQL_PASSWORD: password
     ports:
-      - "3307:3306" # host:container
+      - "3307:3306"
     volumes:
       - mysql_data:/var/lib/mysql
-      # every *.sql in this dir runs exactly once at first boot
       - ./scripts:/docker-entrypoint-initdb.d
     healthcheck:
       test: ["CMD", "mysqladmin", "ping", "-h", "localhost", "-ppassword"]
@@ -40,11 +37,20 @@ services:
       - DB_USER=org
       - DB_PASSWORD=password
       - DB_NAME=org_chart
-      # optional hint for many frameworks/ORMS
       - DB_DRIVER=mysql
     working_dir: /app/build
     command: ["../run_docker.sh"]
     stop_grace_period: 30s
+
+  ui:
+    image: node:20-alpine
+    container_name: ui_app
+    working_dir: /app/ui
+    ports:
+      - "5173:5173"
+    volumes:
+      - ./UI:/app/ui
+    command: sh -c "npm install && npm run dev -- --host"
 
 volumes:
   mysql_data:
